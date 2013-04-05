@@ -1,0 +1,26 @@
+2d platformowka
+
+Opis:
+2 wymiarowa gra podobna do I wanna be the Guy
+Zespol:
+    1. Michal Antonczak
+    2. Jakub Kuras
+
+Technologia:
+        1. C++
+        2. cmake
+        3. SDL
+        4. OpenGL
+
+Funkcjonalnosci Engine'u:
+
+    1. Ladowanie mapy
+    2. Animacja
+    3. Poruszanie postacia 
+    4. Kolizje
+    5. Wrogowie
+    6. Triggery
+    8. Przejscie od jednej mapy do drugiej
+    9. Walka
+    10. Save'y
+
