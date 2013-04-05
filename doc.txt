@@ -32,3 +32,40 @@ Funkcjonalnosci Edytora Map:
 	4. Ustawianie wrogow.
 	5. Dodawanie triggerow.
 	6. Ustawianie miejsca startu.
+
+Plan pracy:
+
+I
+Ladowanie mapy
+Animacja
+Poruszanie postacia
+
+Kreowanie mapy
+Zapisywanie mapy
+Wczytywanie mapy
+
+wyszukiwanie grafik
+
+II
+Kolizje 
+Wrogowie
+Triggery
+Walka
+
+Ustawianie miejsca startu
+Ustawianie wrogow
+Kreowanie mapy c.d. if needed
+
+wyszukiwanie grafik
+
+III
+Save'y
+Polaczenie map
+
+dodawanie triggerow
+
+IV
+Tworzenie poziomow
+
+V
+Tworzenie poziomow
