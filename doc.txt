@@ -24,3 +24,11 @@ Funkcjonalnosci Engine'u:
     9. Walka
     10. Save'y
 
+Funkcjonalnosci Edytora Map:
+
+	1. Wczytywanie mapy.
+	2. Zapisywanie mapy.
+	3. Kreowanie mapy.
+	4. Ustawianie wrogow.
+	5. Dodawanie triggerow.
+	6. Ustawianie miejsca startu.
