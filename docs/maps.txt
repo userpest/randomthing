@@ -1,0 +1,44 @@
+K jesli chodzi o mapy to tak.
+Jak narazie zalozmy ze mapa - katalog
+z nastepujacymi plikami(potem mozemy to wepchnac do jakiegos archiwum np tar zeby to profesjonalnie wygladalo!):
+
+- "map" - nasza mapa
+- "tiles.txt" - ew dodatkowe tile
+- tiles/ - dodatkowe tekstury kafli - katalog
+- background.png - tlo mapy
+- triggers/ - to na przyszlosc
+- enemies - to rowniez na przyszlosc
+
+plik map jest reprezentowany przez ponizsza strukture ktora jest bardzo self-explanatory
+
+struct map{
+//x y grid of tiles
+unsigned int width;
+unsigned int height;
+unsigned short int tiles[width*height];
+};
+//tile wyciagamy i ustawiamy w nastepujacy sposob
+#define GET_TILE(array,x,y,width) (array[y*width+x])
+#define SET_TILE(array,x,y,width,val) (array[y*width+x]=val)
+
+Struktura pliku tiles.txt
+
+id nazwa_kafla.png
+
+gdzie id jest unsigned intem;
+a nazwa pliku kafla nie przekracza powiedzmy 200 znakow.
+
+Jesli chodzi o kojarzenie nazw kafli z id
+to najpierw probojemy ja wziac z tiles.txt mapy, a potem z globalnego tiles.txt
+
+Analogicznie przy kojarzeniu nazwy z plikiem,
+najpierw szukamy pliku w lokalnym katalogu tiles,
+potem w globalnym katalogu
+
+I teraz hmm ,zeby nie zepsuc sobie jakos specjalnie map przy dodawaniu nowych tekstur proponuje
+w glownym pliku tiles.txt id inkrementowac od 0 i nie usuwac kafli
+
+Struktura samego kafla jest prosta.
+Ten sam kafel jest wykorzystywany do wykrywania kolizji i do wyswietlania na mapie.
+Mamy jakis magiczny kolor ktory oznacza powietrze(engine bedzie go traktowal jako przezroczysty), a wszystko inne co na nieszczescie nie posiada tego koloru
+koliduje.
