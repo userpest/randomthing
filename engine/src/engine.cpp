@@ -119,6 +119,7 @@ void Engine::init_GL( )
 
     /* Enables Depth Testing */
     glEnable( GL_DEPTH_TEST );
+    glEnable(GL_TEXTURE_2D);
 
     /* The Type Of Depth Test To Do */
     glDepthFunc( GL_LEQUAL );
