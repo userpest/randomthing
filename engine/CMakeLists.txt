@@ -15,6 +15,7 @@ add_definitions(${SDL_DEFINITIONS})
 set (
     SOURCES
     src/thing.cpp    
+    src/engine.cpp
     )
 add_executable(thing ${SOURCES})
 target_link_libraries(thing ${OPENGL_LIBRARIES} ${SDL_LIBRARY})
