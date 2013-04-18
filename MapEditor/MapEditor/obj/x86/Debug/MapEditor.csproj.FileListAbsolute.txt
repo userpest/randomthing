@@ -1,0 +1,13 @@
+C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\OpenTK.dll
+C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\OpenTK.GLControl.dll
+C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\OpenTK.xml
+C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\OpenTK.GLControl.xml
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.MapEditor.resources
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.Properties.Resources.resources
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.exe
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.pdb
