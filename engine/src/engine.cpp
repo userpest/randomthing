@@ -25,8 +25,8 @@ void Engine::resize_window( int width, int height )
     glLoadIdentity( );
 
     /* Set our perspective */
-    gluPerspective( 45.0f, ratio, 0.1f, 100.0f );
-
+//    gluPerspective( 45.0f, ratio, 0.1f, 100.0f );
+    glOrtho(0,width,height,0,0,1);
     /* Make sure we're chaning the model view and not the projection */
     glMatrixMode( GL_MODELVIEW );
 
@@ -118,7 +118,7 @@ void Engine::init_GL( )
     glClearDepth( 1.0f );
 
     /* Enables Depth Testing */
-    glEnable( GL_DEPTH_TEST );
+    glDisable( GL_DEPTH_TEST );
     glEnable(GL_TEXTURE_2D);
 
     /* The Type Of Depth Test To Do */
@@ -195,26 +195,19 @@ void Engine::handle_events(){
 void Engine::draw_scene(){
 
     /* Clear The Screen And The Depth Buffer */
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glClear( GL_COLOR_BUFFER_BIT );
 
     /* Move Left 1.5 Units And Into The Screen 6.0 */
     glLoadIdentity();
-    glTranslatef( -1.5f, 0.0f, -6.0f );
-
-    glBegin( GL_TRIANGLES );            /* Drawing Using Triangles */
-      glVertex3f(  0.0f,  1.0f, 0.0f ); /* Top */
-      glVertex3f( -1.0f, -1.0f, 0.0f ); /* Bottom Left */
-      glVertex3f(  1.0f, -1.0f, 0.0f ); /* Bottom Right */
-    glEnd( );                           /* Finished Drawing The Triangle */
-
-    /* Move Right 3 Units */
-    glTranslatef( 3.0f, 0.0f, 0.0f );
-
+    float x1 = 500;
+    float y1 = 450;
+    float x2 = x1+200;
+    float y2=y1+200;
     glBegin( GL_QUADS );                /* Draw A Quad */
-      glVertex3f( -1.0f,  1.0f, 0.0f ); /* Top Left */
-      glVertex3f(  1.0f,  1.0f, 0.0f ); /* Top Right */
-      glVertex3f(  1.0f, -1.0f, 0.0f ); /* Bottom Right */
-      glVertex3f( -1.0f, -1.0f, 0.0f ); /* Bottom Left */
+        glVertex2f(x1,y1);
+        glVertex2f(x2,y1);
+        glVertex2f(x2,y2);
+        glVertex2f(x1,y2);
     glEnd( );                           /* Done Drawing The Quad */
 
     /* Draw it to the screen */
