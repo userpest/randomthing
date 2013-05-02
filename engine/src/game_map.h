@@ -3,27 +3,33 @@
 #include <GL/glu.h>
 #include <vector>
 #include <map>
-#include <vector>
+#include <memory>
+#include <string>
+
+#include "texture_loader.h"
 
 class Tile{
     private:
+        Rectangle& rect;
+        std::shared_ptr<Texture> texture;
         float x,y;
-        Gluint handle;
     public:
-        set(float x, float y , GLuint handle){this->x=x;this->y=y;this->handle=handle;};
+        Tile(float _x, float _y,Rectangle& _r, shared_ptr<Texture>& _texture)
+            :rect(_r),texture(_texture),x(_x), y(_y){};
+        void show(){texture->set();rect.show(x,y);};
+
+};
+
+
+
+class GameMap{
+    private:
+        std::vector< std::vector< Tile > > tiles;
+        unsigned int width,height;
+    public:
+        GameMap(std::string& path){load(path);};
+        void load(std::string& path);
         void show();
 
 };
 
-class GameMap{
-    private:
-        std::vector<vector<Tile> > tiles;
-        TextureLoader t_loader;
-        unsigned int width,height;
-        map <unsigned short int id, Gluint handle>;
-    public:
-        GameMap(string path);
-        void load(string path);
-        show();
-
-};

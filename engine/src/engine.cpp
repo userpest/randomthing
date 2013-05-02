@@ -203,6 +203,7 @@ void Engine::draw_scene(){
     float y1 = 450;
     float x2 = x1+200;
     float y2=y1+200;
+    glTranslatef(-320,-200,0);
     glBegin( GL_QUADS );                /* Draw A Quad */
         glVertex2f(x1,y1);
         glVertex2f(x2,y1);

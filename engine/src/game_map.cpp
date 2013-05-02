@@ -2,26 +2,15 @@
 #include <errno.h>
 #include <string>
 #include <map>
+#include <cstdlib>
 using namespace std;
 
-void Tile::show(){
-    glPushMatrix();
-    glTranslatef(x,y,0);
-    glBegin(GL_QUADS);
-      glTexCoord2f(1.0f,1.0f); glVertex3f(1.0f, 1.0f, 0.0f);
-      glTexCoord2f(1.0f,0.0f); glVertex3f( 1.0f, 0.0f, 0.0f);
-      glTexCoord2f(0.0f,0.0f); glVertex3f( 0.0f, 0.0f, 0.0f);
-      glTexCoord2f(0.0f,1.0f); glVertex3f(0.0f, 1.0f, 0.0f);
-    glEnd();
-    glPopMatrix();
-}
 
 void map_error(){
     perror("error while loading map");
-    exit(1): 
+    std::exit(1); 
 }
-void GameMap::load(string path){
-    t_loader.load(path);
+void GameMap::load(string& path){
     FILE* fp;
     string name;
     name = path+"map";
@@ -29,14 +18,15 @@ void GameMap::load(string path){
     if(fp == NULL){
         map_error();
     }
-    if(fread(&width,sizeof(width),1,fp) < sizeof(width){
+    if(fread(&width,sizeof(width),1,fp) < sizeof(width)){
         map_error();
     }
-    if(fread(&height,sizeof(height),1,fp)<sizeof(height){
+    if(fread(&height,sizeof(height),1,fp)<sizeof(height)){
         map_error();
     }
 
     tiles.resize(width);
+
     for(int i = 0; i<width;i++){
         unsigned short int tile_id;
         tiles[i].resize(height);
@@ -44,7 +34,7 @@ void GameMap::load(string path){
             if(fread(&tile_id,sizeof(tile_id),1,fp)<sizeof(tile_id)){
                 map_error();
             }
-            tiles[i][j].set(i,j,t_loader[tile_id]);
+           // tiles[i][j].set(i,j,t_loader[tile_id]);
         }
     }
 }
