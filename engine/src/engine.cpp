@@ -4,6 +4,9 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL.h>
+#include "shapes.h"
+#include "texture_loader.h"
+#include <SDL/SDL_image.h>
 
 using namespace std;
 void Engine::resize_window( int width, int height )
@@ -26,7 +29,7 @@ void Engine::resize_window( int width, int height )
 
     /* Set our perspective */
 //    gluPerspective( 45.0f, ratio, 0.1f, 100.0f );
-    glOrtho(0,width,height,0,0,1);
+    glOrtho(0,width,0,height,0,1);
     /* Make sure we're chaning the model view and not the projection */
     glMatrixMode( GL_MODELVIEW );
 
@@ -52,8 +55,7 @@ void Engine::init(){
 
     /* initialize SDL */
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-	{
-	    fprintf( stderr, "Video initialization failed: %s\n",
+	{ fprintf( stderr, "Video initialization failed: %s\n",
 		     SDL_GetError( ) );
 	    quit( 1 );
 	}
@@ -68,6 +70,11 @@ void Engine::init(){
 	    quit( 1 );
 	}
 
+    if(IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG)<0){
+        fprintf(stderr, "img init %s\n", IMG_GetError());
+        quit ( 1);
+
+    }
     /* the flags to pass to SDL_SetVideoMode */
     videoFlags  = SDL_OPENGL;          /* Enable OpenGL in SDL */
     videoFlags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
@@ -196,21 +203,14 @@ void Engine::draw_scene(){
 
     /* Clear The Screen And The Depth Buffer */
     glClear( GL_COLOR_BUFFER_BIT );
-
+    Texture t("img.jpg"); 
+    Texture t2("img2.jpg");
+    Rectangle rect(20,20);
     /* Move Left 1.5 Units And Into The Screen 6.0 */
     glLoadIdentity();
-    float x1 = 500;
-    float y1 = 450;
-    float x2 = x1+200;
-    float y2=y1+200;
-    glTranslatef(-320,-200,0);
-    glBegin( GL_QUADS );                /* Draw A Quad */
-        glVertex2f(x1,y1);
-        glVertex2f(x2,y1);
-        glVertex2f(x2,y2);
-        glVertex2f(x1,y2);
-    glEnd( );                           /* Done Drawing The Quad */
 
+    t2.set();
+    rect.show(0,0);
     /* Draw it to the screen */
     SDL_GL_SwapBuffers( );
 

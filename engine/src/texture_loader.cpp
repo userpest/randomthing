@@ -3,13 +3,13 @@
 #include <memory>
 #include <SDL/SDL.h>
 #include <GL/gl.h>
-
+#include <SDL/SDL_image.h>
 Texture::Texture(std::string path){
     GLenum texture_format;
     GLint  nOfColors;
     SDL_Surface* surface;
  
-    if (  surface = SDL_LoadBMP(path.c_str()) ) { 
+    if (  surface = IMG_Load(path.c_str()) ) { 
     
         // Check that the image's width is a power of 2
         if ( (surface->w & (surface->w - 1)) != 0 ) {
@@ -67,9 +67,6 @@ Texture::Texture(std::string path){
     if ( surface ) { 
         SDL_FreeSurface( surface );
     }
-}
-inline void Texture::set(){
-    glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 const  std::shared_ptr<Texture>& TextureLoader::operator[](std::string name){
