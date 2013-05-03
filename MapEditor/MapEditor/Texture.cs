@@ -8,58 +8,66 @@ using System.Drawing.Imaging;
 
 namespace MapEditor
 {
-    public class Field
+    public class Texture
     {
-        public const int SIZE = 32;
-        List<Trigger> triggers;
-        Texture texture;
-        bool colisable;
-        //Description wtf
-        public Texture Texture { get { return texture; } }
-        static float[] textCoord = {
-			0.0f,0.0f,
-			1.0f,0.0f,
-			1.0f,1.0f,
-			1.0f,0.0f
-		};
+        private int idTexture;
+        private int texture;
+        private string path;
+        private bool basic;
+        private Bitmap bmp;
 
-        public Field(Texture texture, bool colisable)
+        public Bitmap Bmp
         {
-            this.texture = texture;
-            this.colisable = colisable;
+            get { return bmp; }
+            set { bmp = value; }
+        }
+        
+
+        public bool Basic
+        {
+            get { return basic; }
+            set { basic = value; }
+        }
+        
+
+        public string Path
+        {
+            get { return path; }
+            set { path = value; }
+        }
+        
+
+        public int TextureName
+        {
+            get { return texture; }
+            set { texture = value; }
+        }
+        
+        public int IdTexture
+        {
+            get { return idTexture; }
+            set { idTexture = value; }
         }
 
-        public void Draw(float x, float y)
-        {
-            GL.BindTexture(TextureTarget.Texture2D, texture.TextureName);
-            x *= SIZE;
-            y *= SIZE;
-            GL.Begin(BeginMode.Quads);
-            GL.PushMatrix();
 
-            int i = 0;
-            GL.TexCoord2(0, 0);
-            GL.Vertex2(x, y);
-            GL.TexCoord2(0, 1);
-            GL.Vertex2(x, y+SIZE);
-            GL.TexCoord2(1, 1);
-            GL.Vertex2(x+SIZE, y+SIZE);
-            GL.TexCoord2(1, 0);
-            GL.Vertex2(x+SIZE, y);
-            GL.End();
-            GL.PopMatrix();
-            
+        public Texture(int id, int text, string path, bool basic)
+        {
+            this.idTexture = id;
+            this.texture = text;
+            this.path = path;
+            this.basic = basic;
+
         }
-
-        public static int LoadTexture(string filename)
+        public void Load()
         {
+            string filename = path;
             if (String.IsNullOrEmpty(filename))
                 throw new ArgumentException(filename);
 
             int id = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, id);
 
-            Bitmap bmp = new Bitmap(filename);
+            bmp = new Bitmap(filename);
             BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0,
@@ -72,8 +80,8 @@ namespace MapEditor
             // mipmaps automatically. In that case, use TextureMinFilter.LinearMipmapLinear to enable them.
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
-            return id;
+            this.texture = id;
+            
         }
     }
 }

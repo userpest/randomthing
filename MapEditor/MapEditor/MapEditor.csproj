@@ -58,8 +58,14 @@
     <Compile Include="MapEditor.Designer.cs">
       <DependentUpon>MapEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="MapLoadException.cs" />
+    <Compile Include="MapLoadingState.cs" />
+    <Compile Include="MapLoadingStateFields.cs" />
+    <Compile Include="MapLoadingStateSize.cs" />
+    <Compile Include="MouseController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Texture.cs" />
     <Compile Include="Trigger.cs" />
     <EmbeddedResource Include="MapEditor.resx">
       <DependentUpon>MapEditor.cs</DependentUpon>

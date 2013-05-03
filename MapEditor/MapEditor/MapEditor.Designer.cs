@@ -42,9 +42,9 @@
             // glControl
             // 
             this.glControl.BackColor = System.Drawing.Color.Black;
-            this.glControl.Location = new System.Drawing.Point(21, 41);
+            this.glControl.Location = new System.Drawing.Point(21, 104);
             this.glControl.Name = "glControl";
-            this.glControl.Size = new System.Drawing.Size(918, 656);
+            this.glControl.Size = new System.Drawing.Size(605, 497);
             this.glControl.TabIndex = 0;
             this.glControl.VSync = false;
             this.glControl.Load += new System.EventHandler(this.glControl_Load);
