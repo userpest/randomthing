@@ -22,7 +22,7 @@ namespace MapEditor
 
         private void glControl_ImeModeChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void glControl_Load(object sender, EventArgs e)
@@ -36,6 +36,7 @@ namespace MapEditor
         {
             while (glControl.IsIdle)
             {
+
                 EditorEngine.Instance.Update();
             }
         }
@@ -50,8 +51,9 @@ namespace MapEditor
 
         private void button1_Click(object sender, EventArgs e)
         {
-            EditorEngine.Instance.Initialize();
-            EditorEngine.Instance.Run();
+    
+            EditorEngine.Instance.Initialize();            
+            //EditorEngine.Instance.Run();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,8 +64,7 @@ namespace MapEditor
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.AddExtension = true;
-            sfd.DefaultExt = ".map";
+
             
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -73,13 +74,14 @@ namespace MapEditor
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog sfd = new OpenFileDialog();
-            sfd.AddExtension = true;
-            sfd.DefaultExt = ".map";
+            FolderBrowserDialog sfd = new FolderBrowserDialog();
 
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                EditorEngine.Instance.Map = new Map(sfd.FileName);
+                EditorEngine.Instance.Map = new Map(sfd.SelectedPath);
+               
+                EditorEngine.Instance.Run();
+                
             }
         }
     }

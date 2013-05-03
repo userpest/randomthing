@@ -45,15 +45,22 @@ namespace MapEditor
 
         public void Initialize()
         {
-            Map = new Map();
-            //
-            Map.RealHeight = 10000.0;
-            Map.RealWidth = 10000.0;
-            //
-
+            map = new Map(@"C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\maps\test");
+            
             Camera = new Camera();
             Camera.Height = glControl.Height;
             Camera.Widht = glControl.Width;
+            SetupOpengl();
+        }
+
+        private void SetupOpengl()
+        {
+            GL.Enable(EnableCap.Texture2D);
+
+        }
+        private void Stop()
+        {
+            running = false;
         }
 
         private void temp()
