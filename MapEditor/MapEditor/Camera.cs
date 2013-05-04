@@ -31,7 +31,7 @@ namespace MapEditor
         public double Distance { get { return scale; } set { scale = value; controlBorder(); } } //synonim
 
         public Double X { get { return x; } set { x = value; } }
-        public Double Y { get { return Y; } set { y = value; } }
+        public Double Y { get { return y; } set { y = value; } }
         public double Widht { get { return width; } set { width = value; controlBorder(); } }
         public double Height { get { return height; } set { height = value; controlBorder(); } }
         public double CenterX { get { return x + 0.5 * width; } set { x = value - 0.5 * width; } }
@@ -109,7 +109,7 @@ namespace MapEditor
         /// </summary>
         public void Set()
         {
-            GL.Ortho(0, width, 0, height, -1, 1);
+            GL.Ortho(0, width, 0, height, 0, 1);
             GL.Viewport(0, 0, Convert.ToInt32(width), Convert.ToInt32(height));           
         }
 

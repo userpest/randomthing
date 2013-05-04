@@ -31,7 +31,11 @@ namespace MapEditor
 
         public void Draw(float x, float y)
         {
-            GL.BindTexture(TextureTarget.Texture2D, texture.TextureName);
+            this.Draw(x, y, texture);       
+        }
+        public void Draw(float x, float y, Texture t)
+        {
+            GL.BindTexture(TextureTarget.Texture2D, t.TextureName);
             x *= SIZE;
             y *= SIZE;
             GL.Begin(BeginMode.Quads);
@@ -41,14 +45,14 @@ namespace MapEditor
             GL.TexCoord2(0, 0);
             GL.Vertex2(x, y);
             GL.TexCoord2(0, 1);
-            GL.Vertex2(x, y+SIZE);
+            GL.Vertex2(x, y + SIZE);
             GL.TexCoord2(1, 1);
-            GL.Vertex2(x+SIZE, y+SIZE);
+            GL.Vertex2(x + SIZE, y + SIZE);
             GL.TexCoord2(1, 0);
-            GL.Vertex2(x+SIZE, y);
+            GL.Vertex2(x + SIZE, y);
             GL.End();
             GL.PopMatrix();
-            
+
         }
 
         public static int LoadTexture(string filename)

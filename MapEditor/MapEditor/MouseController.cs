@@ -15,9 +15,15 @@ namespace MapEditor
         Point rightTarget;
         Point rightActual;
         Point rightLast;
+        Point leftDown;
+        Point leftUp;
+        bool isLeftDown;
         public bool isRightDown;
         public bool rightMoveHandled;
         Point position;
+        private int tollerancy = 3;
+
+        public Point Position { get { return position; } }
 
 
         private Point PointToOpengl(Point p)
@@ -58,7 +64,19 @@ namespace MapEditor
         {
             if (e.Button == MouseButtons.Left)
             {
-
+                if (isLeftDown)
+                {
+                    Point click = PointToOpengl(e.Location);
+                    if (Math.Abs(click.X - leftDown.X) < tollerancy && Math.Abs(click.Y - leftDown.Y) < tollerancy)
+                    {
+                        EditorEngine.Instance.ClickHandler.Click(EditorEngine.Instance.Map.FieldPoint((click.X + leftDown.X) / 2, (click.Y + leftDown.Y) / 2));
+                    }
+                    else
+                    {
+                        EditorEngine.Instance.ClickHandler.Selection(EditorEngine.Instance.Map.Rectangle(leftDown, click));
+                    }
+                    isLeftDown = false;
+                }
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -70,7 +88,8 @@ namespace MapEditor
         {
             if (e.Button == MouseButtons.Left)
             {
-
+                leftDown = PointToOpengl(e.Location);
+                isLeftDown = true;
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -83,6 +102,7 @@ namespace MapEditor
         public void MouseLeave(EventArgs e)
         {
             isRightDown = false;
+            isLeftDown = false;
         }
        
     }

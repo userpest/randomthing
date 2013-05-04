@@ -16,7 +16,9 @@ namespace MapEditor
         private const double FRAP_TIME = 1000.0 / 60.0;
         #region Singleton
         private static EditorEngine instance;
+        private ClickHandler clickHandler;
 
+        public ClickHandler ClickHandler { get { return clickHandler; } set { clickHandler = value; } }
         public static EditorEngine Instance
         {
             get { return instance; }

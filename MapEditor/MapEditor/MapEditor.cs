@@ -14,6 +14,7 @@ namespace MapEditor
     {
         private bool loaded = false;
         private int x = 0;
+
         public MapEditor()
         {
             
@@ -42,8 +43,7 @@ namespace MapEditor
         {
             labelX.Text = String.Format("X:{0}", e.X);
             labelY.Text = String.Format("Y:{0}", e.Y);
-            label1.Text = EditorEngine.Instance.MouseController.isRightDown.ToString();
-            label2.Text = EditorEngine.Instance.MouseController.rightMoveHandled.ToString();
+
         }
 
         void Application_Idle(object sender, EventArgs e)
@@ -143,6 +143,11 @@ namespace MapEditor
         {
             if (EditorEngine.Instance.Initialized)
                 EditorEngine.Instance.MouseController.MouseLeave(e);
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            EditorEngine.Instance.ClickHandler = Configuration.Instance.GetStartClickHandler();
         }
     }
 }
