@@ -7,10 +7,6 @@ using OpenTK.Graphics.OpenGL;
 
 namespace MapEditor
 {
-    enum CameraMoveType
-    {
-        LU,RU,LD,RD
-    }
     public class Camera
     {
         private double scale = 1.0;
@@ -25,7 +21,6 @@ namespace MapEditor
         private double deltaX;
         private double deltaY;
         private double speed = 1.0;
-        private CameraMoveType move;
 
         public double Scale { get { return scale; } set { scale = value; controlBorder(); } }
         public double Distance { get { return scale; } set { scale = value; controlBorder(); } } //synonim
@@ -70,10 +65,10 @@ namespace MapEditor
             if (EditorEngine.Instance.Map == null) return;
             if (x > 0) x = 0.0;
             //if (x + width * scale > EditorEngine.Instance.Map.RealWidth) x = EditorEngine.Instance.Map.RealWidth - width * scale;
-            if (-x + width * scale < EditorEngine.Instance.Map.RealWidth) x = -(EditorEngine.Instance.Map.RealWidth - width * scale);
+            if (-x + width * scale > EditorEngine.Instance.Map.RealWidth) x = -(EditorEngine.Instance.Map.RealWidth - width * scale);
             if (y > 0) y = 0.0;
             //if (y + height * scale > EditorEngine.Instance.Map.RealHeight) y = EditorEngine.Instance.Map.RealHeight - height * scale;
-            if (-y + height * scale < EditorEngine.Instance.Map.RealHeight) y = -(EditorEngine.Instance.Map.RealHeight- height * scale);
+            if (-y + height * scale > EditorEngine.Instance.Map.RealHeight) y = -(EditorEngine.Instance.Map.RealHeight- height * scale);
         }
         public void Move(double x, double y)
         {

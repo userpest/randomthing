@@ -43,6 +43,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.listViewTiles = new System.Windows.Forms.ListView();
             this.labelTiles = new System.Windows.Forms.Label();
+            this.labelGameX = new System.Windows.Forms.ToolStripStatusLabel();
+            this.labelGameY = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -135,7 +137,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labelX,
-            this.labelY});
+            this.labelY,
+            this.labelGameX,
+            this.labelGameY});
             this.statusStrip1.Location = new System.Drawing.Point(0, 730);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1281, 22);
@@ -167,8 +171,10 @@
             // listViewTiles
             // 
             this.listViewTiles.Location = new System.Drawing.Point(780, 111);
+            this.listViewTiles.MultiSelect = false;
             this.listViewTiles.Name = "listViewTiles";
-            this.listViewTiles.Size = new System.Drawing.Size(188, 490);
+            this.listViewTiles.ShowGroups = false;
+            this.listViewTiles.Size = new System.Drawing.Size(283, 490);
             this.listViewTiles.TabIndex = 10;
             this.listViewTiles.UseCompatibleStateImageBehavior = false;
             this.listViewTiles.SelectedIndexChanged += new System.EventHandler(this.listViewTiles_SelectedIndexChanged);
@@ -181,6 +187,18 @@
             this.labelTiles.Size = new System.Drawing.Size(29, 13);
             this.labelTiles.TabIndex = 11;
             this.labelTiles.Text = "Tiles";
+            // 
+            // labelGameX
+            // 
+            this.labelGameX.Name = "labelGameX";
+            this.labelGameX.Size = new System.Drawing.Size(17, 17);
+            this.labelGameX.Text = "--";
+            // 
+            // labelGameY
+            // 
+            this.labelGameY.Name = "labelGameY";
+            this.labelGameY.Size = new System.Drawing.Size(17, 17);
+            this.labelGameY.Text = "--";
             // 
             // MapEditor
             // 
@@ -225,6 +243,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ListView listViewTiles;
         private System.Windows.Forms.Label labelTiles;
+        private System.Windows.Forms.ToolStripStatusLabel labelGameX;
+        private System.Windows.Forms.ToolStripStatusLabel labelGameY;
     }
 }
 

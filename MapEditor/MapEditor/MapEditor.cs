@@ -45,7 +45,9 @@ namespace MapEditor
         void EditoEngine_MapChanged(object sender, EventArgs e)
         {
             il = new ImageList();
+            listViewTiles.Items.Clear();
             int i=0;
+
             foreach (KeyValuePair<int, Texture> texture in EditorEngine.Instance.Map.textures)
             {
                 
@@ -61,8 +63,11 @@ namespace MapEditor
 
         void MouseController_MouseMoved(object sender, MouseEventArgs e)
         {
-            labelX.Text = String.Format("X:{0}", e.X);
-            labelY.Text = String.Format("Y:{0}", e.Y);
+            labelX.Text = String.Format("X: {0}", e.X);
+            labelY.Text = String.Format("Y: {0}", e.Y);
+            Point gamePoint = EditorEngine.Instance.Map.FieldPoint(e.X,e.Y);
+            labelGameX.Text = String.Format("Game X: {0}", gamePoint.X);
+            labelGameY.Text = String.Format("Game Y: {0}", gamePoint.Y);
 
         }
 
