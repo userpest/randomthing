@@ -67,12 +67,13 @@ namespace MapEditor
         }
         private void controlBorder()
         {
+            if (EditorEngine.Instance.Map == null) return;
             if (x > 0) x = 0.0;
             //if (x + width * scale > EditorEngine.Instance.Map.RealWidth) x = EditorEngine.Instance.Map.RealWidth - width * scale;
-            if (x + width * scale <0 ) x =0  - width * scale;
+            if (-x + width * scale < EditorEngine.Instance.Map.RealWidth) x = -(EditorEngine.Instance.Map.RealWidth - width * scale);
             if (y > 0) y = 0.0;
             //if (y + height * scale > EditorEngine.Instance.Map.RealHeight) y = EditorEngine.Instance.Map.RealHeight - height * scale;
-            if (y + height * scale < 0) y = 0- height * scale;
+            if (-y + height * scale < EditorEngine.Instance.Map.RealHeight) y = -(EditorEngine.Instance.Map.RealHeight- height * scale);
         }
         public void Move(double x, double y)
         {
