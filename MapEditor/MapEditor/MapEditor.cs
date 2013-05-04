@@ -14,6 +14,8 @@ namespace MapEditor
     {
         private bool loaded = false;
         private int x = 0;
+        private ImageList il;
+        private int indexImage;
 
         public MapEditor()
         {
@@ -37,6 +39,24 @@ namespace MapEditor
         void Instance_InitializedEngine(object sender, EventArgs e)
         {
             EditorEngine.Instance.MouseController.MouseMoved += new MouseEventHandler(MouseController_MouseMoved);
+            EditorEngine.Instance.MapChanged += new EventHandler(EditoEngine_MapChanged);
+        }
+
+        void EditoEngine_MapChanged(object sender, EventArgs e)
+        {
+            il = new ImageList();
+            int i=0;
+            foreach (KeyValuePair<int, Texture> texture in EditorEngine.Instance.Map.textures)
+            {
+                
+                il.Images.Add(texture.Value.Bmp);
+                string text = (texture.Value.Basic? "Basic" : "Own");
+                ListViewItem item = new ListViewItem(text,i++);
+                item.Tag = texture.Value;
+                listViewTiles.Items.Add(item);
+            }
+            listViewTiles.LargeImageList = il;
+            indexImage = i;
         }
 
         void MouseController_MouseMoved(object sender, MouseEventArgs e)
@@ -148,6 +168,17 @@ namespace MapEditor
         private void button2_Click_1(object sender, EventArgs e)
         {
             EditorEngine.Instance.ClickHandler = Configuration.Instance.GetStartClickHandler();
+        }
+
+        private void MapEditor_Load(object sender, EventArgs e)
+        {
+            listViewTiles.View = View.LargeIcon;
+        }
+
+        private void listViewTiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Texture text = listViewTiles.SelectedItems[0].Tag as Texture;
+            EditorEngine.Instance.ClickHandler = Configuration.Instance.GetClickHandlerTile(text);
         }
     }
 }

@@ -48,6 +48,7 @@ namespace MapEditor
             }
         }
 
+        public event EventHandler Loaded;
         private MapLoadingState state;
         private const int DEFAULT_WIDTH = 100;
         private const int DEFAULT_HEIGHT = 100;
@@ -66,8 +67,8 @@ namespace MapEditor
         public Point StartPosition { get { return startPosition; } set { startPosition = value; startPositionSeted = true; } }
 
         Field[] fields;
-        Dictionary<int,Texture> textures;
-        Dictionary<int, Texture> specials;
+        public Dictionary<int,Texture> textures;
+        public Dictionary<int, Texture> specials;
       
 
         public int Width;
@@ -107,7 +108,7 @@ namespace MapEditor
             this.name = Path.GetFileName(mapfolder);
             LoadTextures();
             LoadTiles();
-
+            if (Loaded != null) Loaded(this, EventArgs.Empty);
 
         }
         private void LoadTiles()
@@ -266,10 +267,14 @@ namespace MapEditor
                 }
             }
         }
+        public void EditFieldTexture(int x, int y, Texture txt)
+        {
+            GetField(x, y).Texture = txt;
+        }
         public Point FieldPoint(int x, int y)
         {
-            int sx = (int)EditorEngine.Instance.Camera.X + x;
-            int sy = (int)EditorEngine.Instance.Camera.Y + y;
+            int sx = -(int)EditorEngine.Instance.Camera.X + x;
+            int sy = -(int)EditorEngine.Instance.Camera.Y + y;
             sx /= Field.SIZE;
             sy /= Field.SIZE;
             return new Point(sx, sy);

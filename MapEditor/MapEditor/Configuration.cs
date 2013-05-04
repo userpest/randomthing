@@ -24,6 +24,10 @@ namespace MapEditor
         {
             return StartPositionClickHandler.Instance;
         }
-    
+        public ClickHandler GetClickHandlerTile(Texture text)
+        {
+            ClickHandlerTileCreator.Instance.Texture = text;
+            return ClickHandlerTileCreator.Instance;
+        }
     }
 }

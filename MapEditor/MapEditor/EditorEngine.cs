@@ -12,6 +12,8 @@ namespace MapEditor
 {
     public sealed class EditorEngine
     {
+
+        public event EventHandler MapChanged;
         public event EventHandler InitializedEngine;
         private const double FRAP_TIME = 1000.0 / 60.0;
         #region Singleton
@@ -48,7 +50,7 @@ namespace MapEditor
 
         public bool Initialized { get { return initialized; } }
         public MouseController MouseController { get { return mouseController; } }
-        public Map Map { get { return map; } set { map = value; } }
+        public Map Map { get { return map; } set { map = value; if (MapChanged != null) MapChanged(this, null); } }
         public Camera Camera { get { return camera; } set { camera = value; } }
 
 

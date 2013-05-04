@@ -15,7 +15,7 @@ namespace MapEditor
         Texture texture;
         bool colisable;
         //Description wtf
-        public Texture Texture { get { return texture; } }
+        public Texture Texture { get { return texture; } set { texture = value; } }
         static float[] textCoord = {
 			0.0f,0.0f,
 			1.0f,0.0f,

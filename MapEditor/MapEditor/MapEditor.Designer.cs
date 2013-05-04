@@ -41,6 +41,8 @@
             this.labelX = new System.Windows.Forms.ToolStripStatusLabel();
             this.labelY = new System.Windows.Forms.ToolStripStatusLabel();
             this.button2 = new System.Windows.Forms.Button();
+            this.listViewTiles = new System.Windows.Forms.ListView();
+            this.labelTiles = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -162,11 +164,31 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
+            // listViewTiles
+            // 
+            this.listViewTiles.Location = new System.Drawing.Point(780, 111);
+            this.listViewTiles.Name = "listViewTiles";
+            this.listViewTiles.Size = new System.Drawing.Size(188, 490);
+            this.listViewTiles.TabIndex = 10;
+            this.listViewTiles.UseCompatibleStateImageBehavior = false;
+            this.listViewTiles.SelectedIndexChanged += new System.EventHandler(this.listViewTiles_SelectedIndexChanged);
+            // 
+            // labelTiles
+            // 
+            this.labelTiles.AutoSize = true;
+            this.labelTiles.Location = new System.Drawing.Point(777, 95);
+            this.labelTiles.Name = "labelTiles";
+            this.labelTiles.Size = new System.Drawing.Size(29, 13);
+            this.labelTiles.TabIndex = 11;
+            this.labelTiles.Text = "Tiles";
+            // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1281, 752);
+            this.Controls.Add(this.labelTiles);
+            this.Controls.Add(this.listViewTiles);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.button4);
@@ -176,6 +198,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MapEditor";
             this.Text = "Map Editor";
+            this.Load += new System.EventHandler(this.MapEditor_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -200,6 +223,8 @@
         private System.Windows.Forms.ToolStripStatusLabel labelX;
         private System.Windows.Forms.ToolStripStatusLabel labelY;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ListView listViewTiles;
+        private System.Windows.Forms.Label labelTiles;
     }
 }
 

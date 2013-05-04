@@ -66,14 +66,17 @@ namespace MapEditor
             {
                 if (isLeftDown)
                 {
-                    Point click = PointToOpengl(e.Location);
-                    if (Math.Abs(click.X - leftDown.X) < tollerancy && Math.Abs(click.Y - leftDown.Y) < tollerancy)
+                    if (EditorEngine.Instance.ClickHandler != null)
                     {
-                        EditorEngine.Instance.ClickHandler.Click(EditorEngine.Instance.Map.FieldPoint((click.X + leftDown.X) / 2, (click.Y + leftDown.Y) / 2));
-                    }
-                    else
-                    {
-                        EditorEngine.Instance.ClickHandler.Selection(EditorEngine.Instance.Map.Rectangle(leftDown, click));
+                        Point click = PointToOpengl(e.Location);
+                        if (Math.Abs(click.X - leftDown.X) < tollerancy && Math.Abs(click.Y - leftDown.Y) < tollerancy)
+                        {
+                            EditorEngine.Instance.ClickHandler.Click(EditorEngine.Instance.Map.FieldPoint((click.X + leftDown.X) / 2, (click.Y + leftDown.Y) / 2));
+                        }
+                        else
+                        {
+                            EditorEngine.Instance.ClickHandler.Selection(EditorEngine.Instance.Map.Rectangle(leftDown, click));
+                        }
                     }
                     isLeftDown = false;
                 }
