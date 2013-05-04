@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include "patterns.h"
 
 
 class Texture{
@@ -12,14 +13,14 @@ class Texture{
     public:
         Texture(std::string path);
         ~Texture(){glDeleteTextures(1,&texture);};
-        inline void set();
+        inline void set(){glBindTexture(GL_TEXTURE_2D, texture);};
 
         float get_width(){return width;};
         float get_height(){return height;};
 
 };
 
-class TextureLoader: public Singleton<TextureLoader>{
+class TextureLoader: public Singleton<TextureLoader> {
     private:
         std::map<std::string,std::shared_ptr<Texture> > cache; 
     public:

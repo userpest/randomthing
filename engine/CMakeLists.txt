@@ -17,6 +17,10 @@ set (
     SOURCES
     src/thing.cpp    
     src/engine.cpp
+    src/shapes.cpp
+    src/texture_loader.cpp
     )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 add_executable(thing ${SOURCES})
 target_link_libraries(thing ${OPENGL_LIBRARIES} ${SDL_LIBRARY}  ${SDLIMAGE_LIBRARY})
