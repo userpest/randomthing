@@ -7,6 +7,10 @@ using OpenTK.Graphics.OpenGL;
 
 namespace MapEditor
 {
+    enum CameraMoveType
+    {
+        LU,RU,LD,RD
+    }
     public class Camera
     {
         private double scale = 1.0;
@@ -16,6 +20,12 @@ namespace MapEditor
         private double height;
         private double centerX;
         private double centerY;
+        private double slowX;
+        private double slowY;
+        private double deltaX;
+        private double deltaY;
+        private double speed = 1.0;
+        private CameraMoveType move;
 
         public double Scale { get { return scale; } set { scale = value; controlBorder(); } }
         public double Distance { get { return scale; } set { scale = value; controlBorder(); } } //synonim
@@ -57,17 +67,43 @@ namespace MapEditor
         }
         private void controlBorder()
         {
-            if (x < 0) x = 0.0;
-            if (x + width * scale > EditorEngine.Instance.Map.RealWidth) x = EditorEngine.Instance.Map.RealWidth - width * scale;
-            if (y < 0) y = 0.0;
-            if (y + height * scale > EditorEngine.Instance.Map.RealHeight) y = EditorEngine.Instance.Map.RealHeight - height * scale;
+            if (x > 0) x = 0.0;
+            //if (x + width * scale > EditorEngine.Instance.Map.RealWidth) x = EditorEngine.Instance.Map.RealWidth - width * scale;
+            if (x + width * scale <0 ) x =0  - width * scale;
+            if (y > 0) y = 0.0;
+            //if (y + height * scale > EditorEngine.Instance.Map.RealHeight) y = EditorEngine.Instance.Map.RealHeight - height * scale;
+            if (y + height * scale < 0) y = 0- height * scale;
         }
         public void Move(double x, double y)
         {
-            x+=x;
-            y+=y;
+            this.x+=x;
+            this.y+=y;
             controlBorder();
         }
+        public void SlowMove(double x, double y)
+        {
+
+
+            slowX = Math.Abs(x);
+            slowY = Math.Abs(y);
+            double alpha = Math.Atan(y/x);
+            
+            if (x < 0.0 && y < 0.0)
+            {
+                alpha += Math.PI;
+            }
+            if (x < 0.0 && y > 0.0)
+            {
+                alpha += 0.5*Math.PI;
+            }
+            if (x > 0.0 && y < 0.0)
+            {
+                alpha += Math.PI * 1.5;
+            }
+            deltaX = Math.Sin(alpha)*speed;
+            deltaY = Math.Cos(alpha)*speed;
+        }
+
         /// <summary>
         /// To invoke in first faze
         /// </summary>
@@ -83,11 +119,24 @@ namespace MapEditor
         public void Look()
         {
             GL.Scale(scale, scale, 1.0);
+            slowX -= Math.Abs(deltaX);
+            slowY -= Math.Abs(deltaY);
+            if (slowX > 0 && slowY > 0)
+            {
+                x += deltaX;
+                y += deltaY;
+                controlBorder();
+            }
+            else
+            {
+                slowX = 0;
+                slowY = 0;
+            }
             GL.Translate(x, y, 0);
         }
         public RectangleF GetCameraRectangle()
         {
-            return new RectangleF(0, 0, (float)width , (float)height);
+            return new RectangleF((float)(-x ), (float)(-y ), (float)(width), (float)(height));
         }
     }
 }

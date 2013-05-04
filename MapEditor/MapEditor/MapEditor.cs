@@ -29,7 +29,21 @@ namespace MapEditor
         {
             loaded = true;
             EditorEngine.Instance.Associate(glControl);
+            EditorEngine.Instance.InitializedEngine += new EventHandler(Instance_InitializedEngine);
             Application.Idle += new EventHandler(Application_Idle);
+        }
+
+        void Instance_InitializedEngine(object sender, EventArgs e)
+        {
+            EditorEngine.Instance.MouseController.MouseMoved += new MouseEventHandler(MouseController_MouseMoved);
+        }
+
+        void MouseController_MouseMoved(object sender, MouseEventArgs e)
+        {
+            labelX.Text = String.Format("X:{0}", e.X);
+            labelY.Text = String.Format("Y:{0}", e.Y);
+            label1.Text = EditorEngine.Instance.MouseController.isRightDown.ToString();
+            label2.Text = EditorEngine.Instance.MouseController.rightMoveHandled.ToString();
         }
 
         void Application_Idle(object sender, EventArgs e)
@@ -83,6 +97,52 @@ namespace MapEditor
                 EditorEngine.Instance.Run();
                 
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            EditorEngine.Instance.Camera.SlowMove(-50.0, -50.0);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            EditorEngine.Instance.Camera.SlowMove(5.0, 10.0);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            EditorEngine.Instance.Initialize();
+            EditorEngine.Instance.Map = new Map(@"C:\Users\Kota Morgue\Desktop\anna4");
+            EditorEngine.Instance.Run();
+
+        }
+
+       
+
+        private void glControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (EditorEngine.Instance.Initialized)
+                EditorEngine.Instance.MouseController.MouseDown(e);
+        }
+
+       
+
+        private void glControl_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (EditorEngine.Instance.Initialized)
+                EditorEngine.Instance.MouseController.MouseUp(e);
+        }
+
+        private void glControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (EditorEngine.Instance.Initialized)
+                EditorEngine.Instance.MouseController.MouseMove(e);
+        }
+
+        private void glControl_MouseLeave(object sender, EventArgs e)
+        {
+            if (EditorEngine.Instance.Initialized)
+                EditorEngine.Instance.MouseController.MouseLeave(e);
         }
     }
 }

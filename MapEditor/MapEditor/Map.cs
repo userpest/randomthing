@@ -213,16 +213,29 @@ namespace MapEditor
             }
             
         }
+
         public void Update()
         {
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    GetField(i, j).Draw(i, j);
+                }
+            }
+        }
+        public void Update2()
+        {
             RectangleF r = EditorEngine.Instance.Camera.GetCameraRectangle();
-            Rectangle scaled = new Rectangle(
+             Rectangle scaled = new Rectangle(
                 (int)r.X / Field.SIZE,
                 (int)r.Y / Field.SIZE,
-                (int)r.Width / Field.SIZE + 1,
-                (int)r.Height / Field.SIZE + 1);
+                (int)r.Width / Field.SIZE + 2,
+                (int)r.Height / Field.SIZE + 2);
             //if (scaled.X + scaled.Width >= Width) scaled.Width--;
             //if (scaled.Y + scaled.Height >= Height) scaled.Height--;
+
+             
             
 
             for (int i = scaled.X; i < scaled.X + scaled.Width; i++)
