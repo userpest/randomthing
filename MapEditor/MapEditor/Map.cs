@@ -48,6 +48,7 @@ namespace MapEditor
             }
         }
 
+        public event EventHandler Loaded;
         private MapLoadingState state;
         private const int DEFAULT_WIDTH = 100;
         private const int DEFAULT_HEIGHT = 100;
@@ -55,12 +56,19 @@ namespace MapEditor
         private static string texturesFile = "tiles.txt";
         private static string texturesPath = "tiles";
         private static string maps = "maps";
-
+        private static string specialTextures = "textures";
+        private static string startPositionTexture = "startPosition.png";
+        private const int START = 0;
         private string mapfolder;
         private string basepath;
 
+        private bool startPositionSeted;
+        private Point startPosition;
+        public Point StartPosition { get { return startPosition; } set { startPosition = value; startPositionSeted = true; } }
+
         Field[] fields;
-        Dictionary<int,Texture> textures;
+        public Dictionary<int,Texture> textures;
+        public Dictionary<int, Texture> specials;
       
 
         public int Width;
@@ -68,6 +76,8 @@ namespace MapEditor
         public double RealWidth { get { return Width * Field.SIZE; } }
         public double RealHeight { get { return Height * Field.SIZE; } }
         private string name;
+
+        
         public Map()
             :this(DEFAULT_WIDTH,DEFAULT_HEIGHT)
         {
@@ -94,10 +104,11 @@ namespace MapEditor
             this.mapfolder = Path.Combine(Application.StartupPath,maps,name);
             this.basepath = Application.StartupPath;
             textures = new Dictionary<int, Texture>();
+            specials = new Dictionary<int, Texture>();
             this.name = Path.GetFileName(mapfolder);
             LoadTextures();
             LoadTiles();
-
+            if (Loaded != null) Loaded(this, EventArgs.Empty);
 
         }
         private void LoadTiles()
@@ -144,6 +155,14 @@ namespace MapEditor
             {
                 pair.Value.Load();
             }
+            loadSpecials();
+            
+        }
+        private void loadSpecials()
+        {
+            Texture start = new Texture(START, 0, Path.Combine(basepath, specialTextures, startPositionTexture), true);
+            start.Load();
+            specials[START] = start;
         }
         private void loadTextures(string path,bool basic)
         {
@@ -213,16 +232,31 @@ namespace MapEditor
             }
             
         }
+
         public void Update()
         {
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    GetField(i, j).Draw(i, j);
+                }
+            }
+            if(startPositionSeted)
+                GetField(startPosition.X, startPosition.Y).Draw(startPosition.X, startPosition.Y, specials[START]);
+        }
+        public void Update2()
+        {
             RectangleF r = EditorEngine.Instance.Camera.GetCameraRectangle();
-            Rectangle scaled = new Rectangle(
+             Rectangle scaled = new Rectangle(
                 (int)r.X / Field.SIZE,
                 (int)r.Y / Field.SIZE,
-                (int)r.Width / Field.SIZE + 1,
-                (int)r.Height / Field.SIZE + 1);
+                (int)r.Width / Field.SIZE + 2,
+                (int)r.Height / Field.SIZE + 2);
             //if (scaled.X + scaled.Width >= Width) scaled.Width--;
             //if (scaled.Y + scaled.Height >= Height) scaled.Height--;
+
+             
             
 
             for (int i = scaled.X; i < scaled.X + scaled.Width; i++)
@@ -232,6 +266,22 @@ namespace MapEditor
                     GetField(i, j).Draw(i, j);
                 }
             }
+        }
+        public void EditFieldTexture(int x, int y, Texture txt)
+        {
+            GetField(x, y).Texture = txt;
+        }
+        public Point FieldPoint(int x, int y)
+        {
+            int sx = -(int)EditorEngine.Instance.Camera.X + x;
+            int sy = -(int)EditorEngine.Instance.Camera.Y + y;
+            sx /= Field.SIZE;
+            sy /= Field.SIZE;
+            return new Point(sx, sy);
+        }
+        public Rectangle Rectangle(Point location, Point border)
+        {
+            return new Rectangle();
         }
 
     }

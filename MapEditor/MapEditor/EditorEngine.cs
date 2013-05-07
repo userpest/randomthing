@@ -12,10 +12,15 @@ namespace MapEditor
 {
     public sealed class EditorEngine
     {
+
+        public event EventHandler MapChanged;
+        public event EventHandler InitializedEngine;
         private const double FRAP_TIME = 1000.0 / 60.0;
         #region Singleton
         private static EditorEngine instance;
+        private ClickHandler clickHandler;
 
+        public ClickHandler ClickHandler { get { return clickHandler; } set { clickHandler = value; } }
         public static EditorEngine Instance
         {
             get { return instance; }
@@ -39,18 +44,28 @@ namespace MapEditor
         private bool running;
         private Stopwatch stopwatch;
         private double offset;
+        private MouseController mouseController;
 
-        public Map Map { get { return map; } set { map = value; } }
+        private bool initialized;
+
+        public bool Initialized { get { return initialized; } }
+        public MouseController MouseController { get { return mouseController; } }
+        public Map Map { get { return map; } set { map = value; if (MapChanged != null) MapChanged(this, null); } }
         public Camera Camera { get { return camera; } set { camera = value; } }
+
 
         public void Initialize()
         {
-            map = new Map(@"C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\maps\test");
-            
+            //map = new Map(@"C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\maps\test");
+            if (initialized)
+                return;
+            initialized = true;
             Camera = new Camera();
             Camera.Height = glControl.Height;
             Camera.Widht = glControl.Width;
+            mouseController = new MouseController();
             SetupOpengl();
+            if (InitializedEngine != null) InitializedEngine(this, EventArgs.Empty);
         }
 
         private void SetupOpengl()
@@ -105,6 +120,7 @@ namespace MapEditor
             initActions();
             camera.Set();
             beforeRendering();
+            mouseController.Update();
             camera.Look();
             map.Update();
 
