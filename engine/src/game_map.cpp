@@ -6,6 +6,7 @@
 #include <map>
 #include <cstdlib>
 #include <cstdio>
+#include <cmath>
 using namespace std;
 void TileLoader::load_filenames(std::string& file){
    FILE* fp; 
@@ -85,9 +86,16 @@ void GameMap::load(string& path){
                 map_error();
             }
             Tile& t=tiles[i][j];
-            t.set_size(30,30);
+            t.set_size(TILE_WIDTH,TILE_HEIGHT);
             t.set_texture(t_loader[tile_id]);
-            t.set_coords(i*30,j*30);
+            t.set_coords(i*TILE_WIDTH,j*TILE_HEIGHT);
         }
     }
+}
+bool GameMap::collides(int x, int y){
+    int tilex = std::floor(x/TILE_WIDTH);
+    int tiley = std::floor(y/TILE_HEIGHT); 
+    x-=tilex*TILE_WIDTH;
+    y-=tiley*TILE_HEIGHT;
+    return tiles[tilex][tiley].collides(x,y);
 }

@@ -8,7 +8,8 @@
 #include <memory>
 #include "texture_loader.h"
 #include "shapes.h"
-
+const float TILE_WIDTH=30;
+const float TILE_HEIGHT=30;
 class Tile{
     private:
         Rectangle rect;
@@ -23,6 +24,7 @@ class Tile{
         void set_texture(const std::shared_ptr<Texture>& _texture){texture = _texture;};
         void set_coords(float _x, float _y){x=_x;y=_y;};
         void set_size(float width,float height){rect.resize(width,height);};
+        inline bool collides(int x , int y){return texture->collides(x,y);};
 
 };
 
@@ -47,6 +49,8 @@ class GameMap{
         GameMap(std::string& path){load(path);};
         void load(std::string& path);
         void show();
+        bool collides(int x,int y);
+
 
 };
 
