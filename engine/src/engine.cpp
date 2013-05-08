@@ -54,7 +54,7 @@ void Engine::init(){
     const SDL_VideoInfo *videoInfo;
 
     /* initialize SDL */
-    if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+    if ( SDL_Init( SDL_INIT_VIDEO |SDL_INIT_TIMER) < 0 )
 	{ fprintf( stderr, "Video initialization failed: %s\n",
 		     SDL_GetError( ) );
 	    quit( 1 );
@@ -127,6 +127,10 @@ void Engine::init_GL( )
     /* Enables Depth Testing */
     glDisable( GL_DEPTH_TEST );
     glEnable(GL_TEXTURE_2D);
+
+    //enable blending for imgs with alpha
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     /* The Type Of Depth Test To Do */
     glDepthFunc( GL_LEQUAL );
@@ -204,13 +208,12 @@ void Engine::draw_scene(){
     /* Clear The Screen And The Depth Buffer */
     glClear( GL_COLOR_BUFFER_BIT );
     Texture t("img.jpg"); 
-    Texture t2("img2.jpg");
-    Rectangle rect(20,20);
+    Rectangle rect(50,50);
     /* Move Left 1.5 Units And Into The Screen 6.0 */
     glLoadIdentity();
 
-    t2.set();
-    rect.show(0,0);
+    t.set();
+    rect.show(200,200);
     /* Draw it to the screen */
     SDL_GL_SwapBuffers( );
 

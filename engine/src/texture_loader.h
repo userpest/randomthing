@@ -4,15 +4,18 @@
 #include <string>
 #include <memory>
 #include "patterns.h"
-
+#include <SDL/SDL.h>
 
 class Texture{
     private:
         GLuint texture;
         float width,height;
+        SDL_Surface* surface;
     public:
+        //in ogl coordinate system
+        bool collides(int x,int y);
         Texture(std::string path);
-        ~Texture(){glDeleteTextures(1,&texture);};
+        ~Texture(){glDeleteTextures(1,&texture);SDL_FreeSurface(surface);};
         inline void set(){glBindTexture(GL_TEXTURE_2D, texture);};
 
         float get_width(){return width;};

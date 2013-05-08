@@ -1,0 +1,15 @@
+k so format animacji
+animacja - katalog
+struktura katalogu
+
+klatki animacji indeksowane od 0:
+anim0.png
+anim1.png
+anim2.png
+...
+animXYZ.png
+
+jezeli wystapi przerwa np anim20.png a potem anim22.png to anim22.png nie zostanie zaladowane
+brak anim0.png w katalogu => koniec programu
+szerokosc i wysokosc animacji jest rowna szerokosci i wysokosci obrazka
+czas trwania klatki animacji = 30ms
