@@ -71,6 +71,7 @@
     <Compile Include="MapLoadingState.cs" />
     <Compile Include="MapLoadingStateFields.cs" />
     <Compile Include="MapLoadingStateSize.cs" />
+    <Compile Include="MapLoadingStateStartPoint.cs" />
     <Compile Include="MouseController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

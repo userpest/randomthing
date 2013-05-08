@@ -71,17 +71,24 @@ namespace MapEditor
             }
             
         }
-        private Bitmap inteligentResize(Bitmap bmp)
+
+        private int calcSize(int dimSize)
         {
-            int dimSize = bmp.Width < bmp.Height ? bmp.Width : bmp.Height;
             int size = 2;
             while (size < dimSize)
                 size = size * 2;
-            int sizeToRezise = (size / 2 + size) / 2 < dimSize ? size : size / 2;
+            return (size / 2 + size) / 2 < dimSize ? size : size / 2;
+        }
 
-            Bitmap result = new Bitmap(sizeToRezise, sizeToRezise);
+        private Bitmap inteligentResize(Bitmap bmp)
+        {
+            int width = calcSize(bmp.Width);
+            int height = calcSize(bmp.Height);
+
+
+            Bitmap result = new Bitmap(width, height);
             Graphics g = Graphics.FromImage(result);
-            g.DrawImage(bmp,new Rectangle(0,0,sizeToRezise,sizeToRezise));
+            g.DrawImage(bmp, new Rectangle(0, 0, width, height));
             return result;
             
         }

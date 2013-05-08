@@ -16,7 +16,7 @@ namespace MapEditor
         {
             if (line.Length != 2) ThrowLoadException();
             SetSize(Convert.ToInt32(line[0]), Convert.ToInt32(line[1]), map);
-            ChangeState(map, MapLoadingStateFields.Instance);
+            ChangeState(map, MapLoadingStateStartPoint.Instance);
         }
     }
 }

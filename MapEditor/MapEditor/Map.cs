@@ -46,6 +46,10 @@ namespace MapEditor
                 m.Width = width;
                 m.fields = new Field[width*height];
             }
+            protected void SetStartPoint(int x, int y, Map m)
+            {
+                m.StartPosition = new Point(x, y);
+            }
         }
 
         public event EventHandler Loaded;
@@ -207,6 +211,10 @@ namespace MapEditor
                 sw.Write(Width);
                 sw.Write(" ");
                 sw.Write(Height);
+                sw.Write("\n");
+                sw.Write(startPosition.X);
+                sw.Write(" ");
+                sw.Write(startPosition.Y);
                 sw.Write("\n");
                 int i;
                 for (i = 0; i < fields.Length-1; i++)

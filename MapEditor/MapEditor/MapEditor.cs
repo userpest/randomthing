@@ -205,7 +205,7 @@ namespace MapEditor
                 if (at.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     Texture t = new Texture(getNewId()+1, 0, null, false);
-                    EditorEngine.Instance.Map.textures[t.TextureName] = t;
+                    EditorEngine.Instance.Map.textures[t.IdTexture] = t;
                     t.Bmp = at.picture;
                     t.Load();
                     il.Images.Add(t.Bmp);
