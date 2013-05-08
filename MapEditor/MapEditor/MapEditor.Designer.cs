@@ -40,11 +40,12 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.labelX = new System.Windows.Forms.ToolStripStatusLabel();
             this.labelY = new System.Windows.Forms.ToolStripStatusLabel();
+            this.labelGameX = new System.Windows.Forms.ToolStripStatusLabel();
+            this.labelGameY = new System.Windows.Forms.ToolStripStatusLabel();
             this.button2 = new System.Windows.Forms.Button();
             this.listViewTiles = new System.Windows.Forms.ListView();
             this.labelTiles = new System.Windows.Forms.Label();
-            this.labelGameX = new System.Windows.Forms.ToolStripStatusLabel();
-            this.labelGameY = new System.Windows.Forms.ToolStripStatusLabel();
+            this.buttonAddTile = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -158,6 +159,18 @@
             this.labelY.Size = new System.Drawing.Size(17, 17);
             this.labelY.Text = "--";
             // 
+            // labelGameX
+            // 
+            this.labelGameX.Name = "labelGameX";
+            this.labelGameX.Size = new System.Drawing.Size(17, 17);
+            this.labelGameX.Text = "--";
+            // 
+            // labelGameY
+            // 
+            this.labelGameY.Name = "labelGameY";
+            this.labelGameY.Size = new System.Drawing.Size(17, 17);
+            this.labelGameY.Text = "--";
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(650, 155);
@@ -188,23 +201,22 @@
             this.labelTiles.TabIndex = 11;
             this.labelTiles.Text = "Tiles";
             // 
-            // labelGameX
+            // buttonAddTile
             // 
-            this.labelGameX.Name = "labelGameX";
-            this.labelGameX.Size = new System.Drawing.Size(17, 17);
-            this.labelGameX.Text = "--";
-            // 
-            // labelGameY
-            // 
-            this.labelGameY.Name = "labelGameY";
-            this.labelGameY.Size = new System.Drawing.Size(17, 17);
-            this.labelGameY.Text = "--";
+            this.buttonAddTile.Location = new System.Drawing.Point(651, 201);
+            this.buttonAddTile.Name = "buttonAddTile";
+            this.buttonAddTile.Size = new System.Drawing.Size(71, 24);
+            this.buttonAddTile.TabIndex = 12;
+            this.buttonAddTile.Text = "Add Tile";
+            this.buttonAddTile.UseVisualStyleBackColor = true;
+            this.buttonAddTile.Click += new System.EventHandler(this.buttonAddTile_Click);
             // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1281, 752);
+            this.Controls.Add(this.buttonAddTile);
             this.Controls.Add(this.labelTiles);
             this.Controls.Add(this.listViewTiles);
             this.Controls.Add(this.button2);
@@ -245,6 +257,7 @@
         private System.Windows.Forms.Label labelTiles;
         private System.Windows.Forms.ToolStripStatusLabel labelGameX;
         private System.Windows.Forms.ToolStripStatusLabel labelGameY;
+        private System.Windows.Forms.Button buttonAddTile;
     }
 }
 

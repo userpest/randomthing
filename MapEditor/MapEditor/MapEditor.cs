@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL;
+using System.IO;
 
 namespace MapEditor
 {
@@ -184,6 +185,35 @@ namespace MapEditor
         {
             Texture text = listViewTiles.SelectedItems[0].Tag as Texture;
             EditorEngine.Instance.ClickHandler = Configuration.Instance.GetClickHandlerTile(text);
+        }
+
+        private int getNewId()
+        {
+            int i = 0;
+            foreach (int id in EditorEngine.Instance.Map.textures.Keys)
+            {
+                if (id > i)
+                    i = id;
+            }
+            return i;
+        }
+
+        private void buttonAddTile_Click(object sender, EventArgs e)
+        {
+            using (AddTile at = new AddTile())
+            {
+                if (at.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Texture t = new Texture(getNewId()+1, 0, null, false);
+                    EditorEngine.Instance.Map.textures[t.TextureName] = t;
+                    t.Bmp = at.picture;
+                    t.Load();
+                    il.Images.Add(t.Bmp);
+                    ListViewItem item = new ListViewItem("Own", indexImage++);
+                    item.Tag = t;
+                    listViewTiles.Items.Add(item);
+                }
+            }
         }
     }
 }

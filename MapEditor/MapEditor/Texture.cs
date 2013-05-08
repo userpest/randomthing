@@ -21,8 +21,9 @@ namespace MapEditor
             get { return bmp; }
             set { bmp = value; }
         }
-        
 
+
+        public bool IsPathSeted { get { return String.IsNullOrEmpty(path); } }
         public bool Basic
         {
             get { return basic; }
@@ -58,16 +59,17 @@ namespace MapEditor
             this.basic = basic;
 
         }
+
         public void Load()
         {
             string filename = path;
-            if (String.IsNullOrEmpty(filename))
+            if (String.IsNullOrEmpty(filename) && bmp==null)
                 throw new ArgumentException(filename);
 
             int id = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, id);
 
-            bmp = new Bitmap(filename);
+            if(bmp==null)   bmp = new Bitmap(filename);
             BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0,

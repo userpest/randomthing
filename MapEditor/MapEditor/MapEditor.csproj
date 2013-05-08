@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddTile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddTile.Designer.cs">
+      <DependentUpon>AddTile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Camera.cs" />
     <Compile Include="ClickHandler.cs" />
     <Compile Include="ClickHandlerTileCreator.cs" />
@@ -71,6 +77,9 @@
     <Compile Include="StartPositionClickHandler.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="Trigger.cs" />
+    <EmbeddedResource Include="AddTile.resx">
+      <DependentUpon>AddTile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MapEditor.resx">
       <DependentUpon>MapEditor.cs</DependentUpon>
     </EmbeddedResource>
