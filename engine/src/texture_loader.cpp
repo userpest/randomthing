@@ -8,7 +8,6 @@
 Texture::Texture(std::string path){
     GLenum texture_format;
     GLint  nOfColors;
-    SDL_Surface* surface;
     if (  surface = IMG_Load(path.c_str()) ) { 
     
         // Check that the image's width is a power of 2
@@ -70,10 +69,6 @@ Texture::Texture(std::string path){
     width = surface->w;
     height = surface -> h; 
 
-// Free the SDL_Surface only if it was successfully created
-    if ( surface ) { 
-        SDL_FreeSurface( surface );
-    }
 }
 
 const  std::shared_ptr<Texture>& TextureLoader::operator[](std::string name){

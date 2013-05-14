@@ -7,8 +7,64 @@
 #include "shapes.h"
 #include "texture_loader.h"
 #include <SDL/SDL_image.h>
+#include <algorithm>
+#include "game_objects.h"
+#include "helper.h"
 
 using namespace std;
+
+void Engine::detect_collisions(){
+
+    for(auto& i: objects){
+        for(auto&j: objects){
+            //we cant collision check with self
+            if(&i != &j && objects_collide(i,j)){
+                j.hp -= i.dmg;
+                i.hp -= j.dmg;
+                i.collision();
+                j.collision();
+            }
+        }
+    }
+
+};
+
+bool Engine::objects_collide(GameObject& a, GameObject& b){
+
+    //calculate overlapping area
+    int overlapx_start = max(a.x,b.x);
+    int overlapx_stop = min(a.x+a.width, b.x+b.width);
+    int overlapy_start = max(a.y,b.y);
+    int overlapy_stop = min(a.y+a.height, b.y+b.height);
+
+    //quit if there is no overlap
+    if(overlapx_stop < overlapy_start || overlapx_stop < overlapy_start)
+        return false;
+
+    //calculate overlap coords in texture coord system
+    int a_start_x = overlapx_start - a.x;
+    int b_start_x = overlapx_start - b.x;
+    int a_start_y = overlapy_start - a.y;
+    int b_start_y = overlapy_start - b.y;
+
+    //calculate overlap size
+    int x_range = overlapx_stop - overlapx_start;
+    int y_range = overlapy_stop - overlapy_start;
+
+    //check overlap area for collisions
+    for(int x = 0; x< x_range ;x++){
+        for(int y= 0 ; y <y_range;y++){
+            if( a.collides(a_start_x+ x, a_start_y + y) 
+                    && 
+                b.collides(b_start_x + x,b_start_y + y) ){
+                return true;
+            }        
+        }
+    }
+
+    return false;
+};
+
 void Engine::resize_window( int width, int height )
 {
     /* Height / width ration */
@@ -48,6 +104,8 @@ void Engine::quit( int returnCode )
 }
 
 void Engine::init(){
+    player.x =50;
+    player.y=200;
 /* Flags to pass to SDL_SetVideoMode */
     int videoFlags;
     /* main loop variable */
@@ -154,6 +212,23 @@ void Engine::handle_key_down( SDL_keysym *keysym )
 	     */
 	    SDL_WM_ToggleFullScreen( surface );
 	    break;
+
+    case SDLK_a:
+        player.move_left=true;
+        break;
+
+    case SDLK_d:
+        player.move_right=true;
+        break;
+
+    case SDLK_w:
+        player.jump=true;
+        break;
+
+    case SDLK_SPACE:
+        player.shot=true;
+        break;
+
 	default:
 	    break;
 	}
@@ -161,7 +236,32 @@ void Engine::handle_key_down( SDL_keysym *keysym )
     return;
 }
 
-void Engine::handle_key_up(SDL_keysym *keysym){return;}
+void Engine::handle_key_up(SDL_keysym *keysym){
+
+    switch ( keysym->sym )
+	{
+
+    case SDLK_a:
+        player.move_left=false;
+        break;
+
+    case SDLK_d:
+        player.move_right=false;
+        break;
+
+    case SDLK_w:
+        player.jump=false;
+        break;
+
+    case SDLK_SPACE:
+        player.shot=false;
+        break;
+
+	default:
+	    break;
+	}
+
+}
 
 void Engine::handle_events(){
 
@@ -203,27 +303,119 @@ void Engine::handle_events(){
 
 }
 
-void Engine::draw_scene(){
+void Engine::move_camera(){
+    float move_x,move_y;
+    float screen_half_x = ((float)SCREEN_WIDTH)/2; 
+    float screen_half_y = ((float)SCREEN_HEIGHT)/2;
+    
+    if( (player.x +screen_half_x) > game_map.width ){
 
-    /* Clear The Screen And The Depth Buffer */
-    glClear( GL_COLOR_BUFFER_BIT );
-    Texture t("img.jpg"); 
-    Rectangle rect(50,50);
-    /* Move Left 1.5 Units And Into The Screen 6.0 */
-    glLoadIdentity();
+        move_x = -(game_map.width - screen_half_x);
 
-    t.set();
-    rect.show(200,200);
-    /* Draw it to the screen */
-    SDL_GL_SwapBuffers( );
+    }else if(player.x < screen_half_x){
 
+        move_x=0;
+
+    } else{
+
+        move_x = -player.x;
+
+    }
+
+    if( (player.y + screen_half_y) > game_map.height ){
+
+        move_y = -(game_map.height - screen_half_y);
+
+    }else if(player.y < screen_half_y){
+
+        move_y=0;
+
+    } else{
+
+        move_y = -player.y;
+
+    }
+
+    glTranslatef(move_x,move_y,0); 
 
 }
 
+void Engine::draw_scene(){
+
+    glClear( GL_COLOR_BUFFER_BIT );
+    glLoadIdentity();
+    move_camera();
+
+    game_map.show();
+
+    for(auto& i : objects){
+        i.show();
+    }
+
+
+    SDL_GL_SwapBuffers( );
+}
+
+void Engine::handle_movement(){
+
+    for(auto& i: objects){
+        int vx = i.v_x,vy = i.v_y;
+        int stepx =-sgn(vx), stepy = -sgn(vy);
+        //gravity
+        i.v_y-=10;
+
+        if(i.v_y != 0 ){
+            i.touching_ground = false;
+        }
+
+        //TODO: change into something what makes at least a tiny bit more sense
+        i.x +=vx;
+        i.y +=vy;
+        while(game_map.collides(i) && ( vx != 0 || vy != 0)){
+            if(vx!=0){
+                vx+=stepx;
+                i.x+=stepx;
+            }
+            if(vy!=0){
+                vy+=stepy;
+                i.y+=stepy;
+            }
+        }
+
+        //if we cant move on y axis stop such movement
+        if(vy == 0 ){
+            //if we cant move down that means that we've hit the ground
+            if(i.v_y < 0 ){
+                i.touching_ground = true;
+            }
+            i.v_y=0;
+        }
+
+        //basically if we did hit something or we're touching the ground stop movement on x axis
+        if(i.touching_ground || vx == 0 ){
+            i.v_x=0;
+        }
+
+    }
+
+}
+
+void Engine::harvest_dead(){
+
+    for(auto i = objects.begin(); i!=objects.end(); i++){
+        if ( i->hp < 0){
+            objects.erase(i);
+        }
+    }
+
+}
 void Engine::game_loop(){
   while (true)
 	{
         handle_events();
+//        handle_movement();
+ //       detect_collisions();
+  //      harvest_dead();
 		draw_scene();
 	}
 }

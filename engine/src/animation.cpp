@@ -9,6 +9,7 @@
 #include <memory>
 #include <cmath>
 
+
 Animation::Animation(std::string& path){
     int nr = 0 ;
     std::string name=path+"anim";
@@ -26,6 +27,7 @@ Animation::Animation(std::string& path){
 
     rect.resize(frames[0]->get_width(),frames[0]->get_height());
     animation_loop_time = frames.size()*FRAME_TIME;
+    current_frame=frames[0];
 }
 
 void Animation::show(float x,float y){
@@ -33,6 +35,8 @@ void Animation::show(float x,float y){
     looped_time=animation_timer.tss()%animation_loop_time;
     unsigned int animation_index;
     animation_index = (unsigned int)std::floor(((float)looped_time)/FRAME_TIME);
-    frames[animation_index]->set();
+
+    current_frame = frames[animation_index];
+    current_frame->set();
     rect.show(x,y);
 }

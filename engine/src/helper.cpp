@@ -4,6 +4,31 @@
 #include <errno.h>
 #include <cstdlib>
 #include <sstream>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <iostream>
+bool exist(std::string path){
+    struct stat info;
+    if ( stat(path.c_str(), &info) == 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+std::string get_path(std::string map_path, std::string object_name){
+    std::string path = map_path + object_name;
+    std::string alternative_path = "./"+object_name;
+    if(exist(path)){
+        return path;
+    }else if(exist(alternative_path)){
+        return alternative_path;
+    }else{
+        std::cerr<<"cannot find object: "<<object_name<<std::endl;
+        exit(1);
+    }
+}
 
 bool file_exists(std::string& path){
     FILE * fp;

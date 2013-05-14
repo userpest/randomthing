@@ -5,7 +5,7 @@
 #include <memory>
 #include "patterns.h"
 #include <SDL/SDL.h>
-
+#include <cstdio>
 class Texture{
     private:
         GLuint texture;
@@ -15,7 +15,7 @@ class Texture{
         //in ogl coordinate system
         bool collides(int x,int y);
         Texture(std::string path);
-        ~Texture(){glDeleteTextures(1,&texture);SDL_FreeSurface(surface);};
+        ~Texture(){printf("text destr %p\n", surface);glDeleteTextures(1,&texture);SDL_FreeSurface(surface);};
         inline void set(){glBindTexture(GL_TEXTURE_2D, texture);};
 
         float get_width(){return width;};

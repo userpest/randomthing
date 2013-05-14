@@ -8,8 +8,10 @@
 #include <memory>
 #include "texture_loader.h"
 #include "shapes.h"
-const float TILE_WIDTH=30;
-const float TILE_HEIGHT=30;
+#include "game_objects.h"
+
+const float TILE_WIDTH=40;
+const float TILE_HEIGHT=40;
 class Tile{
     private:
         Rectangle rect;
@@ -18,13 +20,13 @@ class Tile{
     public:
         Tile(){};
         Tile(float _x, float _y):x(_x), y(_y){};
-        Tile(float _x, float _y,shared_ptr<Texture>& _texture)
-            :,texture(_texture),x(_x), y(_y){};
+        Tile(float _x, float _y,std::shared_ptr<Texture>& _texture)
+            :texture(_texture),x(_x), y(_y){};
         void show(){texture->set();rect.show(x,y);};
         void set_texture(const std::shared_ptr<Texture>& _texture){texture = _texture;};
         void set_coords(float _x, float _y){x=_x;y=_y;};
         void set_size(float width,float height){rect.resize(width,height);};
-        inline bool collides(int x , int y){return texture->collides(x,y);};
+        bool collides(int x , int y){return texture->collides(x,y);};
 
 };
 
@@ -43,13 +45,15 @@ class TileLoader{
 class GameMap{
     private:
         std::vector< std::vector< Tile > > tiles;
-        unsigned int width,height;
         Rectangle tile_rect;
     public:
+        unsigned int width,height;
+        GameMap(){};
         GameMap(std::string& path){load(path);};
         void load(std::string& path);
         void show();
         bool collides(int x,int y);
+        bool collides(GameObject& obj);
 
 
 };

@@ -14,7 +14,7 @@ class Timer{
             unsigned int tmp;
             tmp = last_call_time;
             last_call_time = SDL_GetTicks();
-            return SDL_GetTicks - tmp;
+            return SDL_GetTicks() - tmp;
         };
-        unsigned int tss(){last_call_time = SDL_GetTicks(); return SDL_GetTicks - start_time;}; 
+        unsigned int tss(){last_call_time = SDL_GetTicks(); return SDL_GetTicks() - start_time;}; 
 };
