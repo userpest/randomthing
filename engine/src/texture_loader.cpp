@@ -65,7 +65,6 @@ bool Texture::collides(int _x, int _y){
     //switch to sdl coordinate system ( rotate by 180 degrees)
     int x = width - _x;
     int y = height - _y;
-    Uint8 r,g,b,a;
     int bpp = surface->format->BytesPerPixel;
     Uint8* p = (Uint8*)surface->pixels + y * surface->pitch + x * bpp;
     Uint32 pixelColor;
@@ -91,9 +90,6 @@ bool Texture::collides(int _x, int _y){
     
     Uint8 red, green, blue, alpha;
     SDL_GetRGBA(pixelColor, surface->format, &red, &green, &blue, &alpha);
-    if(a == SDL_ALPHA_OPAQUE){
-        return true;
-    } else {
-        return false;
-    }
+    return alpha != SDL_ALPHA_TRANSPARENT;
+
 }
