@@ -53,7 +53,7 @@ class GameMap{
         void load(std::string& path);
         void show();
         bool collides(int x,int y);
-        bool collides(GameObject& obj);
+        bool collides(std::shared_ptr<GameObject>& obj);
 
 
 };

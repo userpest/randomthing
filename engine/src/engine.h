@@ -7,15 +7,15 @@
 #include "game_objects.h"
 #include <vector>
 #include "patterns.h"
+#include <memory>
 
 class Engine: public Singleton<Engine> {
     private:
-        Player player;
         int videoFlags;
         SDL_Surface *surface;
         GameMap game_map; 
-        GameObject hero;
-        std::vector <GameObject> objects;
+        std::shared_ptr<Player> player;
+        std::vector <std::shared_ptr<GameObject> > objects;
         void init_GL();
         void resize_window(int width, int height);
         void draw_scene();
@@ -28,10 +28,11 @@ class Engine: public Singleton<Engine> {
         void detect_collisions();
         void harvest_dead();
         void move_camera();
-        bool objects_collide(GameObject& a, GameObject& b);
+        bool objects_collide(std::shared_ptr<GameObject>& a, std::shared_ptr<GameObject>& b);
 
     public:
-        void load_map(std::string name){game_map.load(name);};
+        void add_object(std::shared_ptr<GameObject>& obj){objects.push_back(obj);};
+        void load_map(std::string path);
         void init();
         void game_loop();
 

@@ -100,7 +100,7 @@ void GameMap::load(string& path){
 }
 bool GameMap::collides(int x, int y){
 
-    if( x < 0 || y < 0 || x > width || y > height)
+    if( x < 0 || y < 0 || x >= width || y >= height)
         return true;
 
     int tilex = std::floor(x/TILE_WIDTH);
@@ -110,10 +110,10 @@ bool GameMap::collides(int x, int y){
     return tiles[tilex][tiley].collides(x,y);
 }
 
-bool GameMap::collides(GameObject& obj){
-    for(int i = 0 ; i < obj.width;i++){
-        for(int j=0 ; j < obj.height;j++){
-            if(collides(obj.x+i,obj.y+j)){
+bool GameMap::collides(std::shared_ptr<GameObject>& obj){
+    for(int i = 0 ; i < obj->width;i++){
+        for(int j=0 ; j < obj->height;j++){
+            if(collides(obj->x+i,obj->y+j)){
                 return true;
             }
         }
