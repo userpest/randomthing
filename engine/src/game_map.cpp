@@ -93,7 +93,6 @@ void GameMap::load(string& path){
             t.set_texture(t_loader[tile_id]);
             t.set_coords(i*TILE_WIDTH,j*TILE_HEIGHT);
         }
-        puts("");
     }
     height = height*TILE_HEIGHT;
     width = width *TILE_WIDTH;

@@ -15,7 +15,7 @@ class Texture{
         //in ogl coordinate system
         bool collides(int x,int y);
         Texture(std::string path);
-        ~Texture(){printf("text destr %p\n", surface);glDeleteTextures(1,&texture);SDL_FreeSurface(surface);};
+        ~Texture(){glDeleteTextures(1,&texture);SDL_FreeSurface(surface);};
         inline void set(){glBindTexture(GL_TEXTURE_2D, texture);};
 
         float get_width(){return width;};

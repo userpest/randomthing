@@ -11,6 +11,10 @@
 
 
 Animation::Animation(std::string& path){
+    load(path);
+}
+
+void Animation::load(std::string& path){
     int nr = 0 ;
     std::string name=path+"anim";
     std::string filename = name+int_to_str(nr)+".png";
@@ -28,6 +32,7 @@ Animation::Animation(std::string& path){
     rect.resize(frames[0]->get_width(),frames[0]->get_height());
     animation_loop_time = frames.size()*FRAME_TIME;
     current_frame=frames[0];
+
 }
 
 void Animation::show(float x,float y){

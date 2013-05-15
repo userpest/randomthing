@@ -18,6 +18,7 @@ class Animation{
     public:
         Animation(){};
         Animation(std::string& path);
+        void load(std::string& path);
         void show(float x,float y);
         void start(){animation_timer.restart();};
         bool collides(int x,int y){return current_frame->collides(x,y);};
