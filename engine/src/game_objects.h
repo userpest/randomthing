@@ -11,7 +11,7 @@ class GameObject{
         
     public:
         int height,width;
-        int x,y;
+        int x=0,y=0;
 
         //dummy speed implementation there's rly no need for vectors i think
         int v_x=0;
@@ -21,19 +21,23 @@ class GameObject{
         //object dmg on inpact usefull for projectiles
         int dmg=1;
         bool touching_ground = false;
-        bool facing_right = false;
+        bool facing_right = true;
 
-        GameObject():current_animation(nullptr){};
-        GameObject(Animation& anim){set_animation(anim);set_size();};
+        GameObject(){};
+        GameObject(Animation& anim){set_animation(anim);
+            set_size();};
+        GameObject(int _x, int _y,Animation& anim): x(_x), y(_y){set_animation(anim);};
 
-        void set_animation(Animation& anim){current_animation=&anim; current_animation->start();};
-        void show(){ if(x>0) facing_right = true; if (x<0) facing_right = false; current_animation->show(x,y);};
-
+        void set_animation(Animation& anim){current_animation=&anim; 
+            current_animation->start();
+            set_size();};
+        void show();
+        
         bool collides(int _x,int _y){return current_animation->collides(_x,_y);};
 
         //overload for some collision processing
         virtual void collision(){return;};
-
+        virtual void changed_direction(){return;};
         //overload this to do some animation swapping and such stuff
         
         virtual void think(){return;};
@@ -43,17 +47,19 @@ class GameObject{
 
 class Player: public GameObject{
     private:
-        Animation move_left_a,move_right_a,jump_left_a,jump_right_a, stand_left_a, stand_right_a;
-
+        Animation left,right;
+        bool last_direction=true;
         void _shot();
     public:
         //Player(){};
+        Player(int _x,int _y); 
         bool move_left=false;
         bool move_right = false;
         bool jump =false;
         bool shot=false;
 
-        virtual void think(){return;};
+        virtual void think();
+        virtual void changed_direction();
 
 };
 

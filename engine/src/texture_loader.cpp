@@ -5,6 +5,18 @@
 #include <GL/gl.h>
 #include <SDL/SDL_image.h>
 #include <iostream>
+#include <list>
+using namespace std;
+void Texture::print_collisions(){
+    cout<<"collision map"<<endl;
+    for(int j =height-1 ; j >= 0;j--){
+        for(int i =0;i<width;i++){
+            cout<<collides(i,j);
+        }
+        cout<<endl;
+    }
+
+}
 Texture::Texture(std::string path){
     GLenum texture_format;
     GLint  nOfColors;
@@ -49,7 +61,9 @@ Texture::Texture(std::string path){
 
     width = surface->w;
     height = surface -> h; 
-
+    cout<<path<<endl;
+    print_collisions();
+    cout<<"#############"<<endl;
 }
 
 const  std::shared_ptr<Texture>& TextureLoader::operator[](std::string name){
@@ -90,6 +104,7 @@ bool Texture::collides(int _x, int _y){
     
     Uint8 red, green, blue, alpha;
     SDL_GetRGBA(pixelColor, surface->format, &red, &green, &blue, &alpha);
-    return alpha != SDL_ALPHA_TRANSPARENT;
+
+    return alpha == SDL_ALPHA_OPAQUE ;
 
 }

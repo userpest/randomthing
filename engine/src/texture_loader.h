@@ -17,7 +17,7 @@ class Texture{
         Texture(std::string path);
         ~Texture(){glDeleteTextures(1,&texture);SDL_FreeSurface(surface);};
         inline void set(){glBindTexture(GL_TEXTURE_2D, texture);};
-
+        void print_collisions();
         float get_width(){return width;};
         float get_height(){return height;};
 

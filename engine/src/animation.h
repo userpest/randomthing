@@ -17,10 +17,10 @@ class Animation{
         std::shared_ptr<Texture> current_frame;
     public:
         Animation(){};
-        Animation(std::string& path);
-        void load(std::string& path);
+        Animation(std::string path);
+        void load(std::string path);
         void show(float x,float y);
-        void start(){animation_timer.restart();};
+        void start(){animation_timer.restart();current_frame = frames[0];};
         bool collides(int x,int y){return current_frame->collides(x,y);};
         int get_height(){return current_frame->get_height();};
         int get_width(){return current_frame->get_width();};

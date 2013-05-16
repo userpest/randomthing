@@ -10,12 +10,14 @@
 #include <algorithm>
 #include "game_objects.h"
 #include "helper.h"
+#include <iostream>
 
 using namespace std;
 
 void Engine::load_map(std::string path){
     objects.resize(0);
-    player = shared_ptr<Player>(new Player());
+    player = shared_ptr<Player>(new Player(100,150));
+    objects.push_back(player);
     game_map.load(path);
 }
 void Engine::detect_collisions(){
@@ -313,7 +315,7 @@ void Engine::move_camera(){
     
     if( (player->x +screen_half_x) > game_map.width ){
 
-        move_x = -(game_map.width - screen_half_x);
+        move_x = -(float)(game_map.width-SCREEN_WIDTH);
 
     }else if(player->x < screen_half_x){
 
@@ -321,13 +323,13 @@ void Engine::move_camera(){
 
     } else{
 
-        move_x = -player->x;
+        move_x = -(player->x-screen_half_x);
 
     }
 
     if( (player->y + screen_half_y) > game_map.height ){
 
-        move_y = -(game_map.height - screen_half_y);
+        move_y = -(float)(game_map.height - SCREEN_HEIGHT);
 
     }else if(player->y < screen_half_y){
 
@@ -335,10 +337,9 @@ void Engine::move_camera(){
 
     } else{
 
-        move_y = -player->y;
+        move_y = -(player->y-screen_half_y);
 
     }
-
     glTranslatef(move_x,move_y,0); 
 
 }
@@ -361,10 +362,12 @@ void Engine::draw_scene(){
 void Engine::handle_movement(){
 
     for(auto& i: objects){
+
+        i->v_y-=1;
+
         int vx = i->v_x,vy = i->v_y;
         int stepx =-sgn(vx), stepy = -sgn(vy);
         //gravity
-        i->v_y-=10;
 
         if(i->v_y != 0 ){
             i->touching_ground = false;
@@ -415,9 +418,10 @@ void Engine::game_loop(){
   while (true)
 	{
         handle_events();
-//        handle_movement();
- //       detect_collisions();
-  //      harvest_dead();
+        handle_movement();
+        detect_collisions();
+        harvest_dead();
 		draw_scene();
+        SDL_Delay(30);
 	}
 }

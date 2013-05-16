@@ -81,6 +81,7 @@ void GameMap::load(string& path){
         tiles[i].resize(height);
     }
     //read tiles
+    //printf("%d %d\n", width,height);
     for(int j = 0; j<height;j++){
         unsigned short int tile_id;
         for(int i =0 ; i < width; i++){
@@ -111,9 +112,10 @@ bool GameMap::collides(int x, int y){
 }
 
 bool GameMap::collides(std::shared_ptr<GameObject>& obj){
+
     for(int i = 0 ; i < obj->width;i++){
         for(int j=0 ; j < obj->height;j++){
-            if(collides(obj->x+i,obj->y+j)){
+            if(collides(obj->x+i,obj->y+j) && obj->collides(i,j)){
                 return true;
             }
         }

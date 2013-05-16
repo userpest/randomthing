@@ -8,21 +8,22 @@
 #include <vector>
 #include <memory>
 #include <cmath>
+#include <iostream>
 
-
-Animation::Animation(std::string& path){
+using namespace std;
+Animation::Animation(std::string path){
     load(path);
 }
 
-void Animation::load(std::string& path){
+void Animation::load(std::string path){
     int nr = 0 ;
-    std::string name=path+"anim";
+    std::string name=path;
     std::string filename = name+int_to_str(nr)+".png";
     while(file_exists(filename)){
         TextureLoader& textures = TextureLoader::get_instance(); 
         frames.push_back(textures[filename]);
         nr++;
-        std::string filename = name+int_to_str(nr)+".png";
+        filename = name+int_to_str(nr)+".png";
     }
     if(frames.size()==0){
         fprintf(stderr,"no frames for animation");

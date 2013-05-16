@@ -9,6 +9,8 @@
 #include "texture_loader.h"
 #include "shapes.h"
 #include "game_objects.h"
+#include <stdio.h>
+#include <iostream>
 
 const float TILE_WIDTH=40;
 const float TILE_HEIGHT=40;
@@ -26,7 +28,7 @@ class Tile{
         void set_texture(const std::shared_ptr<Texture>& _texture){texture = _texture;};
         void set_coords(float _x, float _y){x=_x;y=_y;};
         void set_size(float width,float height){rect.resize(width,height);};
-        bool collides(int x , int y){return texture->collides(x,y);};
+        bool collides(int _x , int _y){return texture->collides(_x,_y);};
 
 };
 
