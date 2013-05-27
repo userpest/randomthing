@@ -14,7 +14,6 @@ class Engine: public Singleton<Engine> {
         int videoFlags;
         SDL_Surface *surface;
         GameMap game_map; 
-        std::shared_ptr<Player> player;
         std::vector <std::shared_ptr<GameObject> > objects;
         void init_GL();
         void resize_window(int width, int height);
@@ -31,8 +30,11 @@ class Engine: public Singleton<Engine> {
         bool objects_collide(std::shared_ptr<GameObject>& a, std::shared_ptr<GameObject>& b);
 
     public:
+        std::shared_ptr<Player> player;
+
         void add_object(std::shared_ptr<GameObject>& obj){objects.push_back(obj);};
         void load_map(std::string path);
+        bool can_move(GameObject* obj, int x, int y);
         void init();
         void game_loop();
 

@@ -11,8 +11,18 @@
 #include "game_objects.h"
 #include "helper.h"
 #include <iostream>
+#include <boost/python.hpp>
 
 using namespace std;
+
+bool Engine::can_move(GameObject* obj, int x, int y){
+    obj->x+=x;
+    obj->y+=y;
+    bool ret = game_map.collides(obj);           
+    obj->x-=x;
+    obj->y-=y;
+    return !ret;
+}
 
 void Engine::load_map(std::string path){
     objects.resize(0);
@@ -173,6 +183,7 @@ void Engine::init(){
 
     /* resize the initial window */
     resize_window( SCREEN_WIDTH, SCREEN_HEIGHT );
+    Py_Initialize();
 
 }
 void Engine::init_GL( )

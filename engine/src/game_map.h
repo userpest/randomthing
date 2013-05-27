@@ -56,6 +56,7 @@ class GameMap{
         void show();
         bool collides(int x,int y);
         bool collides(std::shared_ptr<GameObject>& obj);
+        bool collides(GameObject* obj);
 
 
 };

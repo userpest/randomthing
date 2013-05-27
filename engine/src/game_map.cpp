@@ -112,7 +112,9 @@ bool GameMap::collides(int x, int y){
 }
 
 bool GameMap::collides(std::shared_ptr<GameObject>& obj){
-
+    return collides(obj.get());
+}
+bool GameMap::collides(GameObject* obj){
     for(int i = 0 ; i < obj->width;i++){
         for(int j=0 ; j < obj->height;j++){
             if(collides(obj->x+i,obj->y+j) && obj->collides(i,j)){

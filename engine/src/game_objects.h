@@ -1,6 +1,11 @@
 #pragma once
 #include "animation.h"
 #include <string>
+#include <map>
+#include <boost/python/tuple.hpp>
+#include <boost/make_shared.hpp>
+#include <boost/python.hpp>
+#include <boost/python/ptr.hpp>
 
 //ugly eh
 class GameObject{
@@ -24,11 +29,11 @@ class GameObject{
         bool facing_right = true;
 
         GameObject(){};
-        GameObject(Animation& anim){set_animation(anim);
+        GameObject(Animation& anim){set_animation(&anim);
             set_size();};
-        GameObject(int _x, int _y,Animation& anim): x(_x), y(_y){set_animation(anim);};
+        GameObject(int _x, int _y,Animation& anim): x(_x), y(_y){set_animation(&anim);};
 
-        void set_animation(Animation& anim){current_animation=&anim; 
+        void set_animation(Animation* anim){current_animation=anim; 
             current_animation->start();
             set_size();};
         void show();
@@ -45,14 +50,13 @@ class GameObject{
 
 };
 
-class Player: public GameObject{
-    private:
-        Animation left,right;
-        bool last_direction=true;
-        void _shot();
-    public:
-        //Player(){};
+class Player: public GameObject{ 
+    private: 
+            Animation left,right; 
+             void _shot(); 
+    public: 
         Player(int _x,int _y); 
+        Player():Player(0,0){}; 
         bool move_left=false;
         bool move_right = false;
         bool jump =false;
@@ -63,8 +67,24 @@ class Player: public GameObject{
 
 };
 
-class Npc:public GameObject{
+class Creature:public GameObject{
+    private:
+        std::map <std::string , std::shared_ptr<Animation> > animations;
+        PyThreadState* py_interpreter;
+        boost::python::object script_think;
+        boost::python::object script_collision;
+        std::string map_path;
     public:
         virtual void think();
+        virtual void collision();
+        void set_current_animation(std::string name);
+        bool can_move(int x, int y);
+        void move(int x,int y);
+        void add_object(std::string name, int x, int y);
+        boost::python::tuple get_player_pos();
+        
+        Creature(std::string name,std::string map_path);
+        ~Creature();
 
 };
+

@@ -1,0 +1,33 @@
+szkic
+
+I. Struktura :
+Potwor jest opisywany przez katalog 
+o nastepujacej strukturze
+creature_name/script.py - ai/zarzadzanie ruchem itp
+creature_name/animations/* - animacje
+
+II. Ladowanie
+Najpierw wyszukiwany jest potwor 
+
+III. umieszczanie na mapie
+
+Lokacje wrogow sa odczytywane z pliku creatures.txt w katalogu glownym mapy.
+Plik ten ma nastepujaca strukture
+x y creature_name
+
+Pliki potworow sa najpierw wyszukiwane w katalogu lokalnym mapy a dopiero potem w globalnym ( ./creatures ) 
+
+Python api:
+
+skrypt powinien zawierac funkcjie
+    def init(obj) - inicjalizacja obj to obiekt reprezentujacy potwora
+    def collision_callback()  - callback wywolywany w przypadku kolizji 
+    def think() - funkcja wywolywana podczas kazdej klatki
+
+funkcje eksportowane przez obiekt potwora:
+    can_move(x,y) - czy mozemy sie przesunac o x,y 
+    move(x,y) - przesun o x,y
+    get_player_pos() 
+    add_creature("creature",x,y) - dodaj potwora o nazwie creature +x,y od naszej pozycji
+    set_animation("name") - ustaw obecna animacje
+
