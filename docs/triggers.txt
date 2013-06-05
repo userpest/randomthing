@@ -1,0 +1,25 @@
+so triggery,
+
+polozenie : mapa/triggers.txt
+
+format pliku:
+
+obowiazkowo
+typ_triggera(int) x_tile'a(int) y_tile'a(int) dodatkowe dane
+
+gdzie dodatkowe dane sa rozne w zaleznosci od typu triggera
+
+typy triggerow
+
+0 - zmiana mapy dodatkowe dane to miejsce spawnu gracza na nowej mapie czyli w pliku
+bedzie to wygladac tak
+
+0 x_tile'a y_tile'a x_spawn y_spawn
+
+1 - spawnowanie potwora
+argumenty - ilosc aktywacji triggera, cooldown(ms), nazwa potwora(string), miejsce spawnu(int)
+so
+
+1 x_tile'a y_tile'a activation_count cooldown enemy x_spawn y_spawn
+
+skrypcenie na poziomie ktory realizuje gra mozna zasadniczo wykonac przez potwora... .
