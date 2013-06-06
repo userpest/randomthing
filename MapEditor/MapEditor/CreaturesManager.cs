@@ -41,7 +41,7 @@ namespace MapEditor
             }
             
         }
-        public void LoadPrototypes()
+        public void LoadPrototypes(string mapfolder)
         {
             string bp = Path.Combine(Application.StartupPath,creaturesfolder);
             prototypes = new Dictionary<string, Creature>();
@@ -49,13 +49,18 @@ namespace MapEditor
             {
                 AddPrototype(mob,true);
             }
+            if (!String.IsNullOrEmpty(mapfolder))
+            {
 
+                foreach (string dir in Directory.GetDirectories(Path.Combine(mapfolder, creaturesfolder)))
+                {
+                    AddPrototype(dir, false);
+                }
+            }
             foreach (KeyValuePair<string, Creature> pair in prototypes)
             {
                 pair.Value.LoadAvatar();
-            }
-            
-            
+            }       
            
         }
         public void AddPrototype(string path,bool isbase)
@@ -63,6 +68,7 @@ namespace MapEditor
             string name =Path.GetFileName(path);
             Texture t = new Texture(name.GetHashCode(), 0, Path.Combine(path,avatar), isbase);
             prototypes[name] = new Creature(new System.Drawing.Point(0, 0), t,name);
+            prototypes[name].Path = path;
         }
 
         public void AddCreature(Creature creature)
@@ -87,6 +93,35 @@ namespace MapEditor
                     sw.WriteLine(String.Format("{0} {1} {2}", cr.Location.X, cr.Location.Y, cr.Name));
                 }
             }
+            Directory.CreateDirectory(Path.Combine(name, creaturesfolder));
+            foreach (Creature cr in prototypes.Values)
+            {
+                string dest = Path.Combine(name, creaturesfolder, cr.Name);
+               
+                if (!cr.Basic && !cr.Path.Equals(dest))
+                {
+                    if (Directory.Exists(dest))
+                    {
+                        Directory.Delete(dest, true);
+                    }
+                    Utils.DirectoryCopy(cr.Path, dest, true);
+                }
+            }
+        }
+
+        public void AddPrototypeWithLoad(string path, bool isbase)
+        {
+            
+            string name = Path.GetFileName(path);
+            if (prototypes.ContainsKey(name))
+            {
+                prototypes[name].Remove();
+            }
+            Texture t = new Texture(name.GetHashCode(), 0, Path.Combine(path, avatar), isbase);
+            t.Load();
+            prototypes[name] = new Creature(new System.Drawing.Point(0, 0), t, name);
+            prototypes[name].Path = path;
+            
         }
     }
 }

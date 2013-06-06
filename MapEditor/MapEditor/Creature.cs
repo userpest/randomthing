@@ -12,6 +12,10 @@ namespace MapEditor
         public Point Location;
         public string Name;
 
+        public string Path;
+
+        public bool Basic { get { return Avatar.Basic; } }
+
         public Creature(Point Location, Texture Avatar, string name)
         {
             this.Avatar = Avatar;
@@ -21,14 +25,13 @@ namespace MapEditor
 
         public void LoadAvatar()
         {
-            try
-            {
                 Avatar.Load();
-            }
-            catch (Exception ex)
-            {
 
-            }
+        }
+
+        public void Remove()
+        {
+            Avatar.Remove();
         }
     }
 }

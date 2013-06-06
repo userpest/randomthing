@@ -15,7 +15,7 @@ namespace MapEditor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MapEditor());
+            Application.Run(MapEditor.Instance);
         }
     }
 }

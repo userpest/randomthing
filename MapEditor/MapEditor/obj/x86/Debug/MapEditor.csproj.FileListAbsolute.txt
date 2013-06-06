@@ -13,3 +13,8 @@ C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.exe
 C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.pdb
 C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.AddTile.resources
 C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.NewMap.resources
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.AddTrigger.resources
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.ManageTrigger.resources
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.SelectFieldControll.resources
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.SpawnPointControll.resources
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.SpawnCreatureControll.resources

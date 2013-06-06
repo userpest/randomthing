@@ -38,6 +38,7 @@ namespace MapEditor
         }
         #endregion
 
+        public bool IsOn { get { return Initialized && Map != null; } }
         private GLControl glControl;
         private Map map;
         private Camera camera;
@@ -46,9 +47,19 @@ namespace MapEditor
         private double offset;
         private MouseController mouseController;
         private CreaturesManager creaturesManager;
+        private TriggersManager triggerManager;
+
+
+        public Field LastRightClickedField;
+        
 
         private bool initialized;
 
+        public TriggersManager TriggetManager
+        {
+            get { return triggerManager; }
+
+        }        
         public CreaturesManager CreaturesManager { get { return creaturesManager; } }
         public bool Initialized { get { return initialized; } }
         public MouseController MouseController { get { return mouseController; } }
@@ -76,7 +87,8 @@ namespace MapEditor
             mouseController = new MouseController();
             creaturesManager = new CreaturesManager();
             SetupOpengl();
-            creaturesManager.LoadPrototypes();
+            //creaturesManager.LoadPrototypes();
+            triggerManager = new TriggersManager();
             if (InitializedEngine != null) InitializedEngine(this, EventArgs.Empty);
         }
 

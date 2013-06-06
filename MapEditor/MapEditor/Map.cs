@@ -11,6 +11,9 @@ namespace MapEditor
 {
     public class Map
     {
+
+       
+
         public void SetBackground(string filename)
         {
             Bitmap temp = new Bitmap(filename);
@@ -77,8 +80,12 @@ namespace MapEditor
         private static string specialTextures = "textures";
         private static string startPositionTexture = "startPosition.png";
         private static string background = "background.png";
+        private static string triggerImage = "trigger.png";
         private const int START = 0;
         private const int BACKGROUND = 1;
+        private const int TRIGGER = 2;
+
+        public bool ShowTriggers = false;
         public string mapfolder;
         public string basepath;
 
@@ -115,6 +122,8 @@ namespace MapEditor
             LoadTextures(false);
             CreateTiles();
             backgraundOn = false;
+            EditorEngine.Instance.CreaturesManager.LoadPrototypes(String.Empty);
+            
 
         }
 
@@ -139,7 +148,10 @@ namespace MapEditor
             LoadTextures(true);
             LoadBackground();
             LoadTiles();
+            EditorEngine.Instance.CreaturesManager.LoadPrototypes(mapfolder);
+            EditorEngine.Instance.TriggetManager.LoadTriggers(mapfolder,this);
             if (Loaded != null) Loaded(this, EventArgs.Empty);
+
 
         }
         private void LoadTiles()
@@ -196,6 +208,7 @@ namespace MapEditor
             background.Load();
             specials[BACKGROUND] = background;
             backgraundOn = true;
+            backBit = background.Bmp;
         }
         private void loadSpecials()
         {
@@ -203,6 +216,10 @@ namespace MapEditor
             start.Load();
           
             specials[START] = start;
+
+            Texture trigger = new Texture(TRIGGER, 0, Path.Combine(basepath, specialTextures, triggerImage), true);
+            trigger.Load();
+            specials[TRIGGER] = trigger;
 
         }
         private void loadTextures(string path,bool basic)
@@ -239,11 +256,10 @@ namespace MapEditor
             if (!backgraundOn) throw new SavingException("Missing background");
             string tailsFolder = Path.Combine(name, texturesPath);
             string tailsFile = Path.Combine(name, texturesFile);
-            string triggers = Path.Combine(name, "triggers");
             string map = Path.Combine(name, "map");
+            
             if (!Directory.Exists(name)) Directory.CreateDirectory(name);
             if (!Directory.Exists(tailsFolder)) Directory.CreateDirectory(tailsFolder);
-            if (!Directory.Exists(triggers)) Directory.CreateDirectory(triggers);
             using (StreamWriter sw = new StreamWriter(map))
             {
                 sw.Write(Width);
@@ -278,6 +294,7 @@ namespace MapEditor
             }
             backBit.Save(Path.Combine(name, background));
             EditorEngine.Instance.CreaturesManager.Save(name);
+            EditorEngine.Instance.TriggetManager.SaveTriggers(name);
         }
 
         public void Update()
@@ -291,7 +308,11 @@ namespace MapEditor
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    GetField(i, j).Draw(i, j);
+                    Field temp = GetField(i, j);
+                    temp.Draw(i, j);
+                    if (ShowTriggers && temp.triggers != null)
+                        temp.Draw(i, j, specials[TRIGGER]);
+
                 }
             }
             if (startPositionSeted)

@@ -35,5 +35,10 @@ namespace MapEditor
             MobClickHandler.Instance.prototype = cr;
             return MobClickHandler.Instance;
         }
+        public ClickHandler GetClickListenerHandler(IClickListener listener)
+        {
+            ListenerClickHandler.Insance.Listener = listener;
+            return ListenerClickHandler.Insance;
+        }
     }
 }
