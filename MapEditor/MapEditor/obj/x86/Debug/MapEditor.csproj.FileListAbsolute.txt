@@ -12,3 +12,4 @@ C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\GenerateResource.write.1.t
 C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.exe
 C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.pdb
 C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.AddTile.resources
+C:\Repo\randomthing\MapEditor\MapEditor\obj\x86\Debug\MapEditor.NewMap.resources

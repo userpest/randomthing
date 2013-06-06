@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MapEditor
 {
-    class Trigger
+    public class Trigger
     {
     }
 }

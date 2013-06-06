@@ -63,7 +63,7 @@ namespace MapEditor
                         MessageBox.Show("Cannot read a picture", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    picture = inteligentResize(bmp);
+                    picture = Utils.InteligentResize(bmp);
                     pictureBox1.BackgroundImage = picture;
                     buttonOK.Enabled = true;
                     
@@ -72,26 +72,7 @@ namespace MapEditor
             
         }
 
-        private int calcSize(int dimSize)
-        {
-            int size = 2;
-            while (size < dimSize)
-                size = size * 2;
-            return (size / 2 + size) / 2 < dimSize ? size : size / 2;
-        }
-
-        private Bitmap inteligentResize(Bitmap bmp)
-        {
-            int width = calcSize(bmp.Width);
-            int height = calcSize(bmp.Height);
-
-
-            Bitmap result = new Bitmap(width, height);
-            Graphics g = Graphics.FromImage(result);
-            g.DrawImage(bmp, new Rectangle(0, 0, width, height));
-            return result;
-            
-        }
+        
 
         private void buttonOK_Click(object sender, EventArgs e)
         {

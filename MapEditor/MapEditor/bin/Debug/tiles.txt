@@ -1,2 +1,3 @@
+0 empty.png
 1 t1.jpg
 2 t2.jpg

@@ -46,6 +46,8 @@
             this.listViewTiles = new System.Windows.Forms.ListView();
             this.labelTiles = new System.Windows.Forms.Label();
             this.buttonAddTile = new System.Windows.Forms.Button();
+            this.buttonbackgrnd = new System.Windows.Forms.Button();
+            this.listViewCreatures = new System.Windows.Forms.ListView();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -102,6 +104,7 @@
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -187,7 +190,7 @@
             this.listViewTiles.MultiSelect = false;
             this.listViewTiles.Name = "listViewTiles";
             this.listViewTiles.ShowGroups = false;
-            this.listViewTiles.Size = new System.Drawing.Size(283, 490);
+            this.listViewTiles.Size = new System.Drawing.Size(257, 490);
             this.listViewTiles.TabIndex = 10;
             this.listViewTiles.UseCompatibleStateImageBehavior = false;
             this.listViewTiles.SelectedIndexChanged += new System.EventHandler(this.listViewTiles_SelectedIndexChanged);
@@ -211,11 +214,32 @@
             this.buttonAddTile.UseVisualStyleBackColor = true;
             this.buttonAddTile.Click += new System.EventHandler(this.buttonAddTile_Click);
             // 
+            // buttonbackgrnd
+            // 
+            this.buttonbackgrnd.Location = new System.Drawing.Point(651, 247);
+            this.buttonbackgrnd.Name = "buttonbackgrnd";
+            this.buttonbackgrnd.Size = new System.Drawing.Size(112, 23);
+            this.buttonbackgrnd.TabIndex = 13;
+            this.buttonbackgrnd.Text = "Set Background";
+            this.buttonbackgrnd.UseVisualStyleBackColor = true;
+            this.buttonbackgrnd.Click += new System.EventHandler(this.buttonbackgrnd_Click);
+            // 
+            // listViewCreatures
+            // 
+            this.listViewCreatures.Location = new System.Drawing.Point(1063, 110);
+            this.listViewCreatures.Name = "listViewCreatures";
+            this.listViewCreatures.Size = new System.Drawing.Size(140, 421);
+            this.listViewCreatures.TabIndex = 14;
+            this.listViewCreatures.UseCompatibleStateImageBehavior = false;
+            this.listViewCreatures.SelectedIndexChanged += new System.EventHandler(this.listViewCreatures_SelectedIndexChanged);
+            // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1281, 752);
+            this.Controls.Add(this.listViewCreatures);
+            this.Controls.Add(this.buttonbackgrnd);
             this.Controls.Add(this.buttonAddTile);
             this.Controls.Add(this.labelTiles);
             this.Controls.Add(this.listViewTiles);
@@ -258,6 +282,8 @@
         private System.Windows.Forms.ToolStripStatusLabel labelGameX;
         private System.Windows.Forms.ToolStripStatusLabel labelGameY;
         private System.Windows.Forms.Button buttonAddTile;
+        private System.Windows.Forms.Button buttonbackgrnd;
+        private System.Windows.Forms.ListView listViewCreatures;
     }
 }
 

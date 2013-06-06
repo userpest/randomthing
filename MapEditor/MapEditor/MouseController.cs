@@ -28,7 +28,7 @@ namespace MapEditor
 
         private Point PointToOpengl(Point p)
         {
-            return new Point(p.X, -p.Y+(int)EditorEngine.Instance.Camera.Height-1);
+            return Utils.PointToOpengl(p);
         }
 
         public void Update()

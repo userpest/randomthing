@@ -45,15 +45,25 @@ namespace MapEditor
         private Stopwatch stopwatch;
         private double offset;
         private MouseController mouseController;
+        private CreaturesManager creaturesManager;
 
         private bool initialized;
 
+        public CreaturesManager CreaturesManager { get { return creaturesManager; } }
         public bool Initialized { get { return initialized; } }
         public MouseController MouseController { get { return mouseController; } }
-        public Map Map { get { return map; } set { map = value; if (MapChanged != null) MapChanged(this, null); } }
+        public Map Map 
+        {
+            get { return map; } 
+            set {
+                map = value;
+                if (MapChanged != null) MapChanged(this, null);
+                creaturesManager.Load();
+            } 
+        }
         public Camera Camera { get { return camera; } set { camera = value; } }
 
-
+        
         public void Initialize()
         {
             //map = new Map(@"C:\Repo\randomthing\MapEditor\MapEditor\bin\Debug\maps\test");
@@ -64,13 +74,18 @@ namespace MapEditor
             Camera.Height = glControl.Height;
             Camera.Widht = glControl.Width;
             mouseController = new MouseController();
+            creaturesManager = new CreaturesManager();
             SetupOpengl();
+            creaturesManager.LoadPrototypes();
             if (InitializedEngine != null) InitializedEngine(this, EventArgs.Empty);
         }
 
         private void SetupOpengl()
         {
             GL.Enable(EnableCap.Texture2D);
+            //GL.Enable(EnableCap.AlphaTest);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
         }
         private void Stop()
@@ -104,6 +119,7 @@ namespace MapEditor
         }
         public void Update()
         {
+            
             if (!running) return;
             stopwatch.Stop();
             double ms = stopwatch.Elapsed.TotalMilliseconds;
@@ -111,10 +127,7 @@ namespace MapEditor
             stopwatch.Start();
             ms += offset;
             while (ms-FRAP_TIME > 0.0)
-            {
-               
-
-
+            {       
                 ms -= FRAP_TIME;
             }
             initActions();
@@ -123,7 +136,7 @@ namespace MapEditor
             mouseController.Update();
             camera.Look();
             map.Update();
-
+            creaturesManager.Update();
 
             offset = ms;
             glControl.SwapBuffers();
@@ -144,9 +157,11 @@ namespace MapEditor
         {
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
+            GL.ClearColor(1, 1, 1, 1);
+            GL.Clear(ClearBufferMask.ColorBufferBit);
         }
 
-
+        
 
         
     }

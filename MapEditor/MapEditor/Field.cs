@@ -11,7 +11,8 @@ namespace MapEditor
     public class Field
     {
         public const int SIZE = 32;
-        List<Trigger> triggers;
+        public List<Trigger> triggers;
+        public Creature creature;
         Texture texture;
         bool colisable;
         //Description wtf

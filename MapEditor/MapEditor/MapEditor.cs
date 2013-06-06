@@ -16,7 +16,9 @@ namespace MapEditor
         private bool loaded = false;
         private int x = 0;
         private ImageList il;
+        private ImageList creat;
         private int indexImage;
+        private int idnexImageCreat;
 
         public MapEditor()
         {
@@ -35,12 +37,14 @@ namespace MapEditor
             EditorEngine.Instance.Associate(glControl);
             EditorEngine.Instance.InitializedEngine += new EventHandler(Instance_InitializedEngine);
             Application.Idle += new EventHandler(Application_Idle);
+            EditorEngine.Instance.Initialize();
         }
 
         void Instance_InitializedEngine(object sender, EventArgs e)
         {
             EditorEngine.Instance.MouseController.MouseMoved += new MouseEventHandler(MouseController_MouseMoved);
             EditorEngine.Instance.MapChanged += new EventHandler(EditoEngine_MapChanged);
+
         }
 
         void EditoEngine_MapChanged(object sender, EventArgs e)
@@ -60,10 +64,25 @@ namespace MapEditor
             }
             listViewTiles.LargeImageList = il;
             indexImage = i;
+
+            creat = new ImageList();
+            listViewCreatures.Items.Clear();
+            i=0;
+            foreach(KeyValuePair<string,Creature> prot in EditorEngine.Instance.CreaturesManager.Prototypes)
+            {
+                creat.Images.Add(prot.Value.Avatar.Bmp);
+                ListViewItem item = new ListViewItem(prot.Value.Name,i++);
+                item.Tag = prot.Value;
+                listViewCreatures.Items.Add(item);
+            }
+            listViewCreatures.LargeImageList = creat;
+
+            idnexImageCreat = i;
         }
 
         void MouseController_MouseMoved(object sender, MouseEventArgs e)
         {
+            if (EditorEngine.Instance.Map == null) return;
             labelX.Text = String.Format("X: {0}", e.X);
             labelY.Text = String.Format("Y: {0}", e.Y);
             Point gamePoint = EditorEngine.Instance.Map.FieldPoint(e.X,e.Y);
@@ -179,6 +198,7 @@ namespace MapEditor
         private void MapEditor_Load(object sender, EventArgs e)
         {
             listViewTiles.View = View.LargeIcon;
+            listViewCreatures.View = View.LargeIcon;
         }
 
         private void listViewTiles_SelectedIndexChanged(object sender, EventArgs e)
@@ -214,6 +234,37 @@ namespace MapEditor
                     listViewTiles.Items.Add(item);
                 }
             }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (NewMap nm = new NewMap())
+            {
+                if (nm.ShowDialog() == DialogResult.OK)
+                {
+                    Map map = new Map(nm.MapWidth, nm.MapHeight, nm.MapName);
+                    EditorEngine.Instance.Map = map;
+
+                    EditorEngine.Instance.Run();
+                }
+            }
+        }
+
+        private void buttonbackgrnd_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    EditorEngine.Instance.Map.SetBackground(ofd.FileName);
+                }
+            }
+        }
+
+        private void listViewCreatures_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Creature cr = listViewCreatures.SelectedItems[0].Tag as Creature;
+            EditorEngine.Instance.ClickHandler = Configuration.Instance.GetClickHandlerCreature(cr);
         }
     }
 }

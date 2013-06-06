@@ -29,5 +29,11 @@ namespace MapEditor
             ClickHandlerTileCreator.Instance.Texture = text;
             return ClickHandlerTileCreator.Instance;
         }
+
+        public ClickHandler GetClickHandlerCreature(Creature cr)
+        {
+            MobClickHandler.Instance.prototype = cr;
+            return MobClickHandler.Instance;
+        }
     }
 }

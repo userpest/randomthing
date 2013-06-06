@@ -85,5 +85,9 @@ namespace MapEditor
             this.texture = id;
             
         }
+        public void Remove()
+        {
+            GL.DeleteTexture(TextureName);
+        }
     }
 }

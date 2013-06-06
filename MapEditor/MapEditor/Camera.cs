@@ -134,5 +134,12 @@ namespace MapEditor
         {
             return new RectangleF((float)(-x ), (float)(-y ), (float)(width), (float)(height));
         }
+        public RectangleF GetView()
+        {
+            int sx = -(int)EditorEngine.Instance.Camera.X;
+            int sy = -(int)EditorEngine.Instance.Camera.Y;
+            return new RectangleF(sx, sy, Convert.ToSingle(Widht), Convert.ToSingle(Height));
+
+        }
     }
 }

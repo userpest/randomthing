@@ -11,7 +11,21 @@ namespace MapEditor
 {
     public class Map
     {
+        public void SetBackground(string filename)
+        {
+            Bitmap temp = new Bitmap(filename);
+            backBit = Utils.InteligentResize(temp);
+            if (backgraundOn)
+            {
+                specials[BACKGROUND].Remove();
+                
+            }
+            Texture txt = new Texture(BACKGROUND, 0, filename, true);
+            txt.Load();
+            specials[BACKGROUND] = txt;
+            backgraundOn = true;
 
+        }
         public abstract class MapLoadingState
         {
             public abstract void Load(string[] line, Map map);
@@ -62,10 +76,15 @@ namespace MapEditor
         private static string maps = "maps";
         private static string specialTextures = "textures";
         private static string startPositionTexture = "startPosition.png";
+        private static string background = "background.png";
         private const int START = 0;
-        private string mapfolder;
-        private string basepath;
+        private const int BACKGROUND = 1;
+        public string mapfolder;
+        public string basepath;
 
+        private Bitmap backBit;
+
+        private bool backgraundOn = false;
         private bool startPositionSeted;
         private Point startPosition;
         public Point StartPosition { get { return startPosition; } set { startPosition = value; startPositionSeted = true; } }
@@ -82,27 +101,34 @@ namespace MapEditor
         private string name;
 
         
-        public Map()
-            :this(DEFAULT_WIDTH,DEFAULT_HEIGHT)
+
+        public Map(int width, int height, string name)
         {
-            
+            this.mapfolder = string.Empty;//Path.Combine(Application.StartupPath,maps,
+            this.basepath = Application.StartupPath;
+            textures = new Dictionary<int, Texture>();
+            specials = new Dictionary<int, Texture>();
+            fields = new Field[width * height];
+            Width = width;
+            Height = height;
+            this.name = name;
+            LoadTextures(false);
+            CreateTiles();
+            backgraundOn = false;
+
         }
-        public Map(int width, int height)
-        {/*
-            textures = new List<int>();
-            loadTextures();
-            fields = new Field[width][];
-            for (int i = 0; i < width; i++)
+
+        private void CreateTiles()
+        {
+           
+            for (int i = 0; i < Height * Width; i++)
             {
-                fields[i] = new Field[height];
-                //
-                for (int j = 0; j < height; j++)
-                {
-                    fields[i][j] = new Field(i == 2 ? textures[0]:textures[1], 0);
-                }
-                //
-            }*/
+                Field f = new Field(textures[0], false);
+                fields[i] = f;
+            }
+
         }
+
         public Map(string name)
         {
             this.mapfolder = Path.Combine(Application.StartupPath,maps,name);
@@ -110,7 +136,8 @@ namespace MapEditor
             textures = new Dictionary<int, Texture>();
             specials = new Dictionary<int, Texture>();
             this.name = Path.GetFileName(mapfolder);
-            LoadTextures();
+            LoadTextures(true);
+            LoadBackground();
             LoadTiles();
             if (Loaded != null) Loaded(this, EventArgs.Empty);
 
@@ -143,30 +170,40 @@ namespace MapEditor
                 throw new MapLoadException("Exception during loading a map", ex);
             }
         }
-        private Field GetField(int x, int y)
+        public Field GetField(int x, int y)
         {
             return fields[y * Width + x];
         }
-        private void SetField(int x, int y, Field f)
+        public void SetField(int x, int y, Field f)
         {
             fields[y * Width + x] = f;
         }
-        public void LoadTextures()
+        public void LoadTextures(bool loadmap)
         {
             loadTextures(basepath,true);
-            loadTextures(mapfolder,false);
+            if(loadmap) loadTextures(mapfolder,false);
             foreach (KeyValuePair<int, Texture> pair in textures)
             {
                 pair.Value.Load();
             }
             loadSpecials();
+
             
+        }
+        private void LoadBackground()
+        {
+            Texture background = new Texture(BACKGROUND, 0, Path.Combine(mapfolder, Map.background), true);
+            background.Load();
+            specials[BACKGROUND] = background;
+            backgraundOn = true;
         }
         private void loadSpecials()
         {
             Texture start = new Texture(START, 0, Path.Combine(basepath, specialTextures, startPositionTexture), true);
             start.Load();
+          
             specials[START] = start;
+
         }
         private void loadTextures(string path,bool basic)
         {
@@ -199,6 +236,7 @@ namespace MapEditor
         }
         public void Save(string name)
         {
+            if (!backgraundOn) throw new SavingException("Missing background");
             string tailsFolder = Path.Combine(name, texturesPath);
             string tailsFile = Path.Combine(name, texturesFile);
             string triggers = Path.Combine(name, "triggers");
@@ -238,11 +276,17 @@ namespace MapEditor
                     }
                 }
             }
-            
+            backBit.Save(Path.Combine(name, background));
+            EditorEngine.Instance.CreaturesManager.Save(name);
         }
 
         public void Update()
         {
+            if (backgraundOn)
+            {
+                RectangleF view = EditorEngine.Instance.Camera.GetView();
+                DrawBackground(view);
+            }
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
@@ -250,8 +294,29 @@ namespace MapEditor
                     GetField(i, j).Draw(i, j);
                 }
             }
-            if(startPositionSeted)
+            if (startPositionSeted)
                 GetField(startPosition.X, startPosition.Y).Draw(startPosition.X, startPosition.Y, specials[START]);
+
+
+        }
+        public void DrawBackground(RectangleF view)
+        {
+            GL.BindTexture(TextureTarget.Texture2D, specials[BACKGROUND].TextureName);
+            GL.Begin(BeginMode.Quads);
+            GL.PushMatrix();
+
+            GL.TexCoord2(0, 0);
+        
+            GL.Vertex2(view.Left, view.Bottom);
+            GL.TexCoord2(0, 1);
+            GL.Vertex2(view.Left, view.Top);
+            GL.TexCoord2(1, 1);
+            GL.Vertex2(view.Right, view.Top);
+            GL.TexCoord2(1, 0);
+            GL.Vertex2(view.Right, view.Bottom);
+
+            GL.End();
+            GL.PopMatrix();
         }
         public void Update2()
         {
