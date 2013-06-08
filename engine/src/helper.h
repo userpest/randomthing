@@ -11,3 +11,7 @@ template <typename T> int sgn(T val)
         return (T(0) < val) - (val < T(0));
 };
 
+void save_string(FILE* fp, std::string str);
+std::string load_string(FILE* fp);
+void save_bool(FILE*fp, bool val);
+bool load_bool(FILE*fp, bool val);

@@ -9,8 +9,16 @@
 #include <cmath>
 #include <iostream>
 #include "helper.h"
+#include "engine.h"
 
 using namespace std;
+void Tile::activate_trigger(){
+    if(trigger.get() != nullptr){
+        trigger->activate();
+    }
+
+};
+
 void TileLoader::load_filenames(std::string& file){
    FILE* fp; 
     if ( (fp = fopen(file.c_str(),"r")) ==NULL){
@@ -57,7 +65,8 @@ void GameMap::show(){
         }
     }
 }
-void GameMap::load(string& path){
+void GameMap::load(string& path, bool load_everything ){
+    map_name = path;
     FILE* fp;
     string name;
     name = path+"map";
@@ -97,6 +106,10 @@ void GameMap::load(string& path){
     }
     height = height*TILE_HEIGHT;
     width = width *TILE_WIDTH;
+    if(load_everything){
+        load_triggers();    
+        load_creatures();
+    }
 
 }
 bool GameMap::collides(int x, int y){
@@ -123,4 +136,78 @@ bool GameMap::collides(GameObject* obj){
         }
     }
     return false;
+}
+void GameMap::save(FILE *fp){
+    save_string(fp, map_name);
+};
+
+void GameMap::load(FILE *fp){
+    string name= load_string(fp);
+    load(name,false);
+};
+
+void GameMap::load_triggers(){
+    std::string path = map_name+"triggers.txt";
+    FILE* fp;
+    fp = fopen(path.c_str(), "r");
+    if(fp == NULL){
+        cerr<<"cant find triggers.txt for map exiting"<<endl;
+        cout<<map_name;
+        exit(1);
+    }
+
+    int x,y,type;
+    int spawn_x,spawn_y;
+    char name[200];
+    shared_ptr<Trigger> ptr ;
+    while(fscanf(fp, "%d %d %d", &type,&x,&y) == 3){
+        switch(type){
+            case 0 : 
+                fscanf(fp, "%d %d %s", &spawn_x, &spawn_y, name);
+                ptr = shared_ptr<MapConnectingTrigger>(new MapConnectingTrigger(name,spawn_x, spawn_y));
+                tiles[x][y].set_trigger(ptr);
+                break;
+            case 1:
+                int activation_count, cooldown;
+                fscanf(fp, "%d %d %s %d %d", &activation_count, &cooldown, name ,&spawn_x,&spawn_y);
+                ptr = shared_ptr<SpawningTrigger>(new SpawningTrigger(spawn_x,spawn_y,name,activation_count,cooldown));
+                break;
+            default:
+                cerr<<"cannot determine type"<<type<<endl;
+                exit(1);
+                break;
+
+        };
+        tiles[x][y].set_trigger(ptr);
+    }
+
+    fclose(fp);
+
+}
+void GameMap::load_creatures(){
+    char name[200];
+    FILE* fp;
+    string path = map_name+"creatures.txt";
+    fp = fopen(path.c_str(), "r");
+    if(fp == NULL){
+        cerr<<"cant find creatures.txt for map exiting"<<endl;
+        cout<<path;
+        exit(1);
+    }
+
+    auto& eng = Engine::get_instance();
+    int x,y;
+    while(fscanf(fp,"%d %d %s", &x, &y,name)==3){
+        shared_ptr<GameObject> ptr = make_shared<Creature>(name,map_name);
+        ptr->x=x;
+        ptr->y=y;
+        eng.add_object(ptr);
+    } 
+    fclose(fp);
+};
+
+void GameMap::activate_trigger(shared_ptr<GameObject>& obj){
+    int tilex = (obj->x-obj->x%(int)TILE_WIDTH)/(int)TILE_WIDTH;
+    int tiley = (obj->y-obj->y%(int)TILE_HEIGHT)/(int)TILE_HEIGHT;
+    tiles[tilex][tiley].activate_trigger();
 }

@@ -12,6 +12,8 @@
 #include "helper.h"
 #include <iostream>
 #include <boost/python.hpp>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -30,6 +32,58 @@ void Engine::load_map(std::string path){
     objects.push_back(player);
     game_map.load(path);
 }
+
+void Engine::switch_map(string path, int x, int y){
+    load_map(path);
+    player->x = x;
+    player->y = y;
+    game_loop();
+};
+
+void Engine::save_game(std::string filename){
+    FILE *save;
+    int entries = objects.size();
+    save = fopen(filename.c_str(), "wb");
+    if(save == NULL){
+        cout<<"cant save exiting..."<<endl;
+        exit(1);
+    }
+
+    game_map.save(save);
+    fprintf(save,"%d", entries-1);
+    player->save(save);
+    for(auto& object: objects){
+        if(object.get() != player.get())
+            object->save(save);
+    }
+
+    fclose(save);
+};
+
+void Engine::load_game(std::string filename){
+    objects.clear();
+    int entries;
+    FILE* save;
+    save = fopen(filename.c_str(),"rb");
+    if(save == NULL){
+        cout<<"cant open the save"<<endl;
+        exit(1);
+    }
+
+    game_map.load(save);
+    fscanf(save,"%d", &entries);
+    player = shared_ptr<Player>(new Player(100,150));
+    player->load(save);
+
+    for(int i = 0 ; i < entries;i++){
+        shared_ptr<Creature> creature = make_shared<Creature>();
+        creature->load(save);
+        shared_ptr<GameObject> ptr = creature;
+        add_object(ptr);
+    }
+
+    fclose(save);
+};
 void Engine::detect_collisions(){
 
     for(auto& i: objects){
