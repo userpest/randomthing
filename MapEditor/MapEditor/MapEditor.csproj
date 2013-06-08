@@ -54,6 +54,12 @@
     <Compile Include="AddTile.Designer.cs">
       <DependentUpon>AddTile.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddTrigger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddTrigger.Designer.cs">
+      <DependentUpon>AddTrigger.cs</DependentUpon>
+    </Compile>
     <Compile Include="Camera.cs" />
     <Compile Include="ClickHandler.cs" />
     <Compile Include="ClickHandlerTileCreator.cs" />
@@ -62,6 +68,14 @@
     <Compile Include="CreaturesManager.cs" />
     <Compile Include="EditorEngine.cs" />
     <Compile Include="Field.cs" />
+    <Compile Include="IClickListener.cs" />
+    <Compile Include="ListenerClickHandler.cs" />
+    <Compile Include="ManageTrigger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageTrigger.Designer.cs">
+      <DependentUpon>ManageTrigger.cs</DependentUpon>
+    </Compile>
     <Compile Include="Map.cs" />
     <Compile Include="MapEditor.cs">
       <SubType>Form</SubType>
@@ -76,6 +90,7 @@
     <Compile Include="MapLoadingStateStartPoint.cs" />
     <Compile Include="MobClickHandler.cs" />
     <Compile Include="MouseController.cs" />
+    <Compile Include="MoveToNextMapTrigger.cs" />
     <Compile Include="NewMap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,12 +100,44 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SavingException.cs" />
+    <Compile Include="SelectFieldControll.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SelectFieldControll.Designer.cs">
+      <DependentUpon>SelectFieldControll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpawnCreatureControll.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SpawnCreatureControll.Designer.cs">
+      <DependentUpon>SpawnCreatureControll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpawnMobTrigger.cs" />
+    <Compile Include="SpawnPointControll.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SpawnPointControll.Designer.cs">
+      <DependentUpon>SpawnPointControll.cs</DependentUpon>
+    </Compile>
     <Compile Include="StartPositionClickHandler.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="Trigger.cs" />
+    <Compile Include="TriggerParameter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TriggerParameter.Designer.cs">
+      <DependentUpon>TriggerParameter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TriggersManager.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="AddTile.resx">
       <DependentUpon>AddTile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddTrigger.resx">
+      <DependentUpon>AddTrigger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageTrigger.resx">
+      <DependentUpon>ManageTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MapEditor.resx">
       <DependentUpon>MapEditor.cs</DependentUpon>
@@ -107,6 +154,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SelectFieldControll.resx">
+      <DependentUpon>SelectFieldControll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SpawnCreatureControll.resx">
+      <DependentUpon>SpawnCreatureControll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SpawnPointControll.resx">
+      <DependentUpon>SpawnPointControll.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

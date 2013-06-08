@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.glControl = new OpenTK.GLControl();
-            this.button1 = new System.Windows.Forms.Button();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.triggersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.MapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button4 = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.labelX = new System.Windows.Forms.ToolStripStatusLabel();
             this.labelY = new System.Windows.Forms.ToolStripStatusLabel();
@@ -48,6 +49,10 @@
             this.buttonAddTile = new System.Windows.Forms.Button();
             this.buttonbackgrnd = new System.Windows.Forms.Button();
             this.listViewCreatures = new System.Windows.Forms.ListView();
+            this.button1 = new System.Windows.Forms.Button();
+            this.checkBoxShowTriggers = new System.Windows.Forms.CheckBox();
+            this.buttonAddCreature = new System.Windows.Forms.Button();
+            this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +60,7 @@
             // glControl
             // 
             this.glControl.BackColor = System.Drawing.Color.Black;
+            this.glControl.ContextMenuStrip = this.contextMenuStrip;
             this.glControl.Location = new System.Drawing.Point(21, 104);
             this.glControl.Name = "glControl";
             this.glControl.Size = new System.Drawing.Size(605, 497);
@@ -68,15 +74,20 @@
             this.glControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.glControl_MouseUp);
             this.glControl.ImeModeChanged += new System.EventHandler(this.glControl_ImeModeChanged);
             // 
-            // button1
+            // contextMenuStrip
             // 
-            this.button1.Location = new System.Drawing.Point(988, 41);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.triggersToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(118, 26);
+            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
+            // 
+            // triggersToolStripMenuItem
+            // 
+            this.triggersToolStripMenuItem.Name = "triggersToolStripMenuItem";
+            this.triggersToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.triggersToolStripMenuItem.Text = "Triggers";
+            this.triggersToolStripMenuItem.Click += new System.EventHandler(this.triggersToolStripMenuItem_Click);
             // 
             // menuStrip
             // 
@@ -127,16 +138,6 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(650, 104);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(60, 24);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -176,7 +177,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(650, 155);
+            this.button2.Location = new System.Drawing.Point(651, 111);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(73, 24);
             this.button2.TabIndex = 9;
@@ -190,7 +191,7 @@
             this.listViewTiles.MultiSelect = false;
             this.listViewTiles.Name = "listViewTiles";
             this.listViewTiles.ShowGroups = false;
-            this.listViewTiles.Size = new System.Drawing.Size(257, 490);
+            this.listViewTiles.Size = new System.Drawing.Size(257, 195);
             this.listViewTiles.TabIndex = 10;
             this.listViewTiles.UseCompatibleStateImageBehavior = false;
             this.listViewTiles.SelectedIndexChanged += new System.EventHandler(this.listViewTiles_SelectedIndexChanged);
@@ -206,7 +207,7 @@
             // 
             // buttonAddTile
             // 
-            this.buttonAddTile.Location = new System.Drawing.Point(651, 201);
+            this.buttonAddTile.Location = new System.Drawing.Point(651, 141);
             this.buttonAddTile.Name = "buttonAddTile";
             this.buttonAddTile.Size = new System.Drawing.Size(71, 24);
             this.buttonAddTile.TabIndex = 12;
@@ -216,7 +217,7 @@
             // 
             // buttonbackgrnd
             // 
-            this.buttonbackgrnd.Location = new System.Drawing.Point(651, 247);
+            this.buttonbackgrnd.Location = new System.Drawing.Point(651, 171);
             this.buttonbackgrnd.Name = "buttonbackgrnd";
             this.buttonbackgrnd.Size = new System.Drawing.Size(112, 23);
             this.buttonbackgrnd.TabIndex = 13;
@@ -228,16 +229,50 @@
             // 
             this.listViewCreatures.Location = new System.Drawing.Point(1063, 110);
             this.listViewCreatures.Name = "listViewCreatures";
-            this.listViewCreatures.Size = new System.Drawing.Size(140, 421);
+            this.listViewCreatures.Size = new System.Drawing.Size(140, 196);
             this.listViewCreatures.TabIndex = 14;
             this.listViewCreatures.UseCompatibleStateImageBehavior = false;
             this.listViewCreatures.SelectedIndexChanged += new System.EventHandler(this.listViewCreatures_SelectedIndexChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(651, 200);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(88, 38);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Manage Field Trigger";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // checkBoxShowTriggers
+            // 
+            this.checkBoxShowTriggers.AutoSize = true;
+            this.checkBoxShowTriggers.Location = new System.Drawing.Point(686, 85);
+            this.checkBoxShowTriggers.Name = "checkBoxShowTriggers";
+            this.checkBoxShowTriggers.Size = new System.Drawing.Size(94, 17);
+            this.checkBoxShowTriggers.TabIndex = 16;
+            this.checkBoxShowTriggers.Text = "Show Triggers";
+            this.checkBoxShowTriggers.UseVisualStyleBackColor = true;
+            this.checkBoxShowTriggers.CheckedChanged += new System.EventHandler(this.checkBoxShowTriggers_CheckedChanged);
+            // 
+            // buttonAddCreature
+            // 
+            this.buttonAddCreature.Location = new System.Drawing.Point(664, 383);
+            this.buttonAddCreature.Name = "buttonAddCreature";
+            this.buttonAddCreature.Size = new System.Drawing.Size(85, 23);
+            this.buttonAddCreature.TabIndex = 17;
+            this.buttonAddCreature.Text = "Add Creature";
+            this.buttonAddCreature.UseVisualStyleBackColor = true;
+            this.buttonAddCreature.Click += new System.EventHandler(this.buttonAddCreature_Click);
             // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1281, 752);
+            this.Controls.Add(this.buttonAddCreature);
+            this.Controls.Add(this.checkBoxShowTriggers);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.listViewCreatures);
             this.Controls.Add(this.buttonbackgrnd);
             this.Controls.Add(this.buttonAddTile);
@@ -245,14 +280,13 @@
             this.Controls.Add(this.listViewTiles);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.glControl);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MapEditor";
             this.Text = "Map Editor";
             this.Load += new System.EventHandler(this.MapEditor_Load);
+            this.contextMenuStrip.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -265,14 +299,12 @@
         #endregion
 
         private OpenTK.GLControl glControl;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem MapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel labelX;
         private System.Windows.Forms.ToolStripStatusLabel labelY;
@@ -284,6 +316,11 @@
         private System.Windows.Forms.Button buttonAddTile;
         private System.Windows.Forms.Button buttonbackgrnd;
         private System.Windows.Forms.ListView listViewCreatures;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem triggersToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBoxShowTriggers;
+        private System.Windows.Forms.Button buttonAddCreature;
     }
 }
 

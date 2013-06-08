@@ -62,6 +62,8 @@ namespace MapEditor
         
         public void MouseUp(MouseEventArgs e)
         {
+            if (!EditorEngine.Instance.IsOn)
+                return;
             if (e.Button == MouseButtons.Left)
             {
                 if (isLeftDown)
@@ -81,7 +83,7 @@ namespace MapEditor
                     isLeftDown = false;
                 }
             }
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Middle)
             {
                 rightUp = PointToOpengl(e.Location);
                 isRightDown = false;
@@ -89,17 +91,25 @@ namespace MapEditor
         }
         public void MouseDown(MouseEventArgs e)
         {
+            if (!EditorEngine.Instance.IsOn)
+                return;
             if (e.Button == MouseButtons.Left)
             {
                 leftDown = PointToOpengl(e.Location);
                 isLeftDown = true;
             }
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Middle)
             {
                 rightDown = PointToOpengl(e.Location);
                 isRightDown = true;
                 rightMoveHandled = false;
                 rightLast = rightDown;
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                Point rem = Utils.PointToOpengl(e.Location);
+                Point target = EditorEngine.Instance.Map.FieldPoint(rem.X, rem.Y);
+                EditorEngine.Instance.LastRightClickedField = EditorEngine.Instance.Map.GetField(target.X, target.Y);
             }
         }
         public void MouseLeave(EventArgs e)

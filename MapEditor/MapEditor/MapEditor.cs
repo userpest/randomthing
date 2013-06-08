@@ -11,16 +11,33 @@ using System.IO;
 
 namespace MapEditor
 {
+   
     public partial class MapEditor : Form
     {
+
+        private static MapEditor instance;
+        public static MapEditor Instance { get { return instance; } }
+
         private bool loaded = false;
         private int x = 0;
         private ImageList il;
         private ImageList creat;
         private int indexImage;
         private int idnexImageCreat;
+        
+        
+        
+        public void ListenForClick(IClickListener listener)
+        {
+            this.BringToFront();
+            EditorEngine.Instance.ClickHandler = Configuration.Instance.GetClickListenerHandler(listener);
+        }
 
-        public MapEditor()
+        static MapEditor()
+        {
+            instance = new MapEditor();
+        }
+        private MapEditor()
         {
             
             InitializeComponent();
@@ -46,7 +63,22 @@ namespace MapEditor
             EditorEngine.Instance.MapChanged += new EventHandler(EditoEngine_MapChanged);
 
         }
+        void LoadCreaturesList()
+        {
+            creat = new ImageList();
+            listViewCreatures.Items.Clear();
+            int i = 0;
+            foreach (KeyValuePair<string, Creature> prot in EditorEngine.Instance.CreaturesManager.Prototypes)
+            {
+                creat.Images.Add(prot.Value.Avatar.Bmp);
+                ListViewItem item = new ListViewItem(prot.Value.Name, i++);
+                item.Tag = prot.Value;
+                listViewCreatures.Items.Add(item);
+            }
+            listViewCreatures.LargeImageList = creat;
 
+            idnexImageCreat = i;
+        }
         void EditoEngine_MapChanged(object sender, EventArgs e)
         {
             il = new ImageList();
@@ -65,19 +97,8 @@ namespace MapEditor
             listViewTiles.LargeImageList = il;
             indexImage = i;
 
-            creat = new ImageList();
-            listViewCreatures.Items.Clear();
-            i=0;
-            foreach(KeyValuePair<string,Creature> prot in EditorEngine.Instance.CreaturesManager.Prototypes)
-            {
-                creat.Images.Add(prot.Value.Avatar.Bmp);
-                ListViewItem item = new ListViewItem(prot.Value.Name,i++);
-                item.Tag = prot.Value;
-                listViewCreatures.Items.Add(item);
-            }
-            listViewCreatures.LargeImageList = creat;
-
-            idnexImageCreat = i;
+            LoadCreaturesList();
+            EditorEngine.Instance.Map.ShowTriggers = checkBoxShowTriggers.Checked;
         }
 
         void MouseController_MouseMoved(object sender, MouseEventArgs e)
@@ -265,6 +286,41 @@ namespace MapEditor
         {
             Creature cr = listViewCreatures.SelectedItems[0].Tag as Creature;
             EditorEngine.Instance.ClickHandler = Configuration.Instance.GetClickHandlerCreature(cr);
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            triggersToolStripMenuItem.Enabled = EditorEngine.Instance.IsOn;
+            
+        }
+
+        private void triggersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditorEngine.Instance.TriggetManager.GetManageTrigger().Show();
+        }
+
+        private void checkBoxShowTriggers_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EditorEngine.Instance.IsOn)
+                EditorEngine.Instance.Map.ShowTriggers = checkBoxShowTriggers.Checked;
+        }
+
+        private void buttonAddCreature_Click(object sender, EventArgs e)
+        {
+            using(FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                if(fbd.ShowDialog()==DialogResult.OK)
+                {
+                    EditorEngine.Instance.CreaturesManager.AddPrototypeWithLoad(fbd.SelectedPath,false);
+                    LoadCreaturesList();
+                }
+            }
+            
         }
     }
 }
