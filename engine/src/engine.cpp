@@ -11,7 +11,6 @@
 #include "game_objects.h"
 #include "helper.h"
 #include <iostream>
-#include <boost/python.hpp>
 #include <iostream>
 #include <fstream>
 
@@ -237,7 +236,6 @@ void Engine::init(){
 
     /* resize the initial window */
     resize_window( SCREEN_WIDTH, SCREEN_HEIGHT );
-    Py_Initialize();
 
 }
 void Engine::init_GL( )

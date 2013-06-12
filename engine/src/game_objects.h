@@ -2,10 +2,6 @@
 #include "animation.h"
 #include <string>
 #include <map>
-#include <boost/python/tuple.hpp>
-#include <boost/make_shared.hpp>
-#include <boost/python.hpp>
-#include <boost/python/ptr.hpp>
 #include <cstdio>
 
 //ugly eh
@@ -75,9 +71,6 @@ class Player: public GameObject{
 class Creature:public GameObject{
     private:
         std::map <std::string , std::shared_ptr<Animation> > animations;
-        PyThreadState* py_interpreter;
-        boost::python::object script_think;
-        boost::python::object script_collision;
         std::string map_path;
         std::string creature_name;
         //to be called only once per object lifetime
@@ -86,11 +79,9 @@ class Creature:public GameObject{
     public:
         virtual void think();
         virtual void collision();
-        void set_current_animation(std::string name);
         bool can_move(int x, int y);
         void move(int x,int y);
         void add_object(std::string name, int x, int y);
-        boost::python::tuple get_player_pos();
         
         Creature(std::string name,std::string map_path);
         Creature(){};

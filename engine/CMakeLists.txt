@@ -36,6 +36,5 @@ target_link_libraries(thing
     ${OPENGL_LIBRARIES} 
     ${SDL_LIBRARY}  
     ${SDLIMAGE_LIBRARY}
-    ${Boost_LIBRARIES}
     ${PYTHON_LIBRARIES}
     )
