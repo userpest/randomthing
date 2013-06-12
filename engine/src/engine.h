@@ -30,12 +30,16 @@ class Engine: public Singleton<Engine> {
         bool objects_collide(std::shared_ptr<GameObject>& a, std::shared_ptr<GameObject>& b);
 
     public:
+        std::string get_map_name(){return game_map.get_name();};
         std::shared_ptr<Player> player;
-
         void add_object(std::shared_ptr<GameObject>& obj){objects.push_back(obj);};
         void load_map(std::string path);
+        //never returns
+        void switch_map(std::string path,int x, int y);
         bool can_move(GameObject* obj, int x, int y);
         void init();
+        void save_game(std::string filename);
+        void load_game(std::string filename);
         void game_loop();
 
 };

@@ -8,6 +8,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <iostream>
+
+using namespace std;
 bool exist(std::string path){
     struct stat info;
     if ( stat(path.c_str(), &info) == 0){
@@ -54,4 +56,37 @@ std::string int_to_str(int num){
     std::stringstream ss;
     ss << num;
     return ss.str();
+}
+
+std::string load_string(FILE *fp){
+    int len;
+    fscanf(fp, "%d", &len);
+    string str;
+    str.resize(len);
+    for(int i  = 0 ; i < len;i++){
+        char c;
+        fscanf(fp, "%c",&c);
+        str[i]=c;
+    }
+
+    return str;
+}
+
+void save_string(FILE *fp, std::string str){
+    fprintf(fp,"%d", str.size());
+    for(int i=0;i<str.size();i++){
+        fprintf(fp,"%c", str[i]);
+    }
+}
+
+void save_bool(FILE*fp, bool val){
+    char v = val ? 1:0;
+    fprintf(fp, "%c", v);
+}
+
+bool load_bool(FILE*fp, bool val){
+    char v;
+    fscanf(fp, "%c", &v);
+    return v>0;
+
 }

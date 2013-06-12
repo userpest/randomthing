@@ -6,6 +6,7 @@
 #include <boost/make_shared.hpp>
 #include <boost/python.hpp>
 #include <boost/python/ptr.hpp>
+#include <cstdio>
 
 //ugly eh
 class GameObject{
@@ -35,7 +36,8 @@ class GameObject{
 
         void set_animation(Animation* anim){current_animation=anim; 
             current_animation->start();
-            set_size();};
+            set_size();
+         };
         void show();
         
         bool collides(int _x,int _y){return current_animation->collides(_x,_y);};
@@ -47,16 +49,18 @@ class GameObject{
         
         virtual void think(){return;};
         //virtual ~GameObject(){};
-
+        virtual void save(FILE* fp);
+        virtual void load(FILE* fp);
 };
 
 class Player: public GameObject{ 
     private: 
             Animation left,right; 
              void _shot(); 
+             bool direction;
     public: 
         Player(int _x,int _y); 
-        Player():Player(0,0){}; 
+        Player():Player(10,10){}; 
         bool move_left=false;
         bool move_right = false;
         bool jump =false;
@@ -64,6 +68,7 @@ class Player: public GameObject{
 
         virtual void think();
         virtual void changed_direction();
+        virtual void load(FILE* fp);
 
 };
 
@@ -74,6 +79,10 @@ class Creature:public GameObject{
         boost::python::object script_think;
         boost::python::object script_collision;
         std::string map_path;
+        std::string creature_name;
+        //to be called only once per object lifetime
+        void load(std::string name, std::string path);
+        std::string animation_name;
     public:
         virtual void think();
         virtual void collision();
@@ -84,7 +93,10 @@ class Creature:public GameObject{
         boost::python::tuple get_player_pos();
         
         Creature(std::string name,std::string map_path);
+        Creature(){};
         ~Creature();
 
+        virtual void save(FILE* fp);
+        virtual void load(FILE* fp);
 };
 

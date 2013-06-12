@@ -8,8 +8,12 @@
 #include <dirent.h>
 #include "animation.h"
 #include "engine.h"
+#include <boost/python/extract.hpp>
+#include <boost/python/module.hpp>
+
 using namespace boost::python;
-BOOST_PYTHON_MODULE(Creature){
+using namespace std;
+BOOST_PYTHON_MODULE(foo){
         class_<GameObject>("GameObject", no_init)
         .def_readwrite("x", &GameObject::x)
         .def_readwrite("y", &GameObject::y)
@@ -71,14 +75,19 @@ void Player::think(){
     }
 }
 
-Creature::Creature(std::string name,std::string _map_path){
+void Creature::load(std::string name, std::string _map_path){
     py_interpreter = Py_NewInterpreter();
     if(py_interpreter == NULL){
         cerr<<"Cant create new interpreter "<<endl;
         exit(1);
     }
+
+    if (PyImport_AppendInittab("embedded_hello", initfoo) == -1)
+        throw std::runtime_error("Failed to add embedded_hello to the interpreter's "
+                                 "builtin modules");
     map_path = _map_path;
-    string creature_path = get_path(map_path,name); 
+    creature_name = "creatures/"+name;
+    string creature_path = get_path(map_path,creature_name); 
     
     try{
        string script_path = creature_path+"/script.py";
@@ -115,7 +124,12 @@ Creature::Creature(std::string name,std::string _map_path){
     }
 
     closedir (dir);
-    
+
+
+}
+
+Creature::Creature(std::string name,std::string _map_path){
+    load(name,_map_path);
 }
 
 Creature::~Creature(){
@@ -146,6 +160,7 @@ void Creature::collision(){
 }
 void Creature::set_current_animation(std::string name){
     set_animation(animations[name].get());
+    animation_name = name;
 }
 
 bool Creature::can_move(int _x, int _y){
@@ -171,3 +186,43 @@ boost::python::tuple Creature::get_player_pos(){
     return boost::python::make_tuple(engine.player->x,engine.player->y);
 
 }
+
+void GameObject::save(FILE* fp){
+    fprintf(fp,"%d", v_x);
+    fprintf(fp, "%d", v_y);
+    fprintf(fp, "%d", hp);
+    fprintf(fp, "%d", dmg);
+    save_bool(fp,touching_ground);
+    save_bool(fp,facing_right);
+}
+
+void GameObject::load(FILE *fp){
+    fscanf(fp,"%d", &v_x);
+    fscanf(fp, "%d", &v_y);
+    fscanf(fp, "%d", &hp);
+    fscanf(fp, "%d", &dmg);
+    load_bool(fp,touching_ground);
+    load_bool(fp,facing_right);
+}
+
+void Player::load(FILE* fp){
+    GameObject::load(fp);
+    set_animation(&right);
+}
+
+void Creature::load(FILE* fp){
+    map_path=load_string(fp);
+    creature_name =load_string(fp);
+    string anim = load_string(fp);
+    load(creature_name,map_path);
+    GameObject::load(fp);
+    set_current_animation(anim);
+}
+
+void Creature::save(FILE *fp){
+    save_string(fp,map_path);
+    save_string(fp,creature_name);
+    save_string(fp,animation_name);
+    GameObject::save(fp);
+}
+
