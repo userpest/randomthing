@@ -10,7 +10,7 @@ namespace MapEditor
 {
     public class Field
     {
-        public const int SIZE = 32;
+        public const int SIZE = 40;
         public List<Trigger> triggers;
         public Creature creature;
         Texture texture;

@@ -17,10 +17,22 @@ namespace MapEditor
             return (size / 2 + size) / 2 < dimSize ? size : size / 2;
         }
 
-        public static Bitmap InteligentResize(Bitmap bmp)
+        public static Bitmap InteligentResize2(Bitmap bmp)
         {
             int width = calcSize(bmp.Width);
             int height = calcSize(bmp.Height);
+
+
+            Bitmap result = new Bitmap(width, height);
+            Graphics g = Graphics.FromImage(result);
+            g.DrawImage(bmp, new Rectangle(0, 0, width, height));
+            return result;
+
+        }
+        public static Bitmap InteligentResize(Bitmap bmp)
+        {
+            int width = 40;
+            int height = 40;
 
 
             Bitmap result = new Bitmap(width, height);
