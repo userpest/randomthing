@@ -224,6 +224,7 @@ namespace MapEditor
 
         private void listViewTiles_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listViewTiles.SelectedItems.Count <= 0) return;
             Texture text = listViewTiles.SelectedItems[0].Tag as Texture;
             EditorEngine.Instance.ClickHandler = Configuration.Instance.GetClickHandlerTile(text);
         }
@@ -284,6 +285,7 @@ namespace MapEditor
 
         private void listViewCreatures_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listViewCreatures.SelectedItems.Count <= 0) return;
             Creature cr = listViewCreatures.SelectedItems[0].Tag as Creature;
             EditorEngine.Instance.ClickHandler = Configuration.Instance.GetClickHandlerCreature(cr);
         }
@@ -342,6 +344,8 @@ namespace MapEditor
 
         private void glControl_SizeChanged(object sender, EventArgs e)
         {
+            if (!EditorEngine.Instance.IsOn)
+                return;
             EditorEngine.Instance.Camera.Widht = glControl.Width;
             EditorEngine.Instance.Camera.Height = glControl.Height;
         }
