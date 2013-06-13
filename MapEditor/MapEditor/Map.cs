@@ -65,7 +65,7 @@ namespace MapEditor
             }
             protected void SetStartPoint(int x, int y, Map m)
             {
-                m.StartPosition = new Point(x, y);
+                m.StartPosition = new Point(x/Field.SIZE, y/Field.SIZE);
             }
         }
 
@@ -266,9 +266,9 @@ namespace MapEditor
                 sw.Write(" ");
                 sw.Write(Height);
                 sw.Write("\n");
-                sw.Write(startPosition.X);
+                sw.Write(startPosition.X*Field.SIZE);
                 sw.Write(" ");
-                sw.Write(startPosition.Y);
+                sw.Write(startPosition.Y*Field.SIZE);
                 sw.Write("\n");
                 int i;
                 for (i = 0; i < fields.Length-1; i++)

@@ -18,7 +18,7 @@ namespace MapEditor
         }
         protected override string ParamsToString()
         {
-            return String.Format("{0} {1} {2}", SpawnLocation.X, SpawnLocation.Y, mapName);
+            return String.Format("{0} {1} {2}", SpawnLocation.X/Field.SIZE, SpawnLocation.Y/Field.SIZE, mapName);
         }
     }
 }
