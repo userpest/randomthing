@@ -7,10 +7,26 @@
 #include <dirent.h>
 #include "animation.h"
 #include "engine.h"
+#include <cstring>
 
 using namespace std;
 
-using namespace std;
+std::shared_ptr<GameObject> load_creature(std::string name, int x, int y){
+    printf("loading %s #\n", name.c_str());
+    shared_ptr<GameObject> ptr;
+    if(strcmp(name.c_str(),"test")==0){
+        puts("test_creature");
+        ptr = shared_ptr<GameObject>(new TestCreature(x,y));
+    }  
+    if(strcmp(name.c_str(),"bullet")==0){
+        ptr = shared_ptr<Bullet>(new Bullet(x,y,0));
+    }
+    
+    return ptr;
+    
+}
+
+
 
 Player::Player(int _x , int _y){
     x = _x;
@@ -47,70 +63,43 @@ void Player::changed_direction(){
 
 void Player::think(){
     if(move_right)
-        v_x = 10;
+        v_x = 9;
     if(move_left)
-        v_x = -10;
+        v_x = -9;
     if(jump && touching_ground){
-        v_y = 20;
+        v_y = 15;
+    }
+    if(shot && shoting_timer.tss()>300){
+        shoting_timer.restart();
+        int xcoord,v;
+        if(facing_right){
+            xcoord = x + 20;
+            v=9;
+        }
+        else{
+            xcoord = x - 20;
+            v=-9;
+        }
+        auto& eng = Engine::get_instance();
+        shared_ptr<GameObject> bullet(new Bullet(xcoord,y+5,v));
+        eng.add_object(bullet);
     }
 }
 
-void Creature::load(std::string name, std::string _map_path){
 
-    std::string creature_path = "./"+name;
-    DIR *dir;
-    struct dirent *ent;
-    string animation_dir = creature_path + "/animations/";
-
-    if ( (dir = opendir(animation_dir.c_str())) == NULL) {
-        perror("cant open animations directory");
-        exit(1);
-    }
-
-    /* print all the files and directories within directory */
-    while ((ent = readdir (dir)) != NULL) {
-        string animation_path = animation_dir+ent->d_name;
-        animations[ent->d_name]=shared_ptr<Animation>(new Animation(animation_path));
-    }
-
-    closedir (dir);
-}
-
-Creature::Creature(std::string name,std::string _map_path){
-    load(name,_map_path);
-}
-
-Creature::~Creature(){
-
-}
-
-void Creature::think(){
-}
-
-void Creature::collision(){
-
-}
-
-void Creature::add_object(std::string name, int _x, int _y){
-    //also not the best solution
-    Engine& engine = Engine::get_instance();
-    shared_ptr<GameObject> obj(new Creature(name,map_path));
-    obj->x = x + _x;
-    obj->y = y+_y;
-    engine.add_object(obj);
-
-}
 
 void GameObject::save(FILE* fp){
-    fprintf(fp,"%d", v_x);
-    fprintf(fp, "%d", v_y);
-    fprintf(fp, "%d", hp);
-    fprintf(fp, "%d", dmg);
+    fprintf(fp,"%d %d\n",x,y);
+    fprintf(fp,"%d\n", v_x);
+    fprintf(fp, "%d\n", v_y);
+    fprintf(fp, "%d\n", hp);
+    fprintf(fp, "%d\n", dmg);
     save_bool(fp,touching_ground);
     save_bool(fp,facing_right);
 }
 
 void GameObject::load(FILE *fp){
+    fscanf(fp, "%d %d", &x, &y);
     fscanf(fp,"%d", &v_x);
     fscanf(fp, "%d", &v_y);
     fscanf(fp, "%d", &hp);
@@ -123,20 +112,3 @@ void Player::load(FILE* fp){
     GameObject::load(fp);
     set_animation(&right);
 }
-
-void Creature::load(FILE* fp){
-    map_path=load_string(fp);
-    creature_name =load_string(fp);
-    string anim = load_string(fp);
-    load(creature_name,map_path);
-    GameObject::load(fp);
-    set_animation(animations[anim].get());
-}
-
-void Creature::save(FILE *fp){
-    save_string(fp,map_path);
-    save_string(fp,creature_name);
-    save_string(fp,animation_name);
-    GameObject::save(fp);
-}
-

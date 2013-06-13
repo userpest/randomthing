@@ -209,9 +209,7 @@ void GameMap::load_creatures(){
     auto& eng = Engine::get_instance();
     int x,y;
     while(fscanf(fp,"%d %d %s", &x, &y,name)==3){
-        shared_ptr<GameObject> ptr = make_shared<Creature>(name,map_name);
-        ptr->x=x;
-        ptr->y=y;
+        shared_ptr<GameObject> ptr =  load_creature(name, x,y);
         eng.add_object(ptr);
     } 
     fclose(fp);
