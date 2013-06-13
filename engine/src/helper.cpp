@@ -59,34 +59,25 @@ std::string int_to_str(int num){
 }
 
 std::string load_string(FILE *fp){
-    int len;
-    fscanf(fp, "%d", &len);
     string str;
-    str.resize(len);
-    for(int i  = 0 ; i < len;i++){
-        char c;
-        fscanf(fp, "%c",&c);
-        str[i]=c;
-    }
+    char data[200];
+    fscanf(fp, "%s",data);
 
-    return str;
+    return string(data);
 }
 
 void save_string(FILE *fp, std::string str){
-    fprintf(fp,"%d", str.size());
-    for(int i=0;i<str.size();i++){
-        fprintf(fp,"%c", str[i]);
-    }
+    fprintf(fp,"%s\n", str.c_str());
 }
 
 void save_bool(FILE*fp, bool val){
-    char v = val ? 1:0;
-    fprintf(fp, "%c", v);
+    int v = val ? 1:0;
+    fprintf(fp, "%d\n", v);
 }
 
 bool load_bool(FILE*fp, bool val){
-    char v;
-    fscanf(fp, "%c", &v);
+    int v;
+    fscanf(fp, "%d", &v);
     return v>0;
 
 }

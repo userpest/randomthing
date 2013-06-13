@@ -15,11 +15,8 @@ void SpawningTrigger::activate(){
         return;
 
     if(timer.time_since_last_save()>cooldown){
-        std::string map_path = eng.get_map_name();
-        shared_ptr<GameObject> creature = make_shared<Creature>(creature_name,map_path);
-        creature->x = x_spawn;
-        creature->y = y_spawn;
-        eng.add_object(creature);
+        shared_ptr<GameObject> c = load_creature(creature_name, x_spawn,y_spawn);
+        eng.add_object(c);
         timer.save();
         activation_count--;
     }

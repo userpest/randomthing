@@ -19,7 +19,7 @@ int main( int argc, char **argv )
         }
     }
     */
+//    game.load_map("forest0/");
     game.load_map("test_map/");
-//    game.load_map("map2/");
     game.game_loop();
 }

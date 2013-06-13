@@ -3,6 +3,9 @@
 #include <string>
 #include <map>
 #include <cstdio>
+#include <memory>
+#include "timer.h"
+#include "helper.h"
 
 //ugly eh
 class GameObject{
@@ -49,11 +52,14 @@ class GameObject{
         virtual void load(FILE* fp);
 };
 
+std::shared_ptr<GameObject> load_creature(std::string name, int x, int y);
+//loads creature with a given name and its starting coords
 class Player: public GameObject{ 
     private: 
             Animation left,right; 
              void _shot(); 
              bool direction;
+             Timer shoting_timer;
     public: 
         Player(int _x,int _y); 
         Player():Player(10,10){}; 
@@ -68,26 +74,60 @@ class Player: public GameObject{
 
 };
 
-class Creature:public GameObject{
+class TestCreature: public GameObject{
     private:
-        std::map <std::string , std::shared_ptr<Animation> > animations;
-        std::string map_path;
-        std::string creature_name;
-        //to be called only once per object lifetime
-        void load(std::string name, std::string path);
-        std::string animation_name;
+        Animation anim;
+        std::string name;
     public:
-        virtual void think();
-        virtual void collision();
-        bool can_move(int x, int y);
-        void move(int x,int y);
-        void add_object(std::string name, int x, int y);
-        
-        Creature(std::string name,std::string map_path);
-        Creature(){};
-        ~Creature();
-
-        virtual void save(FILE* fp);
-        virtual void load(FILE* fp);
+        TestCreature(int _x,int _y){
+            name = "test";
+            x=_x;
+            y=_y;
+            dmg = 10;
+            anim.load("blue_square/");
+            set_animation(&anim);
+        };
+        virtual void think(){
+            v_x=10;
+        };
+        virtual void save(FILE *fp){
+            save_string(fp,name);
+            GameObject::save(fp);
+        }
 };
+class Bullet: public GameObject{
+    private:
+        Animation anim;
+        std::string name;
+    public:
+        Bullet(int _x,int _y,int v){
+            //rly this could be more memory efficient
+            name = "bullet";
+            x=_x;
+            y=_y;
+            v_x=v;
+            v_y = 0;
+            dmg = 10;
+            anim.load("creatures/bullet/");
+            set_animation(&anim);
+        };
 
+        virtual void think(){
+            if(v_x ==0 )
+                hp = -1 ;
+
+            v_y=1; 
+        };
+
+        virtual void collision(){
+            hp = -1 ; 
+        };
+        virtual void save(FILE *fp){
+            save_string(fp,name);
+            GameObject::save(fp);
+        }
+        virtual void load(FILE *fp){
+            GameObject::load(fp);
+        };
+
+};

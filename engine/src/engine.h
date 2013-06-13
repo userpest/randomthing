@@ -15,6 +15,7 @@ class Engine: public Singleton<Engine> {
         SDL_Surface *surface;
         GameMap game_map; 
         std::vector <std::shared_ptr<GameObject> > objects;
+        std::vector <std::shared_ptr<GameObject> > cache;
         void init_GL();
         void resize_window(int width, int height);
         void draw_scene();
@@ -27,12 +28,13 @@ class Engine: public Singleton<Engine> {
         void detect_collisions();
         void harvest_dead();
         void move_camera();
+        void update_object_pool();
         bool objects_collide(std::shared_ptr<GameObject>& a, std::shared_ptr<GameObject>& b);
 
     public:
         std::string get_map_name(){return game_map.get_name();};
         std::shared_ptr<Player> player;
-        void add_object(std::shared_ptr<GameObject>& obj){objects.push_back(obj);};
+        void add_object(std::shared_ptr<GameObject>& obj){cache.push_back(obj);};
         void load_map(std::string path);
         //never returns
         void switch_map(std::string path,int x, int y);

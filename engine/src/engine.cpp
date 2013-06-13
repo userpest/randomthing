@@ -15,7 +15,10 @@
 #include <fstream>
 
 using namespace std;
-
+void Engine::update_object_pool(){
+    objects.insert(objects.end(), cache.begin(),cache.end());
+    cache.clear();
+};
 bool Engine::can_move(GameObject* obj, int x, int y){
     obj->x+=x;
     obj->y+=y;
@@ -44,14 +47,14 @@ void Engine::switch_map(string path, int x, int y){
 void Engine::save_game(std::string filename){
     FILE *save;
     int entries = objects.size();
-    save = fopen(filename.c_str(), "wb");
+    save = fopen(filename.c_str(), "w");
     if(save == NULL){
         cout<<"cant save exiting..."<<endl;
         exit(1);
     }
 
     game_map.save(save);
-    fprintf(save,"%d", entries-1);
+    fprintf(save,"%d\n", entries-1);
     player->save(save);
     for(auto& object: objects){
         if(object.get() != player.get())
@@ -65,7 +68,7 @@ void Engine::load_game(std::string filename){
     objects.clear();
     int entries;
     FILE* save;
-    save = fopen(filename.c_str(),"rb");
+    save = fopen(filename.c_str(),"r");
     if(save == NULL){
         cout<<"cant open the save"<<endl;
         exit(1);
@@ -75,9 +78,12 @@ void Engine::load_game(std::string filename){
     fscanf(save,"%d", &entries);
     player = shared_ptr<Player>(new Player(100,150));
     player->load(save);
-
+    //bitch please
+    shared_ptr<GameObject> ptr = player;
+    add_object(ptr);
     for(int i = 0 ; i < entries;i++){
-        shared_ptr<Creature> creature = make_shared<Creature>();
+        std::string creature_name = load_string(save);
+        shared_ptr<GameObject> creature = load_creature(creature_name,0,0);
         creature->load(save);
         shared_ptr<GameObject> ptr = creature;
         add_object(ptr);
@@ -298,6 +304,11 @@ void Engine::handle_key_down( SDL_keysym *keysym )
     case SDLK_SPACE:
         player->shot=true;
         break;
+    case SDLK_F9:
+        save_game("game_save");
+        break;
+    case SDLK_F10:
+        load_game("game_save");
 
 	default:
 	    break;
@@ -474,7 +485,10 @@ void Engine::harvest_dead(){
 
     for(auto i = objects.begin(); i!=objects.end(); i++){
         if ( (*i)->hp < 0){
-            objects.erase(i);
+            i = objects.erase(i);
+            if ( i == objects.end()){
+                break;
+            }
         }
     }
 
@@ -482,6 +496,7 @@ void Engine::harvest_dead(){
 void Engine::game_loop(){
   while (true)
 	{
+        update_object_pool();
         handle_events();
         handle_movement();
         detect_collisions();
