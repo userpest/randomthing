@@ -1,0 +1,10 @@
+walker - potwor ktory nie oddala sie od lokacji startowej na wiecej niz 40px,
+kiedy gracz podejdzie do niego na 10px eksploduje, prawdopodobnie bedzie wygladal jak cos niewinnego
+
+cameleon - potwor ktory ustawia sobie jakas niewinna animacje w stylu apteczki badz ammo packa, kiedy na niego wejdzie, ginie
+
+jumper - potwor ktory radosnie podskakuje po mapie, somehow kiedy gracz  proboje nad nim przeskoczyc ten skacze jeszcze wyzej
+
+invisible - niewidzialny potwor ktory strzela niewidzialnymi pociskami , dokladniej potwor ma widzialne tylko 2 piksele
+
+kamikaze - potwor ktory biegnie w kierunku gracza, przy spotkaniu zabija, gdy gracz proboje go zastrzelic strzela samonaprowadzajacymi pociskami
