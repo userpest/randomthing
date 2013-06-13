@@ -169,7 +169,7 @@ namespace MapEditor
         {
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
-            GL.ClearColor(1, 1, 1, 1);
+            GL.ClearColor(0, 0, 0, 1);
             GL.Clear(ClearBufferMask.ColorBufferBit);
         }
 

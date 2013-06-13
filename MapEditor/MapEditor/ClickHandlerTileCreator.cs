@@ -9,7 +9,13 @@ namespace MapEditor
     {
         public override void Selection(System.Drawing.Rectangle r)
         {
-            
+            for (int i = 0; i <= r.Width; i++)
+            {
+                for (int j = 0; j <= r.Height; j++)
+                {
+                    Click(new System.Drawing.Point(r.X + i, r.Y + j));
+                }
+            }
         }
         public override void Click(System.Drawing.Point p)
         {

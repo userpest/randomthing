@@ -26,7 +26,12 @@ namespace MapEditor
         public override void Click(System.Drawing.Point p)
         {
             Creature creature = new Creature(p, prototype.Avatar, prototype.Name);
-            EditorEngine.Instance.CreaturesManager.AddCreature(creature);
+            if (EditorEngine.Instance.CreaturesManager.ExistCreatureInField(p))
+            {
+                EditorEngine.Instance.CreaturesManager.RemoveCreature(p);
+            }
+            else
+                EditorEngine.Instance.CreaturesManager.AddCreature(creature);
         }
 
     }

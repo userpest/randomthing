@@ -1,3 +1,6 @@
 0 empty.png
-1 t1.jpg
-2 t2.jpg
+1 dirt.png
+2 rock.png
+3 grass.png
+4 brick.png
+5 t1.png

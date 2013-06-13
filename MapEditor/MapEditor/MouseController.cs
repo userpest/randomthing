@@ -64,6 +64,8 @@ namespace MapEditor
         {
             if (!EditorEngine.Instance.IsOn)
                 return;
+            if (!EditorEngine.Instance.Map.InMap(e.Location))
+                return;
             if (e.Button == MouseButtons.Left)
             {
                 if (isLeftDown)

@@ -65,13 +65,8 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(97, 48);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            2048,
-            0,
-            0,
-            0});
             this.numericUpDown1.Minimum = new decimal(new int[] {
-            100,
+            10,
             0,
             0,
             0});
@@ -79,7 +74,7 @@
             this.numericUpDown1.Size = new System.Drawing.Size(69, 20);
             this.numericUpDown1.TabIndex = 2;
             this.numericUpDown1.Value = new decimal(new int[] {
-            100,
+            10,
             0,
             0,
             0});
@@ -87,13 +82,8 @@
             // numericUpDown2
             // 
             this.numericUpDown2.Location = new System.Drawing.Point(97, 84);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            2048,
-            0,
-            0,
-            0});
             this.numericUpDown2.Minimum = new decimal(new int[] {
-            100,
+            10,
             0,
             0,
             0});
@@ -101,7 +91,7 @@
             this.numericUpDown2.Size = new System.Drawing.Size(69, 20);
             this.numericUpDown2.TabIndex = 3;
             this.numericUpDown2.Value = new decimal(new int[] {
-            100,
+            10,
             0,
             0,
             0});
@@ -131,6 +121,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(128, 20);
             this.textBox1.TabIndex = 6;
+            this.textBox1.Visible = false;
             // 
             // label3
             // 
@@ -140,6 +131,7 @@
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Name";
+            this.label3.Visible = false;
             // 
             // NewMap
             // 

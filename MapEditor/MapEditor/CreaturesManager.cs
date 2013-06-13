@@ -123,5 +123,26 @@ namespace MapEditor
             prototypes[name].Path = path;
             
         }
+
+        public bool ExistCreatureInField(Point p)
+        {
+            foreach (Creature cr in creatures)
+            {
+                if (cr.Location.Equals(p)) return true;
+            }
+            return false;
+        }
+
+        public void RemoveCreature(Point p)
+        {
+            for (int i = 0; i < creatures.Count; i++)
+            {
+                if (creatures[i].Location.Equals(p))
+                {
+                    creatures.RemoveAt(i);
+                    return;
+                }
+            }
+        }
     }
 }

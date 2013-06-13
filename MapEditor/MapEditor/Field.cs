@@ -43,6 +43,7 @@ namespace MapEditor
             GL.PushMatrix();
 
             int i = 0;
+            /*
             GL.TexCoord2(1, 1);
         
             GL.Vertex2(x, y);
@@ -51,7 +52,16 @@ namespace MapEditor
             GL.TexCoord2(0, 0);
             GL.Vertex2(x + SIZE, y + SIZE);
             GL.TexCoord2(0, 1);
-            
+            */
+            GL.TexCoord2(0, 1);
+
+            GL.Vertex2(x, y);
+            GL.TexCoord2(0, 0);
+            GL.Vertex2(x, y + SIZE);
+            GL.TexCoord2(1, 0);
+            GL.Vertex2(x + SIZE, y + SIZE);
+            GL.TexCoord2(1, 1);
+
             GL.Vertex2(x + SIZE, y);
             GL.End();
             GL.PopMatrix();

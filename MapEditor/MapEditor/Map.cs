@@ -17,7 +17,7 @@ namespace MapEditor
         public void SetBackground(string filename)
         {
             Bitmap temp = new Bitmap(filename);
-            backBit = Utils.InteligentResize(temp);
+            backBit = temp;//Utils.InteligentResize(temp);
             if (backgraundOn)
             {
                 specials[BACKGROUND].Remove();
@@ -375,8 +375,20 @@ namespace MapEditor
         }
         public Rectangle Rectangle(Point location, Point border)
         {
-            return new Rectangle();
+            Point loct = FieldPoint(location.X, location.Y);
+            Point bort = FieldPoint(border.X, border.Y);
+            Point loc = new Point(Math.Min(loct.X, bort.X), Math.Min(loct.Y, bort.Y));
+            Point bor = new Point(Math.Max(loct.X, bort.X), Math.Max(loct.Y, bort.Y));
+            return new Rectangle(loc, new Size(bor.X - loc.X, bor.Y - loc.Y));
         }
 
+
+        public bool InMap(Point point)
+        {
+            Point p = Utils.PointToOpengl(point);
+            p = FieldPoint(p.X,p.Y);
+            return p.X < Width && p.Y < Height;
+            
+        }
     }
 }

@@ -1,0 +1,2 @@
+0 21 2 20 5 walker
+0 24 2 20 5 kamikaze

@@ -17,7 +17,7 @@ namespace MapEditor
         }
         public override Trigger GetTrigger()
         {
-            Trigger tr = new MoveToNextMapTrigger(new Point((int)numericUpDown1.Value, (int)numericUpDown2.Value));
+            Trigger tr = new MoveToNextMapTrigger(new Point((int)numericUpDown1.Value, (int)numericUpDown2.Value),textBox1.Text);
             return tr;
         }
     }

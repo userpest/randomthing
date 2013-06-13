@@ -49,9 +49,7 @@
             this.buttonAddTile = new System.Windows.Forms.Button();
             this.buttonbackgrnd = new System.Windows.Forms.Button();
             this.listViewCreatures = new System.Windows.Forms.ListView();
-            this.button1 = new System.Windows.Forms.Button();
             this.checkBoxShowTriggers = new System.Windows.Forms.CheckBox();
-            this.buttonAddCreature = new System.Windows.Forms.Button();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -59,14 +57,18 @@
             // 
             // glControl
             // 
+            this.glControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.glControl.BackColor = System.Drawing.Color.Black;
             this.glControl.ContextMenuStrip = this.contextMenuStrip;
-            this.glControl.Location = new System.Drawing.Point(21, 104);
+            this.glControl.Location = new System.Drawing.Point(0, 27);
             this.glControl.Name = "glControl";
-            this.glControl.Size = new System.Drawing.Size(605, 497);
+            this.glControl.Size = new System.Drawing.Size(1003, 700);
             this.glControl.TabIndex = 0;
             this.glControl.VSync = false;
             this.glControl.Load += new System.EventHandler(this.glControl_Load);
+            this.glControl.SizeChanged += new System.EventHandler(this.glControl_SizeChanged);
             this.glControl.Paint += new System.Windows.Forms.PaintEventHandler(this.glControl_Paint);
             this.glControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.glControl_MouseDown);
             this.glControl.MouseLeave += new System.EventHandler(this.glControl_MouseLeave);
@@ -177,9 +179,10 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(651, 111);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(1012, 28);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(73, 24);
+            this.button2.Size = new System.Drawing.Size(112, 24);
             this.button2.TabIndex = 9;
             this.button2.Text = "Set Start Position";
             this.button2.UseVisualStyleBackColor = true;
@@ -187,19 +190,23 @@
             // 
             // listViewTiles
             // 
-            this.listViewTiles.Location = new System.Drawing.Point(780, 111);
+            this.listViewTiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewTiles.Location = new System.Drawing.Point(1012, 142);
             this.listViewTiles.MultiSelect = false;
             this.listViewTiles.Name = "listViewTiles";
             this.listViewTiles.ShowGroups = false;
-            this.listViewTiles.Size = new System.Drawing.Size(257, 195);
+            this.listViewTiles.Size = new System.Drawing.Size(257, 269);
             this.listViewTiles.TabIndex = 10;
             this.listViewTiles.UseCompatibleStateImageBehavior = false;
             this.listViewTiles.SelectedIndexChanged += new System.EventHandler(this.listViewTiles_SelectedIndexChanged);
+            this.listViewTiles.Enter += new System.EventHandler(this.listViewTiles_Enter);
             // 
             // labelTiles
             // 
+            this.labelTiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTiles.AutoSize = true;
-            this.labelTiles.Location = new System.Drawing.Point(777, 95);
+            this.labelTiles.Location = new System.Drawing.Point(1009, 126);
             this.labelTiles.Name = "labelTiles";
             this.labelTiles.Size = new System.Drawing.Size(29, 13);
             this.labelTiles.TabIndex = 11;
@@ -207,9 +214,10 @@
             // 
             // buttonAddTile
             // 
-            this.buttonAddTile.Location = new System.Drawing.Point(651, 141);
+            this.buttonAddTile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddTile.Location = new System.Drawing.Point(1012, 58);
             this.buttonAddTile.Name = "buttonAddTile";
-            this.buttonAddTile.Size = new System.Drawing.Size(71, 24);
+            this.buttonAddTile.Size = new System.Drawing.Size(112, 24);
             this.buttonAddTile.TabIndex = 12;
             this.buttonAddTile.Text = "Add Tile";
             this.buttonAddTile.UseVisualStyleBackColor = true;
@@ -217,7 +225,8 @@
             // 
             // buttonbackgrnd
             // 
-            this.buttonbackgrnd.Location = new System.Drawing.Point(651, 171);
+            this.buttonbackgrnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonbackgrnd.Location = new System.Drawing.Point(1012, 88);
             this.buttonbackgrnd.Name = "buttonbackgrnd";
             this.buttonbackgrnd.Size = new System.Drawing.Size(112, 23);
             this.buttonbackgrnd.TabIndex = 13;
@@ -227,27 +236,20 @@
             // 
             // listViewCreatures
             // 
-            this.listViewCreatures.Location = new System.Drawing.Point(1063, 110);
+            this.listViewCreatures.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewCreatures.Location = new System.Drawing.Point(1012, 417);
             this.listViewCreatures.Name = "listViewCreatures";
             this.listViewCreatures.Size = new System.Drawing.Size(140, 196);
             this.listViewCreatures.TabIndex = 14;
             this.listViewCreatures.UseCompatibleStateImageBehavior = false;
             this.listViewCreatures.SelectedIndexChanged += new System.EventHandler(this.listViewCreatures_SelectedIndexChanged);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(651, 200);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(88, 38);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Manage Field Trigger";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.listViewCreatures.Enter += new System.EventHandler(this.listViewCreatures_Enter);
             // 
             // checkBoxShowTriggers
             // 
+            this.checkBoxShowTriggers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBoxShowTriggers.AutoSize = true;
-            this.checkBoxShowTriggers.Location = new System.Drawing.Point(686, 85);
+            this.checkBoxShowTriggers.Location = new System.Drawing.Point(1158, 417);
             this.checkBoxShowTriggers.Name = "checkBoxShowTriggers";
             this.checkBoxShowTriggers.Size = new System.Drawing.Size(94, 17);
             this.checkBoxShowTriggers.TabIndex = 16;
@@ -255,33 +257,21 @@
             this.checkBoxShowTriggers.UseVisualStyleBackColor = true;
             this.checkBoxShowTriggers.CheckedChanged += new System.EventHandler(this.checkBoxShowTriggers_CheckedChanged);
             // 
-            // buttonAddCreature
-            // 
-            this.buttonAddCreature.Location = new System.Drawing.Point(664, 383);
-            this.buttonAddCreature.Name = "buttonAddCreature";
-            this.buttonAddCreature.Size = new System.Drawing.Size(85, 23);
-            this.buttonAddCreature.TabIndex = 17;
-            this.buttonAddCreature.Text = "Add Creature";
-            this.buttonAddCreature.UseVisualStyleBackColor = true;
-            this.buttonAddCreature.Click += new System.EventHandler(this.buttonAddCreature_Click);
-            // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1281, 752);
-            this.Controls.Add(this.buttonAddCreature);
+            this.Controls.Add(this.listViewTiles);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.checkBoxShowTriggers);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.listViewCreatures);
             this.Controls.Add(this.buttonbackgrnd);
+            this.Controls.Add(this.listViewCreatures);
+            this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.buttonAddTile);
             this.Controls.Add(this.labelTiles);
-            this.Controls.Add(this.listViewTiles);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.glControl);
-            this.Controls.Add(this.menuStrip);
+            this.Controls.Add(this.button2);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MapEditor";
             this.Text = "Map Editor";
@@ -316,11 +306,9 @@
         private System.Windows.Forms.Button buttonAddTile;
         private System.Windows.Forms.Button buttonbackgrnd;
         private System.Windows.Forms.ListView listViewCreatures;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem triggersToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxShowTriggers;
-        private System.Windows.Forms.Button buttonAddCreature;
     }
 }
 
