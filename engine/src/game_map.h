@@ -63,6 +63,7 @@ class GameMap{
     public:
         std::string get_name(){return map_name;};
         unsigned int width,height;
+        int player_x,player_y;
         GameMap(){};
         GameMap(std::string& path){load(path);};
         void load(std::string& path, bool load_everything = true);

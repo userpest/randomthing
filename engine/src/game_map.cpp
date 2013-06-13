@@ -77,23 +77,16 @@ void GameMap::load(string& path, bool load_everything ){
     FILE* fp;
     string name;
     name = path+"map";
-    fp = fopen(name.c_str(), "rb");
+    fp = fopen(name.c_str(), "r");
     if(fp == NULL){
         map_error();
     }
     //read map size
-    if(fread(&width,sizeof(width),1,fp) < 1){
-        map_error();
-    }
-    if(fread(&height,sizeof(height),1,fp)< 1){
-        map_error();
-    }
+    fscanf(fp, "%d %d %d %d", &width,&height,&player_x,&player_y);
 
+    background.resize(SCREEN_WIDTH,SCREEN_HEIGHT);
 
-
-background.resize(SCREEN_WIDTH,SCREEN_HEIGHT);
-
-auto& textures_loader = TextureLoader::get_instance();
+    auto& textures_loader = TextureLoader::get_instance();
     std::string bg_name= path+"/background.png";
     background_img = textures_loader[bg_name];
     //load tile textures
@@ -105,19 +98,22 @@ auto& textures_loader = TextureLoader::get_instance();
     }
     //read tiles
     //printf("%d %d\n", width,height);
+    puts("##########################");
     for(int j = 0; j<height;j++){
-        unsigned short int tile_id;
+        int tile_id;
         for(int i =0 ; i < width; i++){
-            if(fread(&tile_id,sizeof(tile_id),1,fp)<1){
+            if(fscanf(fp,"%d", &tile_id)<1){
                 map_error();
             }
-
+            printf("%d ", tile_id); 
             Tile& t=tiles[i][j];
             t.set_size(TILE_WIDTH,TILE_HEIGHT);
             t.set_texture(t_loader[tile_id]);
             t.set_coords(i*TILE_WIDTH,j*TILE_HEIGHT);
         }
+        puts("");
     }
+    puts("#########################");
     height = height*TILE_HEIGHT;
     width = width *TILE_WIDTH;
     if(load_everything){
