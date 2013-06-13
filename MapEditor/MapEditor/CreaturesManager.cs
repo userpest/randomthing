@@ -33,8 +33,8 @@ namespace MapEditor
                 {
                     string line = sr.ReadLine();
                     string[] split= line.Split(' ');
-                    int x = Convert.ToInt32(split[0]);
-                    int y = Convert.ToInt32(split[1]);
+                    int x = Convert.ToInt32(split[0])/Field.SIZE;
+                    int y = Convert.ToInt32(split[1])/Field.SIZE;
                     string name = split[2];
                     creatures.Add(new Creature(new System.Drawing.Point(x, y), prototypes[name].Avatar,name));
                 }
@@ -49,9 +49,9 @@ namespace MapEditor
             {
                 AddPrototype(mob,true);
             }
-            if (!String.IsNullOrEmpty(mapfolder))
+            if (!String.IsNullOrEmpty(mapfolder) && false)
             {
-
+                
                 foreach (string dir in Directory.GetDirectories(Path.Combine(mapfolder, creaturesfolder)))
                 {
                     AddPrototype(dir, false);
@@ -90,7 +90,7 @@ namespace MapEditor
             {
                 foreach (Creature cr in creatures)
                 {
-                    sw.WriteLine(String.Format("{0} {1} {2}", cr.Location.X, cr.Location.Y, cr.Name));
+                    sw.WriteLine(String.Format("{0} {1} {2}", cr.Location.X*Field.SIZE, cr.Location.Y*Field.SIZE, cr.Name));
                 }
             }
             Directory.CreateDirectory(Path.Combine(name, creaturesfolder));

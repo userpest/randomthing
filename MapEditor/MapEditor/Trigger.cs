@@ -14,15 +14,16 @@ namespace MapEditor
     }
     public abstract class Trigger
     {
-        private static TriggerType type;
+        private TriggerType type;
 
-        public static TriggerType Type { get { return type; } protected set { if (type == TriggerType.NONE) type = value; } }
+        public TriggerType Type { get { return type; } protected set { if (type != TriggerType.NONE) type = value; } }
 
 
 
-        public string ToString(Point point)
+        public  string ToString(Point point)
         {
-            return String.Format("{0} {1} {2} {3}", (int)type, point.X, point.Y, ParamsToString());
+            String s = String.Format("{0} {1} {2} {3}", (int)type, point.X, point.Y, ParamsToString());
+            return s;
         }
 
         protected abstract string ParamsToString();

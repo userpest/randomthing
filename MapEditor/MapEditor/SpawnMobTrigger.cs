@@ -25,7 +25,7 @@ namespace MapEditor
 
         protected override string ParamsToString()
         {
-            return String.Format("{0} {1} {2} {3} {4}", ActivactionCount, Cooldown, Enemy, SpawnLocation.X, SpawnLocation.Y);
+            return String.Format("{0} {1} {2} {3} {4}", ActivactionCount, Cooldown, Enemy, SpawnLocation.X*Field.SIZE, SpawnLocation.Y*Field.SIZE);
         }
     }
 }

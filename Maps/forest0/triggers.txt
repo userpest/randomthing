@@ -1,2 +1,2 @@
-0 21 2 20 5 walker
-0 24 2 20 5 kamikaze
+0 17 18 0 0 forest1
+1 21 2 4 5000 walker 800 160

@@ -55,14 +55,14 @@ namespace MapEditor
                         switch ((TriggerType)(Convert.ToInt32(par[0])))
                         {
                             case TriggerType.CHANGE_MAP:
-                                f.triggers.Add(new MoveToNextMapTrigger(new Point(Convert.ToInt32(par[3]), Convert.ToInt32(par[4])),par[5]));
+                                f.triggers.Add(new MoveToNextMapTrigger(new Point(Convert.ToInt32(par[3])/Field.SIZE, Convert.ToInt32(par[4])/Field.SIZE),par[5]));
                                 break;
                             case TriggerType.SPAWN_MOB:
                                 f.triggers.Add(new SpawnMobTrigger(
                                     Convert.ToInt32(par[3]),
                                     Convert.ToInt32(par[4]),
                                     par[5],
-                                    new Point(Convert.ToInt32(par[6]), Convert.ToInt32(par[7]))));
+                                    new Point(Convert.ToInt32(par[6]) / Field.SIZE, Convert.ToInt32(par[7]) / Field.SIZE)));
                                 break;
                         }
                     }
