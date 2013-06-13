@@ -126,11 +126,12 @@ bool GameMap::collides(int x, int y){
 
     if( x < 0 || y < 0 || x >= width || y >= height)
         return true;
-
-    int tilex = std::floor(x/TILE_WIDTH);
-    int tiley = std::floor(y/TILE_HEIGHT); 
-    x-=tilex*TILE_WIDTH;
-    y-=tiley*TILE_HEIGHT;
+    int w = (int)TILE_WIDTH;
+    int h = (int)TILE_HEIGHT;
+    int tilex = (x-x%w)/w;
+    int tiley = (y-y%h)/h; 
+    x-=tilex*w;
+    y-=tiley*h;
     return tiles[tilex][tiley].collides(x,y);
 }
 

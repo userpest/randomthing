@@ -1,2 +1,5 @@
 0 bottom.png
 1 air.png
+2 brick.png
+3 stair.png
+4 3.png

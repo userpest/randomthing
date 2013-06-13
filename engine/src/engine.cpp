@@ -30,6 +30,8 @@ void Engine::load_map(std::string path){
     player = shared_ptr<Player>(new Player(100,150));
     objects.push_back(player);
     game_map.load(path);
+    player->x = game_map.player_x;
+    player->y = game_map.player_y;
 }
 
 void Engine::switch_map(string path, int x, int y){

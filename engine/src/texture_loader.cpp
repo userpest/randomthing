@@ -77,8 +77,8 @@ const  std::shared_ptr<Texture>& TextureLoader::operator[](std::string name){
 }
 bool Texture::collides(int _x, int _y){
     //switch to sdl coordinate system ( rotate by 180 degrees)
-    int x = width - _x;
-    int y = height - _y;
+    int x = _x; 
+    int y = height - _y-1;
     int bpp = surface->format->BytesPerPixel;
     Uint8* p = (Uint8*)surface->pixels + y * surface->pitch + x * bpp;
     Uint32 pixelColor;
