@@ -59,6 +59,13 @@ void map_error(){
     std::exit(1); 
 }
 void GameMap::show(){
+    glPushMatrix(); 
+    glLoadIdentity(); 
+    background_img->set(); 
+ 
+    background.show(0,0); 
+
+    glPopMatrix(); 
     for(auto& i: tiles){
         for(auto& j:i){
             j.show();
@@ -82,6 +89,13 @@ void GameMap::load(string& path, bool load_everything ){
         map_error();
     }
 
+
+
+background.resize(SCREEN_WIDTH,SCREEN_HEIGHT);
+
+auto& textures_loader = TextureLoader::get_instance();
+    std::string bg_name= path+"/background.png";
+    background_img = textures_loader[bg_name];
     //load tile textures
     TileLoader t_loader(path);
 

@@ -56,6 +56,10 @@ class GameMap{
         std::string map_name;
         void load_triggers();
         void load_creatures();
+
+
+        Rectangle background;
+        std::shared_ptr<Texture> background_img;
     public:
         std::string get_name(){return map_name;};
         unsigned int width,height;
