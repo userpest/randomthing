@@ -54,6 +54,7 @@ namespace MapEditor
         private void buttonRemove_Click(object sender, EventArgs e)
         {
             int i = listBoxTriggers.SelectedIndex;
+            if (i == -1) return;
             if (Field != null)
             {
                 Field.triggers.RemoveAt(i);
