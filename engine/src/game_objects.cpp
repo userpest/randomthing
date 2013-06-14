@@ -110,8 +110,8 @@ Cameleon::Cameleon(int _x, int _y){
     dmg = 100;
     hp = 100;
     name = "cameleon";
-    char names[1][100]={"red_square/"};
-    anim.load(names[0]);
+    char names[4][100]={"red_square/","creatures/cameleon/cake/","creatures/cameleon/tree/","creatures/cameleon/medpack/"};
+    anim.load(names[rand()%4]);
     set_animation(&anim);
 };
 Jumper::Jumper(int _x, int _y){
@@ -130,7 +130,7 @@ void Jumper::think(){
     walk();
     auto& eng = Engine::get_instance();
     float dist = fabs(x-eng.player->x);
-    if( !eng.will_fall((GameObject*)this,move_direction,0)){
+    if( !eng.will_fall((GameObject*)this,move_direction,0)&& eng.can_move((GameObject*)this, move_direction,0)){
         v_y=5;
         v_x=5*(int)sgn(move_direction);
     }else if(v_x ==0 && v_y == 0) {
@@ -145,7 +145,7 @@ void Jumper::think(){
 };
 
 Invisible::Invisible(int _x, int _y){
-    anim.load("blue_square/");
+    anim.load("creatures/invisible/");
     x = _x;
     y = _y;
     hp = 10;
@@ -174,7 +174,7 @@ void Kamikaze::think(){
 
     int dir = (int)sgn(eng.player->x-x);
     float ydist = abs(eng.player->y-y);
-    if(dist < 300 && ydist<=30 && ! eng.will_fall((GameObject *)this,dir*10,0)){
+    if(dist < 300 && ydist<=30 && ! eng.will_fall((GameObject *)this,dir*15,0)){
         v_x+=dir*15;
     }else{
         walk();
@@ -230,6 +230,8 @@ void TrackingBullet::collision(){
 Player::Player(int _x , int _y){
     x = _x;
     y = _y;
+    hp = 1;
+    dmg = 0 ;
     right.load("blue_square/");
     left.load("red_square/");
     set_animation(&right);

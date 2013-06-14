@@ -44,10 +44,11 @@ void TileLoader::load_textures(std::string& path){
 }
 
 TileLoader::TileLoader(std::string path){
-    std::string local = path+"tiles.txt";
+    std::string local = "maps/"+path+"tiles.txt";
     std::string main = "./tiles.txt";
     load_filenames(main);
     load_filenames(local);
+    path = "maps/"+path;
     load_textures(path);
 }
 const std::shared_ptr<Texture>& TileLoader::operator[](unsigned int id){
@@ -73,12 +74,12 @@ void GameMap::show(){
     }
 }
 void GameMap::load(string& path, bool load_everything ){
-    map_name = path;
+    map_name = path+"/";
     FILE* fp;
     string name;
 
     path = path + '/';
-    name = path+"map";
+    name = "maps/"+path+"map";
     fp = fopen(name.c_str(), "r");
     if(fp == NULL){
         map_error();
@@ -89,7 +90,7 @@ void GameMap::load(string& path, bool load_everything ){
     background.resize(SCREEN_WIDTH,SCREEN_HEIGHT);
 
     auto& textures_loader = TextureLoader::get_instance();
-    std::string bg_name= path+"/background.png";
+    std::string bg_name= "maps/"+path+"/background.png";
     background_img = textures_loader[bg_name];
     //load tile textures
     TileLoader t_loader(path);
@@ -160,7 +161,7 @@ void GameMap::load(FILE *fp){
 };
 
 void GameMap::load_triggers(){
-    std::string path = map_name+"/triggers.txt";
+    std::string path = "maps/"+map_name+"/triggers.txt";
     FILE* fp;
     fp = fopen(path.c_str(), "r");
     if(fp == NULL){
@@ -202,7 +203,7 @@ void GameMap::load_triggers(){
 void GameMap::load_creatures(){
     char name[200];
     FILE* fp;
-    string path = map_name+"/creatures.txt";
+    string path = "maps/"+map_name+"/creatures.txt";
     fp = fopen(path.c_str(), "r");
     if(fp == NULL){
         cerr<<"cant find creatures.txt for map exiting"<<endl;
