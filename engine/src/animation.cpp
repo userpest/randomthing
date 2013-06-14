@@ -26,7 +26,7 @@ void Animation::load(std::string path){
         filename = name+int_to_str(nr)+".png";
     }
     if(frames.size()==0){
-        fprintf(stderr,"no frames for animation");
+        fprintf(stderr,"no frames for animation %s\n", path.c_str());
         exit(1);
     }
 

@@ -28,6 +28,15 @@ bool Engine::can_move(GameObject* obj, int x, int y){
     return !ret;
 }
 
+bool Engine::will_fall(GameObject* obj,int x,int y){
+    obj->x+=x;
+    obj->y+=y-1;
+    bool ret = game_map.collides(obj);
+    obj->x-=x;
+    obj->y-=y-1;
+    return !ret;
+}
+
 void Engine::load_map(std::string path){
     objects.resize(0);
     player = shared_ptr<Player>(new Player(100,150));
@@ -96,11 +105,12 @@ void Engine::detect_collisions(){
     for(auto& i: objects){
         for(auto&j: objects){
             //we cant collision check with self
-            if(i != j && objects_collide(i,j)){
+            if(i.get() != j.get() && objects_collide(i,j)){
                 j->hp -= i->dmg;
                 i->hp -= j->dmg;
                 i->collision();
                 j->collision();
+                cout<<i->name<<" "<<j->name<<endl;
             }
         }
     }
@@ -241,7 +251,7 @@ void Engine::init(){
 
     /* initialize OpenGL */
     init_GL( );
-
+    srand(time(NULL));
     /* resize the initial window */
     resize_window( SCREEN_WIDTH, SCREEN_HEIGHT );
 
@@ -494,14 +504,22 @@ void Engine::harvest_dead(){
 
 }
 void Engine::game_loop(){
+    Timer scene_timer;
   while (true)
 	{
+        scene_timer.restart();
+        game_map.activate_trigger(player);
         update_object_pool();
         handle_events();
         handle_movement();
         detect_collisions();
         harvest_dead();
 		draw_scene();
-        SDL_Delay(30);
+        int delay = scene_timer.tss();
+        if(delay <30)
+            SDL_Delay(30-delay);
+        else
+            printf("delay %d\n", delay);
+
 	}
 }

@@ -44,4 +44,6 @@ class Engine: public Singleton<Engine> {
         void load_game(std::string filename);
         void game_loop();
 
+        bool will_fall(GameObject* obj,int x,int y);
+
 };

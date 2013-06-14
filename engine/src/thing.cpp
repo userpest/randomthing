@@ -18,7 +18,7 @@ int main( int argc, char **argv )
                 cout<<i<<" "<<j<<" "<<endl;
         }
     }
-    */
+j    */
 //    game.load_map("forest0/");
     game.load_map("test_map/");
     game.game_loop();

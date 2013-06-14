@@ -14,4 +14,4 @@ template <typename T> int sgn(T val)
 void save_string(FILE* fp, std::string str);
 std::string load_string(FILE* fp);
 void save_bool(FILE*fp, bool val);
-bool load_bool(FILE*fp, bool val);
+void load_bool(FILE*fp, bool& val);

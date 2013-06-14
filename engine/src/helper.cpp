@@ -75,9 +75,9 @@ void save_bool(FILE*fp, bool val){
     fprintf(fp, "%d\n", v);
 }
 
-bool load_bool(FILE*fp, bool val){
+void load_bool(FILE*fp, bool& val){
     int v;
     fscanf(fp, "%d", &v);
-    return v>0;
+    val =  v>0;
 
 }

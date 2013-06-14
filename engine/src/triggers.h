@@ -28,8 +28,8 @@ class SpawningTrigger: public Trigger{
         Timer timer;
         std::string creature_name;
     public:
-        SpawningTrigger(int x,int y, std::string creature_name, int _activation_count,int _cooldown):
-    cooldown(_cooldown),activation_count(_activation_count),timer(false),x_spawn(x), y_spawn(y){};
+        SpawningTrigger(int x,int y, std::string _creature_name, int _activation_count,int _cooldown):
+    cooldown(_cooldown),activation_count(_activation_count),timer(false),x_spawn(x), y_spawn(y),creature_name(_creature_name){};
         virtual void activate();
 
 };

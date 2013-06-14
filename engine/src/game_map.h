@@ -73,7 +73,7 @@ class GameMap{
         bool collides(int x,int y);
         bool collides(std::shared_ptr<GameObject>& obj);
         bool collides(GameObject* obj);
-        void activate_trigger(std::shared_ptr<GameObject>& obj);
+        void activate_trigger(std::shared_ptr<Player>& obj);
 
 
 };

@@ -14,7 +14,10 @@ class GameObject{
         Animation *current_animation;
         void set_size(){width = current_animation->get_width(); height = current_animation->get_height();};
         
+
     public:
+
+        std::string name;
         int height,width;
         int x=0,y=0;
 
@@ -74,28 +77,92 @@ class Player: public GameObject{
 
 };
 
-class TestCreature: public GameObject{
-    private:
-        Animation anim;
-        std::string name;
+class Creature: public GameObject{
     public:
-        TestCreature(int _x,int _y){
-            name = "test";
-            x=_x;
-            y=_y;
-            dmg = 10;
-            anim.load("blue_square/");
-            set_animation(&anim);
-        };
-        virtual void think(){
-            v_x=10;
-        };
         virtual void save(FILE *fp){
             save_string(fp,name);
             GameObject::save(fp);
-        }
+        };
+
 };
-class Bullet: public GameObject{
+
+
+
+class WalkingCreature:public Creature{
+
+    public:
+        int move_direction = 5;
+        void walk();
+
+};
+
+class TestCreature: public WalkingCreature{
+    private:
+        Animation anim;
+        int move_direction = 5;
+    public:
+        TestCreature(int _x,int _y);
+        virtual void think();
+};
+
+class Walker: public WalkingCreature{
+    private:
+        Animation left;
+        Animation right;
+        Animation explosion;
+        Timer explosion_timer;
+        bool explodes = false;
+    public:
+        Walker(int _x, int _y);
+        virtual void think();
+};
+
+class Cameleon: public Creature{
+    private:
+        Animation anim;
+    public:
+        Cameleon(int _x, int _y);
+};
+
+class Jumper: public WalkingCreature{
+    private:
+        Animation left;
+        Animation right;
+    public:
+        Jumper(int _x, int _y);
+        virtual void think();
+};
+
+class Invisible:public WalkingCreature{
+    private:
+        Animation anim;
+    public:
+        Invisible(int _x, int _y);
+        virtual void think();
+};
+
+class Kamikaze: public WalkingCreature{
+    private:
+        Animation anim;
+        Timer shoting_timer;
+    public:
+        Kamikaze(int _x,int _y);
+        virtual void think();
+        virtual void collision();
+
+};
+
+class TrackingBullet: public Creature{
+    private:
+        Animation anim;
+    public:
+        TrackingBullet(int _x, int _y);
+        virtual void think();
+        virtual void collision();
+
+};
+
+class Bullet: public Creature{
     private:
         Animation anim;
         std::string name;
@@ -122,12 +189,4 @@ class Bullet: public GameObject{
         virtual void collision(){
             hp = -1 ; 
         };
-        virtual void save(FILE *fp){
-            save_string(fp,name);
-            GameObject::save(fp);
-        }
-        virtual void load(FILE *fp){
-            GameObject::load(fp);
-        };
-
 };

@@ -10,11 +10,11 @@ void MapConnectingTrigger::activate(){
 
 void SpawningTrigger::activate(){
     auto& eng = Engine::get_instance(); 
-
     if(activation_count == 0)
         return;
 
     if(timer.time_since_last_save()>cooldown){
+        printf("trigger activated spawning %s\n", creature_name.c_str());
         shared_ptr<GameObject> c = load_creature(creature_name, x_spawn,y_spawn);
         eng.add_object(c);
         timer.save();

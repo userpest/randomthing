@@ -76,6 +76,8 @@ void GameMap::load(string& path, bool load_everything ){
     map_name = path;
     FILE* fp;
     string name;
+
+    path = path + '/';
     name = path+"map";
     fp = fopen(name.c_str(), "r");
     if(fp == NULL){
@@ -116,8 +118,8 @@ void GameMap::load(string& path, bool load_everything ){
     puts("#########################");
     height = height*TILE_HEIGHT;
     width = width *TILE_WIDTH;
+    load_triggers();    
     if(load_everything){
-        load_triggers();    
         load_creatures();
     }
 
@@ -158,7 +160,7 @@ void GameMap::load(FILE *fp){
 };
 
 void GameMap::load_triggers(){
-    std::string path = map_name+"triggers.txt";
+    std::string path = map_name+"/triggers.txt";
     FILE* fp;
     fp = fopen(path.c_str(), "r");
     if(fp == NULL){
@@ -170,6 +172,8 @@ void GameMap::load_triggers(){
     int x,y,type;
     int spawn_x,spawn_y;
     char name[200];
+
+    string testing;
     shared_ptr<Trigger> ptr ;
     while(fscanf(fp, "%d %d %d", &type,&x,&y) == 3){
         switch(type){
@@ -198,7 +202,7 @@ void GameMap::load_triggers(){
 void GameMap::load_creatures(){
     char name[200];
     FILE* fp;
-    string path = map_name+"creatures.txt";
+    string path = map_name+"/creatures.txt";
     fp = fopen(path.c_str(), "r");
     if(fp == NULL){
         cerr<<"cant find creatures.txt for map exiting"<<endl;
@@ -215,7 +219,7 @@ void GameMap::load_creatures(){
     fclose(fp);
 };
 
-void GameMap::activate_trigger(shared_ptr<GameObject>& obj){
+void GameMap::activate_trigger(shared_ptr<Player>& obj){
     int tilex = (obj->x-obj->x%(int)TILE_WIDTH)/(int)TILE_WIDTH;
     int tiley = (obj->y-obj->y%(int)TILE_HEIGHT)/(int)TILE_HEIGHT;
     tiles[tilex][tiley].activate_trigger();
